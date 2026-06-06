@@ -43,9 +43,9 @@
   },
   "shards": ["progress/log-001.ndjson"],
   "cursor": {
-    "phase": "steps 1-3 DONE. Memory consolidated (see newest shard 'state' resume-snapshot + 'JS reconciliation map'). Next: step-4 (transport+lifecycle JS).",
-    "last": "Consolidated memory: appended corrections (step-1 Q3 resolved/index.html replaced; repo skeleton done), test-tooling setup (chromium usable - exact Playwright invocation + file:// CORS caveats), step-4 JS reconciliation map, and a full resume-state snapshot. Steps 1-3 built+pushed (CSS base + scaffold + layout, chromium-verified dark+light).",
-    "next": "Step 4: transport+lifecycle JS - config/env/api(+write methods)/storage/oninput. JS is CRUD-only; oninput is the single UI bridge (user + programmatic); no event listeners. One API base. Wire JS entry into index.html (<script type=module>).",
+    "phase": "steps 1-4 DONE. Next: step-5 (data shaping: schema/rules + concern-named modules).",
+    "last": "Step 4 transport+lifecycle JS built+verified: assets/js/{env,config,api,storage,tour,oninput,app}.js + <script> wired in index.html. chromium-over-http test (ignoreHTTPSErrors): app boots, banner fetched from LIVE mockapi + injected, version injected, env=dev, storage persisted, no console errors. Pushed.",
+    "next": "Step 5: data shaping - schema.js (dhcp ENDPOINT_SCHEMAS API<->UI field mapping + normalizeRecord/normalizeItems), rules.js (inferFieldRules pure fn), + concern-named modules (NEVER utils/helpers). Sources: dhcp schema.js/rules.js/utils.js. Add node unit tests. Then step-6 inject.js (toTagName, no innerHTML/events) wires into the oninput.js STEP-6 seams (injectNavItems/injectPageContent) + activates nav radios -> programmatic startup .click() drives data lifecycle.",
     "open_q": [
       "themes color-scheme default = dark (dhcp fidelity); Rule 19 prefers 'light dark' auto-follow OS. User said proceed; still unconfirmed - flip is 1 line.",
       "Table BODY row cell alignment depends on injected row structure - finalize in steps 5-6.",
