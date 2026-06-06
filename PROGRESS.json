@@ -43,14 +43,15 @@
   },
   "shards": ["progress/log-001.ndjson"],
   "cursor": {
-    "phase": "step-2 DONE (CSS base). Next: step-3 (index.html scaffold + layout.css + nav dropdown CSS).",
-    "last": "Built CSS base: reset/inputs/media/radii (verbatim starter), fonts (self-host Oxanium), themes (oklch+light-dark, dhcp palette converted via node), typography/transitions/a11y/scrolling (ported + bug-fixes + forbidden-class removal). Validated: static balance OK; chromium computed-styles correct (dark bg/txt/accent resolve, fonts load, no console errors). Pushed.",
-    "next": "Step 3: index.html single universal scaffold (Holy Grail app-container, dropdown-capable nav + its CSS, layout.css reconciled from starter+dhcp). NOTE: step 3 replaces the LIVE landing-page index.html on this branch (Pages deploys from main, so live site unaffected until merge) - confirm scaffold approach before writing.",
+    "phase": "step-3 DONE (index.html scaffold + layout.css). Next: step-4 (transport+lifecycle JS).",
+    "last": "Wrote index.html universal scaffold (dhcp data-UI structure, app-legal canonical) replacing old landing page on dev branch; layout.css reconciled from dhcp (color refs -> oklch tokens, +component tokens in themes.css, simple radii kept). Rendered in chromium dark+light with injected sample data = faithful dhcp portal; light-dark() toggle works. Screenshots sent to user. Pushed.",
+    "next": "Step 4: transport+lifecycle JS - config/env/api(+write methods)/storage/oninput. JS is CRUD-only; oninput is the single UI bridge (user + programmatic); no event listeners. One API base. Wire JS entry into index.html (<script type=module>).",
     "open_q": [
-      "themes color-scheme default = dark (dhcp fidelity); Rule 19 prefers 'light dark' (auto-follow OS). Confirm if auto is wanted.",
-      "ANALYSIS.md Q4: confirm sw.js (PWA offline) wanted (later step).",
-      "Live browser VISUAL verification of themes oklch fidelity is deferred to step 3 (needs index.html); user verifies by eye.",
-      "www.autocss.com still Cloudflare-proxied (optional cleanup)."
+      "themes color-scheme default = dark (dhcp fidelity); Rule 19 prefers 'light dark' auto-follow OS. User said proceed; still unconfirmed - flip is 1 line.",
+      "Table BODY row cell alignment depends on injected row structure - finalize in steps 5-6.",
+      "manifest.webmanifest + sw.js (PWA, ANALYSIS Q4) still pending.",
+      "Logo mask-image needs http to render (file:// CORS); fine in prod.",
+      "User to VISUALLY verify the two scaffold screenshots vs dhcp."
     ]
   }
 }

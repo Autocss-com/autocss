@@ -31,6 +31,16 @@
   --accent: light-dark(oklch(80.39% 0.1192 232.69), oklch(45.98% 0.129 249.65));
   --accent2: oklch(75.76% 0.1471 234.34);
   --brand: oklch(80.39% 0.1192 232.69);
+
+  /* Component colors (theme-invariant; exact oklch of dhcp's forms.css palette) */
+  --txt-strong: light-dark(oklch(34.31% 0.04 284.09), oklch(100% 0 89.88));
+  --button-bg: oklch(80.39% 0.1192 232.69 / 0.1);
+  --button-bg-hover: oklch(80.39% 0.1192 232.69 / 0.25);
+  --input-bg: oklch(0% 0 0 / 0.1);
+  --input-border: oklch(100% 0 89.88 / 0.1);
+  --error-soft: oklch(62.8% 0.2577 29.23 / 0.2);
+  --error-strong: oklch(62.8% 0.2577 29.23 / 0.4);
+  --success: oklch(86.64% 0.2948 142.5);
 }
 
 /* MARK: THEME TOGGLE
