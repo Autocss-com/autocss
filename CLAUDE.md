@@ -207,7 +207,7 @@ For navigation:
 ## JS Runtime Conventions (Non-Negotiable)
 
 - API base address is declared **ONCE**; **ONLY** endpoint suffix varies (for example `shell`, `home`, `about`, `products`, `events`, `contact`)
-- Initial page load **MUST** enter the same `oninput` lifecycle path via programmatic nav radio `.click()`
+- Initial page load **MUST** enter the same `oninput` lifecycle path by **checking the default nav radio** (`input.checked = true`) — never a synthetic `.click()` or dispatched event. The runtime then runs the `oninput` lifecycle for the checked input, so `:checked` remains the single source of truth for both the CSS state machine and the data call. Return visits read the persisted selection from storage and check **that** radio to make the right data call.
 - Shell content (`header`, `nav`, `footer`, `meta`) is fetched/injected once per runtime session, not on every page call
 - Nav radio index maps to page endpoint suffix; same DOM targets are reused for injection
 - Console reporting policy: minimal timestamped success reports, verbose timestamped failure reports, and `console.clear()` on startup and each lifecycle run

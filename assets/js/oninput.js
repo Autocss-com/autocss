@@ -103,20 +103,26 @@ export function bindNavOnInput() {
   });
 }
 
-// Enter the lifecycle through a programmatic nav radio click (per CLAUDE.md:
-// initial load MUST use the same oninput path). Falls back to the persisted
-// selection, else the first radio.
+// Enter the lifecycle by CHECKING the right nav radio (never a synthetic
+// click or dispatched event). Checking is the single signal: it drives the
+// CSS state machine (:checked) AND the data call. Selection priority:
+// persisted (return visit) -> statically-checked default -> first radio.
+// Programmatically setting .checked does NOT fire oninput, so we run the
+// lifecycle for the checked input directly.
 export function triggerInitialSelection() {
-  const radios = document.querySelectorAll("nav input[type='radio'][name='nav']");
+  const radios = [...document.querySelectorAll("nav input[type='radio'][name='nav']")];
   if (radios.length === 0) {
     return false;
   }
 
   const persisted = getInitialSelection();
   const target =
-    [...radios].find(r => r.value === persisted) ?? radios[0];
+    radios.find(r => r.value === persisted) ??
+    radios.find(r => r.checked) ??
+    radios[0];
 
-  target.click();
+  target.checked = true;
+  runOnInputLifecycle(target.value);
   return true;
 }
 
