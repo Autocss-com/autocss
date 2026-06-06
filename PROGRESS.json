@@ -43,14 +43,14 @@
   },
   "shards": ["progress/log-001.ndjson"],
   "cursor": {
-    "phase": "step-1: repo skeleton + memory + hook + CLAUDE.md",
-    "last": "Created branch claude/lucid-hawking-E5Ej2 from main; copied canonical CLAUDE.md; wrote PROGRESS.json + first shard + SessionStart hook + asset-dir skeleton.",
-    "next": "Check in with user before FIRST push. Then (step 2) CSS base from starter set, inspect dhcp candidate-drops.",
+    "phase": "step-2 DONE (CSS base). Next: step-3 (index.html scaffold + layout.css + nav dropdown CSS).",
+    "last": "Built CSS base: reset/inputs/media/radii (verbatim starter), fonts (self-host Oxanium), themes (oklch+light-dark, dhcp palette converted via node), typography/transitions/a11y/scrolling (ported + bug-fixes + forbidden-class removal). Validated: static balance OK; chromium computed-styles correct (dark bg/txt/accent resolve, fonts load, no console errors). Pushed.",
+    "next": "Step 3: index.html single universal scaffold (Holy Grail app-container, dropdown-capable nav + its CSS, layout.css reconciled from starter+dhcp). NOTE: step 3 replaces the LIVE landing-page index.html on this branch (Pages deploys from main, so live site unaffected until merge) - confirm scaffold approach before writing.",
     "open_q": [
-      "Branch name: this session's auto-branch is claude/lucid-ramanujan-8vG8M, but the explicit plan says claude/lucid-hawking-E5Ej2 from main - proceeding with the explicit instruction; confirm at check-in.",
-      "ANALYSIS.md Q3: keep stars.css / diag.css / hero.css / _*.css as optional, or drop? (inspect + confirm in step 2).",
-      "ANALYSIS.md Q4: confirm sw.js (PWA offline) wanted now.",
-      "index.html in autocss is currently the LIVE autocss.com landing page (CNAME present). Step 3 replaces it with the app scaffold - confirm before that step."
+      "themes color-scheme default = dark (dhcp fidelity); Rule 19 prefers 'light dark' (auto-follow OS). Confirm if auto is wanted.",
+      "ANALYSIS.md Q4: confirm sw.js (PWA offline) wanted (later step).",
+      "Live browser VISUAL verification of themes oklch fidelity is deferred to step 3 (needs index.html); user verifies by eye.",
+      "www.autocss.com still Cloudflare-proxied (optional cleanup)."
     ]
   }
 }
