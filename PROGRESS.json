@@ -43,8 +43,8 @@
   },
   "shards": ["progress/log-001.ndjson"],
   "cursor": {
-    "phase": "step-3 DONE (index.html scaffold + layout.css). Next: step-4 (transport+lifecycle JS).",
-    "last": "Wrote index.html universal scaffold (dhcp data-UI structure, app-legal canonical) replacing old landing page on dev branch; layout.css reconciled from dhcp (color refs -> oklch tokens, +component tokens in themes.css, simple radii kept). Rendered in chromium dark+light with injected sample data = faithful dhcp portal; light-dark() toggle works. Screenshots sent to user. Pushed.",
+    "phase": "steps 1-3 DONE. Memory consolidated (see newest shard 'state' resume-snapshot + 'JS reconciliation map'). Next: step-4 (transport+lifecycle JS).",
+    "last": "Consolidated memory: appended corrections (step-1 Q3 resolved/index.html replaced; repo skeleton done), test-tooling setup (chromium usable - exact Playwright invocation + file:// CORS caveats), step-4 JS reconciliation map, and a full resume-state snapshot. Steps 1-3 built+pushed (CSS base + scaffold + layout, chromium-verified dark+light).",
     "next": "Step 4: transport+lifecycle JS - config/env/api(+write methods)/storage/oninput. JS is CRUD-only; oninput is the single UI bridge (user + programmatic); no event listeners. One API base. Wire JS entry into index.html (<script type=module>).",
     "open_q": [
       "themes color-scheme default = dark (dhcp fidelity); Rule 19 prefers 'light dark' auto-follow OS. User said proceed; still unconfirmed - flip is 1 line.",
