@@ -1,6 +1,9 @@
 {
   "schema": "d7460n-progress/1",
-  "read_order": ["PROGRESS.json", "newest shard in shards[]"],
+  "read_order": [
+    "PROGRESS.json",
+    "newest shard in shards[]"
+  ],
   "meta": {
     "goal": "Build github.com/Autocss-com/autocss = the refined, completed version of `starter`. Measuring stick: the finished app must look, behave, and work like `dhcp` (the working prototype), changing nothing except to improve to the D7460N Architecture. Separate repo so the two originals are never touched.",
     "repos": {
@@ -38,13 +41,31 @@
     "on_rotate": "start progress/log-NNN.ndjson (next number), register it in shards[], update cursor.",
     "never": "never edit past records; only append corrections (record type=lesson or note).",
     "resume": "read PROGRESS.json first, then the newest shard, to restore context + why.",
-    "record_types": ["decision", "feature", "test", "note", "setup", "lesson"],
-    "feature_record_shape": {"name": "", "html": "", "css": [], "js": [], "verdict": "keep|merge|drop|complete", "status": "todo|in-progress|done", "why": "", "tested": false}
+    "record_types": [
+      "decision",
+      "feature",
+      "test",
+      "note",
+      "setup",
+      "lesson"
+    ],
+    "feature_record_shape": {
+      "name": "",
+      "html": "",
+      "css": [],
+      "js": [],
+      "verdict": "keep|merge|drop|complete",
+      "status": "todo|in-progress|done",
+      "why": "",
+      "tested": false
+    }
   },
-  "shards": ["progress/log-001.ndjson"],
+  "shards": [
+    "progress/log-001.ndjson"
+  ],
   "cursor": {
-    "phase": "steps 1-4 DONE. Next: step-5 (data shaping: schema/rules + concern-named modules).",
-    "last": "Step 4 transport+lifecycle JS built+verified: assets/js/{env,config,api,storage,tour,oninput,app}.js + <script> wired in index.html. chromium-over-http test (ignoreHTTPSErrors): app boots, banner fetched from LIVE mockapi + injected, version injected, env=dev, storage persisted, no console errors. Pushed.",
+    "phase": "steps 1-4 DONE. STEP 5 IN PROGRESS (data shaping: schema.js + rules.js + node tests).",
+    "last": "Recorded step-5 plan (schema/rules sources + node-test approach). Starting step 5 build.",
     "next": "Step 5: data shaping - schema.js (dhcp ENDPOINT_SCHEMAS API<->UI field mapping + normalizeRecord/normalizeItems), rules.js (inferFieldRules pure fn), + concern-named modules (NEVER utils/helpers). Sources: dhcp schema.js/rules.js/utils.js. Add node unit tests. Then step-6 inject.js (toTagName, no innerHTML/events) wires into the oninput.js STEP-6 seams (injectNavItems/injectPageContent) + activates nav radios -> programmatic startup .click() drives data lifecycle.",
     "open_q": [
       "themes color-scheme default = dark (dhcp fidelity); Rule 19 prefers 'light dark' auto-follow OS. User said proceed; still unconfirmed - flip is 1 line.",
