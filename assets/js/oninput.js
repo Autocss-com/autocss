@@ -10,6 +10,8 @@
 import { requestData, logStage, logSuccess } from "./api.js";
 import { NAV_ENDPOINT, BANNER_ENDPOINT, VERSION, OPTIONS } from "./config.js";
 import { readPersistent, writePersistent } from "./storage.js";
+import { injectNavText, injectPageContent } from "./inject.js";
+import { normalizeRecord, normalizeItems } from "./schema.js";
 
 const STORAGE_KEY = "autocss.app.v1";
 const COOKIE_KEY = "autocss.app.v1";
@@ -51,9 +53,7 @@ async function hydrateShell() {
   }
 
   navData = await requestData(NAV_ENDPOINT);
-  // STEP 6 seam: injectNavItems(navData) builds <nav><details><section>
-  // <label><input type="radio" name="nav" value="<endpoint>"> groups, then
-  // bindNavOnInput() wires their oninput and triggerInitialSelection() runs.
+  injectNavText(navData);
 
   injectVersion();
 
@@ -81,16 +81,17 @@ export async function runOnInputLifecycle(endpoint) {
     return;
   }
 
-  // STEP 6 seam: injectPageContent(endpoint, normalizeRecord(data)) builds the
-  // <h1>/<p>, the dual-<ul> data table, and the <select>s via toTagName.
+  const raw = Array.isArray(data) ? data[0] : data;
+  const record = normalizeRecord(endpoint, raw);
+  record.items = normalizeItems(endpoint, raw.items || []);
 
+  injectPageContent(endpoint, record);
   persistSelection(endpoint);
 
-  const record = Array.isArray(data) ? data[0] : data;
   logSuccess("Load complete", {
     endpoint,
     title: record?.title ?? "unknown",
-    itemCount: Array.isArray(record?.items) ? record.items.length : 0
+    itemCount: record.items.length
   });
 }
 

@@ -64,9 +64,9 @@
     "progress/log-001.ndjson"
   ],
   "cursor": {
-    "phase": "steps 1-5 DONE. Next: step-6 (generation/inject - toTagName, wire oninput seams).",
-    "last": "Step 5 data shaping built+tested: schema.js + rules.js (+env.js node-safe) + tests/data-shaping.test.mjs (node --test glob = 7/7). Pushed.",
-    "next": "Step 6: inject.js (toTagName JSON->elements, NO innerHTML/events). Implement injectNavItems(navData) [build nav <details><summary><section><label><input type=radio name=nav value=endpoint>] and injectPageContent(endpoint,normalizedRecord) [h1/p + dual-<ul> data table rows + selects via rules]. Wire into oninput.js STEP-6 seams (hydrateShell nav seam + runOnInputLifecycle inject seam), then bindNavOnInput()+triggerInitialSelection() activate the programmatic .click() data lifecycle. Test in chromium over http (ignoreHTTPSErrors). Then step-7 forms, step-8 wire+regression. Also pending: manifest/sw (PWA Q4), color-scheme dark-vs-auto, API-base confirm.",
+    "phase": "steps 1-6 DONE (full working portal: live data table, check-the-box lifecycle). Next: step-7 (CRUD UI forms).",
+    "last": "Step 6 inject.js (CORRECTED: static nav + text injection; only data-table cells generated as custom elements from JSON keys). Wired oninput<->inject<->schema. chromium http test: full portal renders with live data, no errors. Pushed. Initial-load trigger fixed to check-the-box (not .click()); CLAUDE.md line updated.",
+    "next": "Step 7: CRUD UI forms - port dhcp forms.js (new/edit/save/delete/reset/close, dirty-tracking, validation, row mirroring) rewritten to oninput + CSS :has(:valid/:invalid)/:checked state (NO data-dirty, NO onchange/dispatchEvent). + createInputFromKey (inject.js) generating typed form fields from rules.js into <aside><form><fieldset>. + forms.css (de-data-*), fallbacks.css, loading.css. Register setRowSelectHandler so a row radios oninput loads that record into the form. utils.js form helpers (snapshot/dirty/validate/date format/restore) port here. Then step-8 wire+regression, manifest/sw (PWA Q4), color-scheme dark-vs-auto, API-base confirm.",
     "open_q": [
       "themes color-scheme default = dark (dhcp fidelity); Rule 19 prefers 'light dark' auto-follow OS. User said proceed; still unconfirmed - flip is 1 line.",
       "Table BODY row cell alignment depends on injected row structure - finalize in steps 5-6.",
