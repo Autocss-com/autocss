@@ -3,7 +3,7 @@
 // Stateless; safe to import anywhere.
 
 export const ENV = (() => {
-  const host = location.hostname.toLowerCase();
+  const host = (typeof location !== "undefined" ? location.hostname : "").toLowerCase();
   if (host === "localhost" || host === "127.0.0.1" || host === "") return "dev";
   if (/test|qa|staging/.test(host)) return "test";
   return "prod";

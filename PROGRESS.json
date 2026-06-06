@@ -64,9 +64,9 @@
     "progress/log-001.ndjson"
   ],
   "cursor": {
-    "phase": "steps 1-4 DONE. STEP 5 IN PROGRESS (data shaping: schema.js + rules.js + node tests).",
-    "last": "Recorded step-5 plan (schema/rules sources + node-test approach). Starting step 5 build.",
-    "next": "Step 5: data shaping - schema.js (dhcp ENDPOINT_SCHEMAS API<->UI field mapping + normalizeRecord/normalizeItems), rules.js (inferFieldRules pure fn), + concern-named modules (NEVER utils/helpers). Sources: dhcp schema.js/rules.js/utils.js. Add node unit tests. Then step-6 inject.js (toTagName, no innerHTML/events) wires into the oninput.js STEP-6 seams (injectNavItems/injectPageContent) + activates nav radios -> programmatic startup .click() drives data lifecycle.",
+    "phase": "steps 1-5 DONE. Next: step-6 (generation/inject - toTagName, wire oninput seams).",
+    "last": "Step 5 data shaping built+tested: schema.js + rules.js (+env.js node-safe) + tests/data-shaping.test.mjs (node --test glob = 7/7). Pushed.",
+    "next": "Step 6: inject.js (toTagName JSON->elements, NO innerHTML/events). Implement injectNavItems(navData) [build nav <details><summary><section><label><input type=radio name=nav value=endpoint>] and injectPageContent(endpoint,normalizedRecord) [h1/p + dual-<ul> data table rows + selects via rules]. Wire into oninput.js STEP-6 seams (hydrateShell nav seam + runOnInputLifecycle inject seam), then bindNavOnInput()+triggerInitialSelection() activate the programmatic .click() data lifecycle. Test in chromium over http (ignoreHTTPSErrors). Then step-7 forms, step-8 wire+regression. Also pending: manifest/sw (PWA Q4), color-scheme dark-vs-auto, API-base confirm.",
     "open_q": [
       "themes color-scheme default = dark (dhcp fidelity); Rule 19 prefers 'light dark' auto-follow OS. User said proceed; still unconfirmed - flip is 1 line.",
       "Table BODY row cell alignment depends on injected row structure - finalize in steps 5-6.",
