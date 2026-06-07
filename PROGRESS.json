@@ -64,15 +64,20 @@
     "progress/log-001.ndjson"
   ],
   "cursor": {
-    "phase": "steps 1-6 DONE (full working portal: live data table, check-the-box lifecycle). Next: step-7 (CRUD UI forms).",
-    "last": "Step 6 inject.js (CORRECTED: static nav + text injection; only data-table cells generated as custom elements from JSON keys). Wired oninput<->inject<->schema. chromium http test: full portal renders with live data, no errors. Pushed. Initial-load trigger fixed to check-the-box (not .click()); CLAUDE.md line updated.",
-    "next": "Step 7: CRUD UI forms - port dhcp forms.js (new/edit/save/delete/reset/close, dirty-tracking, validation, row mirroring) rewritten to oninput + CSS :has(:valid/:invalid)/:checked state (NO data-dirty, NO onchange/dispatchEvent). + createInputFromKey (inject.js) generating typed form fields from rules.js into <aside><form><fieldset>. + forms.css (de-data-*), fallbacks.css, loading.css. Register setRowSelectHandler so a row radios oninput loads that record into the form. utils.js form helpers (snapshot/dirty/validate/date format/restore) port here. Then step-8 wire+regression, manifest/sw (PWA Q4), color-scheme dark-vs-auto, API-base confirm.",
+    "phase": "Steps 1-6 DONE + re-verified. Step 7 (CRUD forms) was ATTEMPTED then FULLY REVERTED to 31c7925 (improvisations + false test claims). REBUILD step 7 fresh per the 2026-06-07 records in log-001.ndjson.",
+    "last": "Reverted the step-7 attempt: git reset --hard 31c7925 + force-push (removed commits 21bdf93, 2abd648). Re-verified step 6 present + functional (no console errors; nav text injected; 10-row live table; header cells id-..type-). Appended a FULL step-7 handoff to log-001.ndjson (6 records dated 2026-06-07): revert/current-state note; DO-NOT-REPEAT lesson (broken html:not(:hover) overlay, false tested claims, fade assumption); carried-forward user decisions A/B/C; VERIFIED dhcp reference facts; corrected build plan; OPEN QUESTIONS.",
+    "next": "Step 7 CRUD forms. FIRST: read starter/.agents/SESSION-HANDOFF.md; read log-001.ndjson records dated 2026-06-07 IN FULL. THEN resolve OPEN QUESTIONS with the user before building (esp. the unsaved-changes GUARD design + Save/Delete id-behavior). THEN build per the 2026-06-07 Step-7 build plan note. Rules for this rebuild: test ONLY via real triggers (simulate the actual row/button click), never call handlers directly; never claim tested unless the real path ran; never assert behavior from reading files (observe it); never add code/overlays not explicitly requested; verify every divergence against dhcp; ASK on ANY doubt.",
     "open_q": [
-      "themes color-scheme default = dark (dhcp fidelity); Rule 19 prefers 'light dark' auto-follow OS. User said proceed; still unconfirmed - flip is 1 line.",
-      "Table BODY row cell alignment depends on injected row structure - finalize in steps 5-6.",
-      "manifest.webmanifest + sw.js (PWA, ANALYSIS Q4) still pending.",
-      "Logo mask-image needs http to render (file:// CORS); fine in prod.",
-      "User to VISUALLY verify the two scaffold screenshots vs dhcp."
+      "STEP-7 GUARD (log35 req6): unsaved-changes mouse-leave guard (Popover API intent). BLOCKED: decision B = no dirty state (pure CSS cannot know truly-changed) AND html:not(:hover) leave-detection is BROKEN. Needs design decision - ASK; do NOT re-add the overlay.",
+      "STEP-7 SAVE/DELETE: dhcp always POSTs + never deletes-by-id (VERIFIED: querySelector label-greater-id never matches the real id- cell). Keep faithful or correct to PUT/DELETE by real id cell? ASK.",
+      "STEP-7 delayed-form-elements (user report): cause UNKNOWN, NOT a fade. Reproduce + ask what user sees.",
+      "STEP-7 form-tied-to-column-headers (user): label text already matches; confirm intended coupling. ASK.",
+      "STEP-7 error display: match dhcp (main intro p) vs form aria-live p?",
+      "STEP-7 loading spinner: keep layout.css single (root:has(article h1:empty)::before) vs dhcp dual-ring?",
+      "PWA manifest.webmanifest + sw.js still pending (ANALYSIS Q4).",
+      "themes color-scheme default=dark (dhcp) vs Rule 19 light-dark auto-follow OS - unconfirmed, 1-line flip.",
+      "Confirm API base = dhcp mockapi is the intended data source.",
+      "User to VISUALLY verify screenshots vs dhcp (human-eye CSS fidelity)."
     ]
   }
 }
