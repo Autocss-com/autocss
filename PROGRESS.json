@@ -14,7 +14,7 @@
     "rules": [
       "CLAUDE.md in this repo is canonical and non-negotiable.",
       "HTML+CSS do everything; JS is CRUD-only (API transport).",
-      "JS's single UI bridge is `oninput` on state-machine <input>s - fired by BOTH user action AND programmatic runtime calls (e.g. initial page load). NEVER click/change/addEventListener/dispatchEvent/dynamic import().",
+      "JS's single UI bridge is `oninput` on state-machine <input>s - fired by BOTH user action AND programmatically (initial load/restore = select the nav radio: set .checked=true + input.dispatchEvent(new Event('input',{bubbles:true})) so the input's OWN oninput fires). NEVER click/onclick/change/addEventListener/dynamic import(). dispatchEvent is the SINGLE SANCTIONED exception: used ONLY to make a programmatically-selected nav radio fire its own oninput on load/restore (no real user event exists there); all real user interactions fire oninput natively - no dispatch.",
       "No data-*/class/id; drive dirty/valid/enabled via CSS :has(:valid)/:has(:invalid)/:checked/:empty/:not(:empty)/aria-disabled.",
       "JSON -> elements via toTagName() is allowed; no innerHTML string-building for presentation.",
       "No utils/helpers/utility file names - name each module for what it DOES.",

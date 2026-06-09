@@ -51,8 +51,10 @@ the D7460N Architecture.
     invariants. The only code-level invariant is the `toTagName()` transform.
   - NO nav radio is `checked` in the HTML by default. On load the runtime reads
     the persisted endpoint from browser storage (`storage.js`) and CHECKS that nav
-    radio (`input.checked = true`), then runs the oninput lifecycle for it — never
-    `.click()`, never `dispatchEvent`. First-ever visit (no stored value) falls
+    radio (`input.checked = true`), then DISPATCHES an `input` event on it
+    (`dispatchEvent(new Event('input', { bubbles: true }))`) so the radio's OWN
+    `oninput` fires the lifecycle — never `.click()`/`onclick`; the script never
+    calls the lifecycle itself. First-ever visit (no stored value) falls
     back to the first nav radio. `:checked` is the single source of truth for both
     the CSS state machine and the data call. (Verified live: fresh visit → "Manage";
     storage seeded to `audit` → reload restores "Audit".) IMPORTANT: this storage
@@ -79,8 +81,13 @@ the D7460N Architecture.
   it unchanged. Only raise "drop?" after inspecting, and never drop silently.
 - D7460N compliance, non-negotiable:
   - `oninput` on state-machine `<input>`s is the ONLY bridge to the UI; it is
-    fired by BOTH user action AND the runtime. NEVER use `.onchange`, `.onclick`,
-    `addEventListener`, `dispatchEvent`, or dynamic `import()`.
+    fired by BOTH user action AND programmatically. NEVER use `.onchange`,
+    `.onclick`, `addEventListener`, or dynamic `import()`. `dispatchEvent` is the
+    SINGLE SANCTIONED exception — used ONLY to make a programmatically-selected nav
+    radio fire its OWN `oninput` on initial load/restore (the one place with no
+    real user event): `input.checked = true` + `input.dispatchEvent(new
+    Event('input', { bubbles: true }))`. All real user interactions fire `oninput`
+    natively — no dispatch.
   - No `data-*`/`class`/`id`. Drive dirty/valid/enabled/visibility purely via CSS
     `:has(:valid)`, `:has(:invalid)`, `:checked`, `:empty`/`:not(:empty)`,
     `aria-disabled`.
@@ -191,9 +198,13 @@ themselves stand for the CRUD form.
    click DESELECT the row; SECOND a radio `name="list-item"` (single-selection +
    `:checked` styling + the form-load query). `handleRowToggle`: if now checked,
    uncheck all OTHER `row-toggle` checkboxes (single-select); set
-   `radio.checked = checkbox.checked`; then dhcp does `radio.dispatchEvent(new
-   Event('input'))` — DISPATCHEVENT IS FORBIDDEN → replace with a DIRECT
-   `rowSelectHandler()` call. Re-clicking the selected row → checkbox unchecks →
+   `radio.checked = checkbox.checked`; then drive the row-select. MECHANISM:
+   dhcp does `radio.dispatchEvent(new Event('input'))` to fire the radio's oninput;
+   but `handleRowToggle` ALREADY runs from a REAL user event (the toggle
+   checkbox's own `oninput`), so it can do the row-select DIRECTLY (a direct
+   `rowSelectHandler()` call). Keep `dispatchEvent` to the SINGLE initial-load
+   exception; the row-toggle needs no dispatch. Re-clicking the selected row →
+   checkbox unchecks →
    `radio.checked=false` → handler finds no `:checked` row → fieldset cleared →
    aside closes via `fieldset:not(:empty)`.
 6. dhcp triggers New/Save/Reset/Delete/Close via `<checkbox>.onchange` ×5 —
@@ -293,7 +304,9 @@ MODIFY:
     add the `row-toggle` checkbox + `handleRowToggle` to `createListItem` (this
     REVERSES the step-6 single-radio simplification — step 6 used one radio; step 7
     needs the two-input row so a re-click DESELECTS and closes the aside).
-    `handleRowToggle` must call `rowSelectHandler()` DIRECTLY (not `dispatchEvent`).
+    `handleRowToggle` runs from the toggle checkbox's OWN real `oninput`, so it
+    drives the row-select with a DIRECT `rowSelectHandler()` call — keeping
+    `dispatchEvent` reserved for the single initial-load exception.
 (f) `assets/js/oninput.js` — compute `inferFieldRules(record.items)` per endpoint
     (cache by endpoint) and export `getFieldRules()` so the form generator can type
     its inputs.
