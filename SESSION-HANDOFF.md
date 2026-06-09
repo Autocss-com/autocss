@@ -48,13 +48,10 @@ the D7460N Architecture.
     form fields. NOTHING is hardcoded; the code only faithfully renders whatever the
     JSON returns. Verified live (chromium over http) that this injection works: no
     console errors, and the `manage` endpoint's CURRENT data rendered its nav
-    titles, its title `<h1>`, its header columns (from the item keys), and its rows
-    (observed at verification time, ALL JSON-dependent — NOT invariants: nav
-    summaries [Scope, Admin]; 12 nav titles; `<h1>` "Manage"; header cells `id-
-    name- created- updated- author- modified- type-`; 10 rows).
-    The SPECIFIC values (e.g. title "Manage", the particular header keys, the row
-    count) come from the live JSON and CHANGE with the data — do NOT treat them as
-    invariants. The only code-level invariant is the `toTagName()` transform.
+    titles, its title `<h1>`, its header columns (from the item keys), and its rows.
+    The SPECIFIC values (e.g. the particular header keys, and the row count) come
+    from the live JSON and CHANGE with the data — do NOT treat them as invariants.
+    The only code-level invariant is the `toTagName()` transform.
   - NO nav radio is `checked` in the HTML by default. On load the runtime reads
     the persisted endpoint from browser storage (`storage.js`) and CHECKS that nav
     radio (`input.checked = true`), then DISPATCHES an `input` event on it
