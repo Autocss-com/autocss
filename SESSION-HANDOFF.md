@@ -141,6 +141,25 @@ NOTE: (B) means the unsaved-changes GUARD cannot truly know "unsaved" in pure CS
 and the `html:not(:hover)` leave-detection was broken anyway → the guard feature
 needs a fresh design decision with me (see Open Question 1). Decisions A/B/C
 themselves stand for the CRUD form.
+(D) STATE PERSISTENCE — GENERAL PRINCIPLE (per user). EVERY state-machine
+    `<input>` (radio OR checkbox) whose state changes through the `oninput`
+    lifecycle persists its boolean state to browser storage (`storage.js`), and
+    the runtime restores those states on return — and can set/manipulate them
+    programmatically "when we need them later." The nav selection
+    (`persistSelection` in `oninput.js`) is just the FIRST instance of this ONE
+    general pattern; it applies equally to ALL durable state machines (which row
+    is selected, which `<details>`/panels/sections are open, the header theme +
+    layout toggles, etc.). Result: the persisted store is a single source of truth
+    for boolean UI state that is both CSS-driven (`:checked`) and
+    restorable/controllable. This is NOT a new pattern — it generalizes the
+    existing `storage.js` + oninput persistence the nav already uses. CURRENT
+    STATE: only the nav selection persists today; generalizing it (a storage-backed
+    map keyed by each input's name/role, written on its `oninput`, re-applied on
+    load by checking the inputs so each enters its own oninput lifecycle) is a
+    step-7+ task. SCOPE NUANCE to settle (Open Question 8): momentary ACTION
+    triggers that check→act→uncheck (Save/Reset/Delete/Close/New) have no
+    meaningful resting state (always unchecked); the meaningful persisted states
+    are the DURABLE toggles/selections.
 
 ============================= VERIFIED DHCP REFERENCE FACTS (do NOT re-derive) ====
 1. `toTagName(key)` is the JSON-key→custom-element-tag transform (camel/underscore
@@ -222,6 +241,15 @@ themselves stand for the CRUD form.
    `themes.css` color-scheme default = dark (dhcp fidelity) vs Rule 19 "light dark"
    auto-follow-OS (a 1-line flip, unconfirmed); confirm the API base = the dhcp
    mockapi is the intended data source.
+8. STATE PERSISTENCE SCOPE (decision D): when generalizing per-input persistence —
+   (a) which inputs persist (all durable state machines: nav, selected row, open
+   `<details>`/panels, theme + layout toggles) and how to treat momentary
+   action triggers (Save/Reset/Delete/Close/New that reset to unchecked); (b) the
+   storage key/shape (one state object keyed by each input's name/role under the
+   existing `autocss.app.v1` record); (c) restore timing/order on load (re-apply
+   persisted booleans by checking the inputs so each runs its own oninput
+   lifecycle), without double-firing the data lifecycle. Confirm with me before
+   building.
 
 ============================= STEP 7 — BUILD PLAN (after the questions above) =====
 CREATE:
