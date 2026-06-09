@@ -31,8 +31,11 @@ must look, behave, and work like DHCP, changing nothing except to improve it to
 the D7460N Architecture.
 
 ============================= GROUND TRUTH / CURRENT STATE =========================
-- Branch `claude/lucid-hawking-E5Ej2`, HEAD ≈ the step-7-handoff commit on top of
-  `31c7925`. Working tree clean.
+- Branch `claude/lucid-hawking-E5Ej2`. HEAD = the latest commit on the branch —
+  the step-7 handoff PLUS this session's corrections (no-default-`checked` nav,
+  storage-driven selection simplified to persisted-else-first, the `dispatchEvent`
+  decision, the state-persistence principle, and the JSON-sourced-content
+  correction), all on top of `31c7925`. Working tree clean.
 - DONE + verified: steps 1–6.
   - Step 4 = transport/lifecycle (`config.js`, `env.js`, `api.js` incl. write
     methods, `storage.js`, `oninput.js`).
@@ -45,7 +48,10 @@ the D7460N Architecture.
     form fields. NOTHING is hardcoded; the code only faithfully renders whatever the
     JSON returns. Verified live (chromium over http) that this injection works: no
     console errors, and the `manage` endpoint's CURRENT data rendered its nav
-    titles, its title `<h1>`, its header columns (from the item keys), and its rows.
+    titles, its title `<h1>`, its header columns (from the item keys), and its rows
+    (observed at verification time, ALL JSON-dependent — NOT invariants: nav
+    summaries [Scope, Admin]; 12 nav titles; `<h1>` "Manage"; header cells `id-
+    name- created- updated- author- modified- type-`; 10 rows).
     The SPECIFIC values (e.g. title "Manage", the particular header keys, the row
     count) come from the live JSON and CHANGE with the data — do NOT treat them as
     invariants. The only code-level invariant is the `toTagName()` transform.
