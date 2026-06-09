@@ -241,9 +241,18 @@ themselves stand for the CRUD form.
 3. "Form elements appear DELAYED" (user-reported, NOT yet diagnosed; it is NOT a
    fade — the form does not fade). Reproduce in a real browser and ASK what
    exactly is observed before changing anything.
-4. "Form elements are tied to the table column headers" (user-raised). The label
-   TEXT already matches the headers (fact 4); confirm what coupling is meant
-   (text match? show only currently-visible columns? width/order alignment?). ASK.
+4. RESOLVED (per user): the FORM is derived from the table's COLUMNS. The field
+   SET + labels follow the column keys (header text === row cell tags === form
+   label === `humanize(key)`). Mechanically DHCP reads those keys+values from the
+   SELECTED ROW's cells (`updateFormFromSelectedRow` → `selectedRow.querySelectorAll(
+   'label > *:not(input)')`), and each field's TYPE/tabindex/readonly/select-OPTIONS
+   come from `getFieldRules()` = `inferFieldRules(items)` (inferred over the DATA,
+   cached per endpoint) — NOT from the header element, which DHCP only rebuilds on
+   new-item (`updateHeaderRow`) and clears on delete. (The table header is the FIRST
+   of the two back-to-back `<ul>`s in `main/article`.) The user notes this
+   column/row/rules coupling HAS TO CHANGE eventually; for step 7, PORT DHCP's
+   working code FAITHFULLY to make it work, DOCUMENT it, and REVISIT later — do NOT
+   redesign it now.
 5. Error display: match dhcp (main intro `<p>`) or use the form's `aria-live <p>`?
 6. Loading spinner: keep the existing single spinner in `layout.css`
    (`:root:has(article h1:empty)::before`) or adopt dhcp's `:checked`-driven
@@ -277,7 +286,9 @@ CREATE:
       form fields AND the mirrored row).
     - `buildFormFromRow()` (row cells → labelled typed fields via
       `createInputFromKey(key, value, getFieldRules())`; each `input.oninput =
-      mirrorToSelectedRow`); register it via `setRowSelectHandler`.
+      mirrorToSelectedRow`); register it via `setRowSelectHandler`. This is the
+      DHCP column/row/rules derivation (Open Question 4) — PORT IT FAITHFULLY for
+      now and flag it to revisit later; do NOT redesign it.
     - New / Save / Reset / Delete / Close — each via `<checkbox>.oninput`
       (check → act → uncheck self). Save: gather non-readOnly fields →
       `denormalizeRecord(endpoint, data)` → `putJson(id)`/`postJson` (per the id
