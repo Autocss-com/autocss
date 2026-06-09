@@ -151,27 +151,22 @@ NOTE: (B) means the unsaved-changes GUARD cannot truly know "unsaved" in pure CS
 and the `html:not(:hover)` leave-detection was broken anyway → the guard feature
 needs a fresh design decision with me (see Open Question 1). Decisions A/B/C
 themselves stand for the CRUD form.
-(D) STATE PERSISTENCE — GENERAL PRINCIPLE (per user). EVERY state-machine
-    `<input>` (radio OR checkbox) whose state changes through the `oninput`
-    lifecycle persists its boolean state to browser storage (`storage.js`), and
-    the runtime restores those states on return — and can set/manipulate them
-    programmatically "when we need them later." The nav selection
-    (`persistSelection` in `oninput.js`) is just the FIRST instance of this ONE
-    general pattern; it applies equally to ALL durable state machines (which row
-    is selected, which `<details>`/panels/sections are open, the header theme +
-    layout toggles, etc.). Result: the persisted store is a single source of truth
-    for boolean UI state that is both CSS-driven (`:checked`) and
-    restorable/controllable. This is NOT a new pattern — it generalizes the
-    existing `storage.js` + oninput persistence the nav already uses. CURRENT
-    STATE: only the nav selection persists today; generalizing it (a storage-backed
-    map keyed by each input's name/role, WRITTEN on each input's own `oninput`;
-    RESTORED on load by re-checking the persisted inputs — CSS-visual toggles
-    restore for free via `:checked` with NO `oninput`/data needed; the only
-    data-bearing startup selection is the nav radio, whose handler the runtime runs
-    once) is a step-7+ task. SCOPE NUANCE to settle (Open Question 8): momentary
-    ACTION triggers that check→act→uncheck (Save/Reset/Delete/Close/New) have no
-    meaningful resting state (always unchecked); the meaningful persisted states
-    are the DURABLE toggles/selections.
+(D) STATE PERSISTENCE — GENERAL PRINCIPLE (per user). State always changes through
+    USER input, with the sole exception (so far) of first load (the sanctioned
+    `dispatchEvent` nav selection). `oninput` is independent and decoupled from
+    other processes. INTENT: EVERY state-machine `<input>` (radio OR checkbox)
+    SAVES its boolean state to browser storage (`storage.js`) on its own `oninput`
+    — so these booleans can be controlled/manipulated programmatically "when we
+    need them later." BUT do NOT auto-RESTORE them on load — NOT yet. The ONLY
+    state restored from browser history on load is the NAV radio input (persisted
+    endpoint → checked → dispatch). CURRENT STATE: only the nav selection is wired
+    (save + restore) via `persistSelection`/`getInitialSelection` in `oninput.js`.
+    SAVING the other durable inputs' states (a storage-backed map keyed by each
+    input's name/role, written on each input's own `oninput`) is a step-7+ task —
+    but their auto-restore stays OFF for now. SCOPE NUANCE (Open Question 8):
+    momentary ACTION triggers that check→act→uncheck (Save/Reset/Delete/Close/New)
+    have no meaningful resting state (always unchecked); the meaningful saved
+    states are the DURABLE toggles/selections.
 
 ============================= VERIFIED DHCP REFERENCE FACTS (do NOT re-derive) ====
 1. `toTagName(key)` is the JSON-key→custom-element-tag transform (camel/underscore
@@ -257,20 +252,20 @@ themselves stand for the CRUD form.
    `themes.css` color-scheme default = dark (dhcp fidelity) vs Rule 19 "light dark"
    auto-follow-OS (a 1-line flip, unconfirmed); confirm the API base = the dhcp
    mockapi is the intended data source.
-8. STATE PERSISTENCE SCOPE (decision D): when generalizing per-input persistence —
-   (a) which inputs persist (all durable state machines: nav, selected row, open
-   `<details>`/panels, theme + layout toggles) and how to treat momentary
-   action triggers (Save/Reset/Delete/Close/New that reset to unchecked); (b) the
-   storage key/shape (one state object keyed by each input's name/role under the
-   existing `autocss.app.v1` record). (c) is SETTLED per user — there is NO
-   orchestrated load/restore order: `oninput` is ONLY ever triggered by the
-   state-machine inputs themselves; the sole automated startup action is
-   read-storage + check the nav radio (the runtime runs that one radio's handler,
-   since a programmatic `.checked` does not auto-dispatch `oninput`); all other
-   inputs fire on the user's real selection; CSS-visual toggles restore for free
-   via `:checked`; and data-driven visibility (`display:none` until `:has()`/
-   `:not(:empty)`) sequences everything naturally, one at a time. Confirm (a)+(b)
-   with me before building.
+8. STATE PERSISTENCE SCOPE (decision D). DECIDED per user: auto-RESTORE on load is
+   NAV-ONLY — every other input is SAVED but NOT auto-restored (not yet). Still to
+   confirm before building: (a) which inputs SAVE their state (durable state
+   machines: selected row, open `<details>`/panels, theme + layout toggles; plus
+   how to treat momentary action triggers Save/Reset/Delete/Close/New that reset to
+   unchecked); (b) the storage key/shape (one state object keyed by each input's
+   name/role under the existing `autocss.app.v1` record). (c) is SETTLED — there is
+   NO orchestrated load/restore order: `oninput` is ONLY ever triggered by the
+   state-machine inputs themselves (independent/decoupled); the sole automated
+   startup action is read-storage + check the nav radio + dispatch `input` on it (a
+   programmatic `.checked` does not auto-dispatch `oninput`, so dispatchEvent is the
+   single sanctioned exception); all other inputs fire on the user's real
+   selection; data-driven visibility (`display:none` until `:has()`/`:not(:empty)`)
+   sequences everything naturally, one at a time.
 
 ============================= STEP 7 — BUILD PLAN (after the questions above) =====
 CREATE:
