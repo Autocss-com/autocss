@@ -105,9 +105,11 @@ export function bindNavOnInput() {
 }
 
 // Enter the lifecycle by CHECKING the right nav radio (never a synthetic
-// click or dispatched event). Checking is the single signal: it drives the
+// click or dispatched event). NO nav radio is checked in the HTML by default;
+// the selection is decided here. Checking is the single signal: it drives the
 // CSS state machine (:checked) AND the data call. Selection priority:
-// persisted (return visit) -> statically-checked default -> first radio.
+// persisted endpoint from storage (return visit) -> any author-checked radio
+// (none by default) -> first nav radio (first-ever visit).
 // Programmatically setting .checked does NOT fire oninput, so we run the
 // lifecycle for the checked input directly.
 export function triggerInitialSelection() {

@@ -49,9 +49,17 @@ the D7460N Architecture.
     The SPECIFIC values (e.g. title "Manage", the particular header keys, the row
     count) come from the live JSON and CHANGE with the data — do NOT treat them as
     invariants. The only code-level invariant is the `toTagName()` transform.
-  - Initial load enters the lifecycle by CHECKING the default nav radio
-    (`input.checked = true` + run the oninput lifecycle for it) — never `.click()`,
-    never `dispatchEvent`. `:checked` is the single source of truth.
+  - NO nav radio is `checked` in the HTML by default. On load the runtime reads
+    the persisted endpoint from browser storage (`storage.js`) and CHECKS that nav
+    radio (`input.checked = true`), then runs the oninput lifecycle for it — never
+    `.click()`, never `dispatchEvent`. First-ever visit (no stored value) falls
+    back to the first nav radio. `:checked` is the single source of truth for both
+    the CSS state machine and the data call. (Verified live: fresh visit → "Manage";
+    storage seeded to `audit` → reload restores "Audit".) IMPORTANT: this storage
+    restore is the STARTER architecture convention (CLAUDE.md "JS Runtime
+    Conventions"), NOT dhcp — dhcp uses NO browser storage and defaults to the
+    first page every visit; autocss follows the starter convention, so it is not
+    new.
 - Step 7 (CRUD forms) was implemented (commits 21bdf93, 2abd648) then FULLY
   REVERTED via `git reset --hard 31c7925` + force-push, because the attempt
   improvised features and falsely claimed things were tested. REBUILD IT FRESH.
