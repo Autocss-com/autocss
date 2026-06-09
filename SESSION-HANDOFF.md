@@ -154,10 +154,12 @@ themselves stand for the CRUD form.
     restorable/controllable. This is NOT a new pattern — it generalizes the
     existing `storage.js` + oninput persistence the nav already uses. CURRENT
     STATE: only the nav selection persists today; generalizing it (a storage-backed
-    map keyed by each input's name/role, written on its `oninput`, re-applied on
-    load by checking the inputs so each enters its own oninput lifecycle) is a
-    step-7+ task. SCOPE NUANCE to settle (Open Question 8): momentary ACTION
-    triggers that check→act→uncheck (Save/Reset/Delete/Close/New) have no
+    map keyed by each input's name/role, WRITTEN on each input's own `oninput`;
+    RESTORED on load by re-checking the persisted inputs — CSS-visual toggles
+    restore for free via `:checked` with NO `oninput`/data needed; the only
+    data-bearing startup selection is the nav radio, whose handler the runtime runs
+    once) is a step-7+ task. SCOPE NUANCE to settle (Open Question 8): momentary
+    ACTION triggers that check→act→uncheck (Save/Reset/Delete/Close/New) have no
     meaningful resting state (always unchecked); the meaningful persisted states
     are the DURABLE toggles/selections.
 
@@ -246,10 +248,15 @@ themselves stand for the CRUD form.
    `<details>`/panels, theme + layout toggles) and how to treat momentary
    action triggers (Save/Reset/Delete/Close/New that reset to unchecked); (b) the
    storage key/shape (one state object keyed by each input's name/role under the
-   existing `autocss.app.v1` record); (c) restore timing/order on load (re-apply
-   persisted booleans by checking the inputs so each runs its own oninput
-   lifecycle), without double-firing the data lifecycle. Confirm with me before
-   building.
+   existing `autocss.app.v1` record). (c) is SETTLED per user — there is NO
+   orchestrated load/restore order: `oninput` is ONLY ever triggered by the
+   state-machine inputs themselves; the sole automated startup action is
+   read-storage + check the nav radio (the runtime runs that one radio's handler,
+   since a programmatic `.checked` does not auto-dispatch `oninput`); all other
+   inputs fire on the user's real selection; CSS-visual toggles restore for free
+   via `:checked`; and data-driven visibility (`display:none` until `:has()`/
+   `:not(:empty)`) sequences everything naturally, one at a time. Confirm (a)+(b)
+   with me before building.
 
 ============================= STEP 7 — BUILD PLAN (after the questions above) =====
 CREATE:
