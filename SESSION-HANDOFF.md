@@ -39,10 +39,16 @@ the D7460N Architecture.
   - Step 5 = data shaping (`schema.js`, `rules.js`) with node tests (7/7).
   - Step 6 = generation/`inject.js`: nav is STATIC HTML (text injected, not
     generated); the ONLY generated DOM is data-table cells = custom elements from
-    JSON KEYS via `toTagName()` with VALUES injected. Verified live (chromium over
-    http): no console errors, nav summaries [Scope, Admin], 12 nav titles injected,
-    h1="Manage", header cells `id- name- created- updated- author- modified- type-`,
-    10 live rows.
+    the JSON item KEYS via `toTagName()` with the JSON VALUES injected. EVERYTHING
+    rendered into the page is SOURCED FROM THE JSON — the `<h1>` title, the intro
+    `<p>`, the column-header labels, the table rows, and (in step 7) the per-record
+    form fields. NOTHING is hardcoded; the code only faithfully renders whatever the
+    JSON returns. Verified live (chromium over http) that this injection works: no
+    console errors, and the `manage` endpoint's CURRENT data rendered its nav
+    titles, its title `<h1>`, its header columns (from the item keys), and its rows.
+    The SPECIFIC values (e.g. title "Manage", the particular header keys, the row
+    count) come from the live JSON and CHANGE with the data — do NOT treat them as
+    invariants. The only code-level invariant is the `toTagName()` transform.
   - Initial load enters the lifecycle by CHECKING the default nav radio
     (`input.checked = true` + run the oninput lifecycle for it) — never `.click()`,
     never `dispatchEvent`. `:checked` is the single source of truth.
@@ -129,8 +135,13 @@ needs a fresh design decision with me (see Open Question 1). Decisions A/B/C
 themselves stand for the CRUD form.
 
 ============================= VERIFIED DHCP REFERENCE FACTS (do NOT re-derive) ====
-1. `toTagName('id') = 'id-'` — every single-word key gets a trailing hyphen. Cell
-   tags = `id- name- created- updated- author- modified- type-`.
+1. `toTagName(key)` is the JSON-key→custom-element-tag transform (camel/underscore
+   → hyphen; a single-word key gets a TRAILING hyphen, so `id` → `id-`). The header
+   cells and row cells ARE these tags, derived from whatever KEYS the JSON items
+   have — the tag SET is DATA-SOURCED, not fixed (the `manage` data currently yields
+   `id- name- created- updated- author- modified- type-`, but that follows the
+   JSON). The invariant is the transform; `toTagName('id')='id-'` is the piece that
+   matters for fact 2.
 2. dhcp `forms.js` looks up the row id via `querySelector('label > id')` (looks
    for `<id>`), which NEVER matches the real `<id->` cell → id is always
    undefined → dhcp SAVE ALWAYS POSTs (never PUT); dhcp DELETE-by-id never fires
