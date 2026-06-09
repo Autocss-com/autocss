@@ -104,14 +104,13 @@ export function bindNavOnInput() {
   });
 }
 
-// Enter the lifecycle by SELECTING the right nav radio. NO nav radio is checked
-// in the HTML by default; the selection is decided here. Priority: persisted
-// endpoint from storage (return visit) -> any author-checked radio (none by
-// default) -> first nav radio (first-ever visit). We CHECK that radio and then
-// dispatch an `input` event on it so the input's OWN oninput fires the lifecycle
-// — a bare programmatic `.checked = true` does NOT dispatch oninput. dispatchEvent
-// is the standards-native, framework-interoperable replacement for `.click()`;
-// never `.click()`/`onclick`. The script itself never calls the lifecycle.
+// Enter the lifecycle by SELECTING a nav radio. NO nav radio is checked in the
+// HTML by default. Select the persisted endpoint from browser memory (storage),
+// or the first nav radio if there is none; check it and dispatch an `input`
+// event on it so the input's OWN oninput fires the lifecycle. (A bare
+// programmatic `.checked = true` does not dispatch oninput; dispatchEvent is the
+// standards-native replacement for `.click()`. The script never calls the
+// lifecycle itself.)
 export function triggerInitialSelection() {
   const radios = [...document.querySelectorAll("nav input[type='radio'][name='nav']")];
   if (radios.length === 0) {
@@ -119,10 +118,7 @@ export function triggerInitialSelection() {
   }
 
   const persisted = getInitialSelection();
-  const target =
-    radios.find(r => r.value === persisted) ??
-    radios.find(r => r.checked) ??
-    radios[0];
+  const target = radios.find(r => r.value === persisted) ?? radios[0];
 
   target.checked = true;
   target.dispatchEvent(new Event("input", { bubbles: true }));
