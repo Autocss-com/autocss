@@ -145,5 +145,23 @@ line-by-line reconciliation is a port-phase task, not part of this analysis.
 - [x] Inventoried + read: all starter HTML/CSS/JS; all DHCP JS; DHCP `index.html`; DHCP non-1:1 CSS.
 - [x] Verdicts assigned for every in-scope DHCP file.
 - [ ] DHCP 1:1 CSS read line-by-line (deferred -- verdicted by concern).
-- [ ] User answers Q1-Q4.
-- [ ] Port phase (separate, on approval) following Sec.5 order.
+- [x] User answers Q1-Q4 (settled across steps 1-8; see PROGRESS.json + NDJSON).
+- [x] Port phase DONE: steps 1-8 = DHCP parity (PORT-AS-IS strategy, comply-later).
+
+## 8. Addendum (2026-06-10) -- SAVE/DELETE data-model defect found during the port
+
+While porting `forms.js`/`fetch.js`->`api.js` as-is (the `keep (!)` rows in Sec.4),
+verification surfaced a **functional data-layer defect inherited from DHCP**: the
+CRUD **read model is nested** (the app renders `record[0].items[]` --
+`oninput.js:96-98`) but the **write model is flat** (`forms.js` Save does
+`postJson(endpoint, payload)` -> `POST {base}/{endpoint}`, creating a NEW top-level
+mockapi resource, never touching `record[0].items`). Compounded by the **`label > id`
+id-lookup bug** (the real cell is `<id->`, so `id` is always undefined -> Save
+always POSTs/creates, Delete is DOM-only and never calls the API). Net: Save
+"succeeds" (HTTP 200) but the row never appears, and stray top-level resources
+accumulate. **Affects all 12 endpoints.** This is the **only functional gap** at
+parity; everything else in the ledger is render/compliance. Full root-cause +
+OPTION A/B fix plan: `SESSION-HANDOFF.md` COMPLIANCE-DEBT LEDGER and
+`progress/log-001.ndjson` (2026-06-10, type=lesson "SAVE/DELETE DATA-MODEL DEFECT").
+Recommended as the FIRST future session. Shared-mockapi cleanup so far: removed
+`manage`'s 16 Save-shaped strays; residue remains on faqs/option-set/audit/servers.

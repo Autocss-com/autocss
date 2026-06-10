@@ -170,15 +170,24 @@ Do these AFTER parity, ONE focused piece per session. Each session: read
 `PROGRESS.json` + the newest shard + this handoff; do the ONE piece; test via the
 REAL trigger; update the memory shard + this handoff; commit. This keeps accurate
 cross-session memory and avoids drift.
-1. PWA — add `sw.js` (precache + offline SPA fallback, asset list = autocss's real
+1. *** SAVE/DELETE DATA-MODEL FIX (recommended FIRST — it's the only functional
+   gap; everything else is render/compliance) *** — Save writes to the wrong level
+   (creates a stray top-level resource instead of editing `record[0].items`) and
+   Delete never hits the server. Full diagnosis + the two fix options (A: PUT
+   `record[0]` with the item spliced in + fix id selector to `label > id-`; B:
+   per-item backend routes) are in the LEDGER below and in the NDJSON 2026-06-10
+   `SAVE/DELETE DATA-MODEL DEFECT` lesson. Endpoint-agnostic (fix in `forms.js` +
+   a read accessor in `oninput.js` fixes all 12). Own session. Also: finish the
+   shared-mockapi cleanup (residue still on faqs/option-set/audit/servers/manage).
+2. PWA — add `sw.js` (precache + offline SPA fallback, asset list = autocss's real
    files) and confirm/repair `manifest.webmanifest`. (ANALYSIS §4 / Q4.) Own session.
-2. Forms D7460N compliance — work the COMPLIANCE-DEBT LEDGER below; likely several
+3. Forms D7460N compliance — work the COMPLIANCE-DEBT LEDGER below; likely several
    focused sessions (triggers; dirty/valid→CSS; innerHTML→replaceChildren;
    row-toggle dispatch→direct; id-lookup; error display; spinner; naming/utils split).
-3. Unsaved-changes GUARD — a NEW feature (Popover API, "not a modal but the other
+4. Unsaved-changes GUARD — a NEW feature (Popover API, "not a modal but the other
    thing"), DHCP has NONE. Own session. Do NOT add during the port.
-4. State-persistence generalization (decision D) — own session.
-5. color-scheme + any remaining cross-cutting items.
+5. State-persistence generalization (decision D) — own session.
+6. color-scheme + any remaining cross-cutting items.
 
 ============================= D7460N COMPLIANCE-DEBT LEDGER (fix in future sessions)
 What we KNOWINGLY port as-is / defer, plus the decisions already taken this session
@@ -195,9 +204,39 @@ for HOW to fix each later:
   `rowSelectHandler()` call (the toggle's own real `oninput` already fires).
   NOTE: `dispatchEvent` is sanctioned ONLY for the single initial-load nav selection
   (CLAUDE.md "JS Runtime Conventions"); the row-toggle should NOT use it.
-- id-lookup: DHCP `querySelector('label > id')` never matches the real `<id->` cell
-  → SAVE always POSTs / DELETE-by-id never fires (fact 2). DECISION needed (was
-  Q2): keep faithful (always POST) vs fix to `label > id-` (PUT/DELETE by id).
+- *** SAVE/DELETE DATA-MODEL DEFECT (its OWN future session; HIGH-VALUE) *** —
+  full root-cause analysis in progress/log-001.ndjson 2026-06-10 (type=lesson,
+  topic "SAVE/DELETE DATA-MODEL DEFECT"). SUMMARY: Save SUCCEEDS (HTTP 200) but
+  writes to the WRONG LEVEL — it creates a NEW top-level resource in the mockapi
+  COLLECTION instead of adding to the rows the app shows. THREE compounding causes:
+    (1) READ/WRITE MODEL MISMATCH (fundamental): read is NESTED —
+        `oninput.js:96-98` takes `data[0]` and renders `record[0].items[]`; write
+        is FLAT — `forms.js:216` `postJson('manage', payload)` → `POST {base}/manage`
+        (`api.js:33-40`) creates `collection[n]`, a sibling of `[0]`, NEVER inside
+        `[0].items`. No code path writes into `record[0].items`; the flat mockapi
+        resource has no nested `/manage/:recordId/items` route.
+    (2) id-lookup bug (= FACT #2): `forms.js:202` & `:258` use `querySelector(
+        'label > id')` but the real cell is `<id->` (toTagName adds a trailing
+        hyphen). `<id>` never matches → `id` always undefined → Save's `putJson`
+        branch is DEAD (always POSTs/creates), and Delete's `deleteJson` branch is
+        DEAD (DOM-remove only, never deletes server-side).
+    (3) `denormalizeRecord` maps {name,type}→{itemName,itemType} so item field
+        names land at the resource level; mockapi adds faker {name,avatar,createdAt}
+        → stray shape {id,name,avatar,createdAt,itemName,itemType}.
+  AFFECTS ALL 12 ENDPOINTS (all use the `[0].items` read model). FIX = pick ONE
+  consistent model: OPTION A (keep API) = fix the two id selectors to `label > id-`,
+  carry `record[0]`'s real top-level id through the read layer (small shared
+  accessor in `oninput.js`, NOT global state), and make Save/Delete splice the item
+  into `record[0].items` then `PUT {endpoint}/{record0.id}` the whole resource;
+  OPTION B (cleaner) = restructure backend so each item is its own resource with
+  real per-item routes and point read+write at the same level. Must stay D7460N
+  (oninput-only, no data-*, CSS state, idempotent, one base) + verify via the REAL
+  trigger with a throwaway record that is cleaned up. CLEANUP STATUS: deleted only
+  `manage`'s 16 Save-shaped strays (28→12, 200 each); residue REMAINS on faqs(+7),
+  option-set(+3), audit(+1), servers(+1) and manage(+11 seed-ish) — a future
+  cleanup must audit every endpoint + review borderline records MANUALLY (faker
+  `name` collides with the data `name` field, so automated classification is
+  unreliable). Original Q2 (keep-faithful vs fix) is RESOLVED → FIX in this session.
 - Error display: DHCP writes the main article intro `<p>` (fact 8) — decide vs the
   form's `aria-live <p>` (was Q5).
 - Loading spinner: reconcile DHCP `:checked`-driven dual-ring vs autocss's single
