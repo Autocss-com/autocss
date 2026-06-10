@@ -12,11 +12,23 @@ import { NAV_ENDPOINT, BANNER_ENDPOINT, VERSION, OPTIONS } from "./config.js";
 import { readPersistent, writePersistent } from "./storage.js";
 import { injectNavText, injectPageContent } from "./inject.js";
 import { normalizeRecord, normalizeItems } from "./schema.js";
+import { inferFieldRules } from "./rules.js";
 
 const STORAGE_KEY = "autocss.app.v1";
 const COOKIE_KEY = "autocss.app.v1";
 
 let isShellHydrated = false;
+
+// Per-endpoint inferred field rules cache (ported from dhcp loaders.js).
+// inferFieldRules() is computed once per endpoint and cached; the active set is
+// exposed via getFieldRules() for the form generator (inject.createInputFromKey).
+const RULES_CACHE = new Map();
+let ACTIVE_RULES = {};
+
+// The field rules for the most recently loaded endpoint.
+export function getFieldRules() {
+  return ACTIVE_RULES;
+}
 
 // Fetched navigation map, kept for the injector (step 6) and binding.
 let navData = null;
@@ -84,6 +96,15 @@ export async function runOnInputLifecycle(endpoint) {
   const raw = Array.isArray(data) ? data[0] : data;
   const record = normalizeRecord(endpoint, raw);
   record.items = normalizeItems(endpoint, raw.items || []);
+
+  // Infer (and cache) the field rules for this endpoint so the form generator
+  // can type its inputs (select/toggle/datetime/textarea/text).
+  let rules = RULES_CACHE.get(endpoint);
+  if (!rules) {
+    rules = inferFieldRules(record.items);
+    RULES_CACHE.set(endpoint, rules);
+  }
+  ACTIVE_RULES = rules;
 
   injectPageContent(endpoint, record);
   persistSelection(endpoint);

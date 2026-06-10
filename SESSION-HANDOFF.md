@@ -44,8 +44,20 @@ FEATURE + LOOK reference, and now the literal SOURCE we port from) and `starter`
 through the later refinement sessions.
 
 ============================= GROUND TRUTH / CURRENT STATE =========================
-- Branch `claude/lucid-hawking-E5Ej2`. HEAD = the latest commit on the branch (the
-  step-7 handoff + this session's corrections), on top of `31c7925`. Tree clean.
+- Branch `claude/lucid-hawking-E5Ej2`. (NOTE: a fresh container may check out
+  `claude/great-ride-37t354` = EMPTY scaffolding; that is a harness default — switch
+  to lucid-hawking, where ALL work + memory live. User-confirmed 2026-06-10.)
+- *** STEP 7 IS NOW DONE + VERIFIED (2026-06-10) *** DHCP CRUD ported AS-IS to
+  parity. NEW files: `assets/js/forms.js`, `assets/js/utils.js`, `assets/css/
+  forms.css`, `assets/css/fallbacks.css`, `assets/css/loading.css`. MODIFIED:
+  `inject.js` (added createInputFromKey/mirrorToSelectedRow/injectRowField/
+  injectRowValues/updateHeaderRow + two-input row-toggle w/ radio.dispatchEvent
+  as-is + 1-line fieldset-clear in injectPageContent), `oninput.js` (RULES_CACHE +
+  getFieldRules), `app.js` (import './forms.js'), `index.html` (3 <link>s).
+  VERIFIED via REAL triggers in chromium-over-http (read/row-select/live-mirror/
+  Reset/New/Close/Save[live POST, cleaned up]/Delete[DOM-only per id bug]); 27/27
+  chromium + 7/7 node. As-is bugs ported + tracked in the LEDGER. See NDJSON
+  2026-06-10 records. NEXT = STEP 8 (all 12 datasets + regression = full parity).
 - DONE + verified + COMPLIANT: steps 1–6 (DO NOT replace these with DHCP versions).
   - Step 4 = transport/lifecycle (`config.js`, `env.js`, `api.js` incl. write
     methods, `storage.js`, `oninput.js`).

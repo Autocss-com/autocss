@@ -1,0 +1,81 @@
+/* MARK: FALLBACKS (PORTED AS-IS FROM DHCP — comply-later, see SESSION-HANDOFF)
+   Structural fallback messaging for the D7460N UI. Ported verbatim from
+   dhcp/assets/css/fallbacks.css. LEDGER item: the `nav details section:empty`
+   rule is obsolete here (autocss nav is static and never empty), so it never
+   triggers — kept as-is for the port, drop in the compliance pass. */
+
+/* Fallback when <ul> for table/list items is not populated */
+main article ul:empty::before {
+  content: "No items available.";
+  display: block;
+  padding-block: 1rem;
+  text-align: center;
+  font-style: italic;
+  color: gray;
+}
+
+/* Fallback when <h1> is missing or empty */
+main article:has(h1:empty)::before {
+  content: "[ Title failed to load ]";
+  display: block;
+  padding-block: 0.5rem;
+  text-align: center;
+  color: darkred;
+  font-weight: bold;
+}
+
+/* Fallback when <p> intro is missing or empty */
+main article:has(p:empty)::after {
+  content: "[ Introduction missing ]";
+  display: block;
+  padding-block: 0.5rem;
+  text-align: center;
+  color: darkorange;
+  font-style: italic;
+}
+
+/* Fallback when <form> has no inputs or fieldset (e.g., fetch failure) */
+aside form:empty::before {
+  content: "Form could not be loaded.";
+  display: block;
+  padding: 1rem;
+  text-align: center;
+  color: crimson;
+  font-weight: bold;
+}
+
+/* Fallback for nav if no inputs/labels were injected */
+nav details section:empty::before {
+  content: "Navigation failed to load.";
+  display: block;
+  padding: 1rem;
+  text-align: center;
+  color: dimgray;
+  font-style: italic;
+}
+
+/* Banner failure fallback */
+app-banner p:empty::after {
+  content: "[ Status unavailable ]";
+  display: block;
+  text-align: center;
+  color: gray;
+  font-size: smaller;
+}
+
+/* Logo or user info missing */
+header:has(app-logo:empty)::before {
+  content: "[ Logo not loaded ]";
+  display: block;
+  text-align: center;
+  color: gray;
+  font-style: italic;
+}
+
+header:has(app-user:empty)::after {
+  content: "[ User not recognized ]";
+  display: block;
+  text-align: center;
+  color: gray;
+  font-style: italic;
+}
