@@ -64,20 +64,19 @@
     "progress/log-001.ndjson"
   ],
   "cursor": {
-    "phase": "Steps 1-6 DONE + re-verified. Step 7 (CRUD forms) was ATTEMPTED then FULLY REVERTED to 31c7925 (improvisations + false test claims). REBUILD step 7 fresh per the 2026-06-07 records in log-001.ndjson.",
-    "last": "Reverted the step-7 attempt: git reset --hard 31c7925 + force-push (removed commits 21bdf93, 2abd648). Re-verified step 6 present + functional (no console errors; nav text injected; 10-row live table; header cells id-..type-). Appended a FULL step-7 handoff to log-001.ndjson (6 records dated 2026-06-07): revert/current-state note; DO-NOT-REPEAT lesson (broken html:not(:hover) overlay, false tested claims, fade assumption); carried-forward user decisions A/B/C; VERIFIED dhcp reference facts; corrected build plan; OPEN QUESTIONS.",
-    "next": "Step 7 CRUD forms. FIRST: read starter/.agents/SESSION-HANDOFF.md; read log-001.ndjson records dated 2026-06-07 IN FULL. THEN resolve OPEN QUESTIONS with the user before building (esp. the unsaved-changes GUARD design + Save/Delete id-behavior). THEN build per the 2026-06-07 Step-7 build plan note. Rules for this rebuild: test ONLY via real triggers (simulate the actual row/button click), never call handlers directly; never claim tested unless the real path ran; never assert behavior from reading files (observe it); never add code/overlays not explicitly requested; verify every divergence against dhcp; ASK on ANY doubt.",
+    "phase": "Steps 1-6 DONE+verified+compliant. STRATEGY = PORT DHCP AS-IS to parity (step 7 forms + step 8 datasets), THEN refine compliance + add PWA in SEPARATE future sessions. comply-later = THIS BUILD ONLY.",
+    "last": "Pivoted to port-DHCP-as-is (user, one-time). Rewrote SESSION-HANDOFF.md: strategy-override banner, AS-IS port plan for step 7, step-8 parity, FUTURE-SESSIONS backlog, D7460N COMPLIANCE-DEBT LEDGER; preserved DHCP facts + decisions A/B/C/D + lessons + the compliant steps 1-6. No code built yet.",
+    "next": "Step 7 = PORT DHCP CRUD AS-IS: forms.js + inject form fns + the two-input row-toggle (DHCP radio.dispatchEvent as-is) + utils helpers + loaders RULES_CACHE/getFieldRules + forms.css/fallbacks.css/loading.css, wired to autocss's existing compliant modules, KEEPING DHCP patterns; reach DHCP parity, nothing dropped; verify via the REAL trigger in chromium-over-http (throwaway record for Save/Delete). Then step 8 = all 12 datasets + regression. Then FUTURE SESSIONS backlog (PWA; forms-compliance; unsaved-guard feature; state-persistence; color-scheme), each its own session + handoff.",
     "open_q": [
-      "STEP-7 GUARD (log35 req6): unsaved-changes mouse-leave guard (Popover API intent). BLOCKED: decision B = no dirty state (pure CSS cannot know truly-changed) AND html:not(:hover) leave-detection is BROKEN. Needs design decision - ASK; do NOT re-add the overlay.",
-      "STEP-7 SAVE/DELETE: dhcp always POSTs + never deletes-by-id (VERIFIED: querySelector label-greater-id never matches the real id- cell). Keep faithful or correct to PUT/DELETE by real id cell? ASK.",
-      "STEP-7 delayed-form-elements (user report): cause UNKNOWN, NOT a fade. Reproduce + ask what user sees.",
-      "STEP-7 form-tied-to-column-headers (user): label text already matches; confirm intended coupling. ASK.",
-      "STEP-7 error display: match dhcp (main intro p) vs form aria-live p?",
-      "STEP-7 loading spinner: keep layout.css single (root:has(article h1:empty)::before) vs dhcp dual-ring?",
-      "PWA manifest.webmanifest + sw.js still pending (ANALYSIS Q4).",
-      "themes color-scheme default=dark (dhcp) vs Rule 19 light-dark auto-follow OS - unconfirmed, 1-line flip.",
-      "Confirm API base = dhcp mockapi is the intended data source.",
-      "User to VISUALLY verify screenshots vs dhcp (human-eye CSS fidelity)."
+      "PORT-AS-IS is the active strategy (comply-later = THIS BUILD ONLY). Compliance fixes + PWA are SEPARATE future sessions - see SESSION-HANDOFF COMPLIANCE-DEBT LEDGER + FUTURE SESSIONS.",
+      "id-lookup behavior (keep faithful POST-only vs fix to PUT/DELETE by id- cell) - forms-compliance session.",
+      "error display (DHCP intro p vs form aria-live p) - compliance session.",
+      "loading spinner (DHCP dual-ring vs autocss single) - compliance session.",
+      "unsaved-changes guard = NEW feature (Popover API); own session; DHCP has none; do NOT add during port.",
+      "state-persistence generalization (decision D); own session; auto-restore is NAV-ONLY for now.",
+      "PWA manifest.webmanifest + sw.js - own session.",
+      "color-scheme dark (DHCP) vs Rule 19 light-dark - compliance/cross-cutting.",
+      "confirm API base = DHCP mockapi (effectively confirmed; steps 4-6 work)."
     ]
   }
 }

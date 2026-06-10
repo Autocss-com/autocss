@@ -1,42 +1,52 @@
 CONTINUE AND COMPLETE THIS BUILD. This is a fresh session; prior chat context did
-NOT carry over — everything you need is in this repo. The COMPLETE original spec
-is in `ORIGINAL-PROMPT.md` (read it in full). Steps 1–6 of its Build order are
-DONE and verified; step 7 was attempted and FULLY REVERTED; steps 7–8 plus a few
-cross-cutting items remain. Work on branch `claude/lucid-hawking-E5Ej2` (push
-there, never `main`). Stop and ask me on ANY doubt. Check in before your FIRST
-push and after each numbered step. Do NOT drop anything from the spec. Do NOT add
-any code, file, or feature I did not explicitly ask for.
+NOT carry over — everything you need is in this repo. The COMPLETE original spec is
+in `ORIGINAL-PROMPT.md`. Steps 1–6 of its Build order are DONE, verified, AND
+D7460N-compliant. A compliant rewrite of step 7 was attempted and FULLY REVERTED.
+
+>>> STRATEGY OVERRIDE (deliberate, ONE-TIME, user-confirmed) <<<
+To FINISH the app, PORT DHCP's remaining functionality AS-IS — it works — to reach
+DHCP parity with NOTHING dropped. Do NOT rewrite it to D7460N compliance during the
+port. THEN refine compliance (and add the PWA) in SEPARATE, focused future
+sessions — ONE piece per session, each with its own handoff doc. "Comply later" is
+a conscious decision for THIS BUILD ONLY — NOT a new policy. CLAUDE.md is still
+canonical; every pattern we port that violates it is tracked in the COMPLIANCE-DEBT
+LEDGER below and fixed later. PRESERVE all already-completed compliant work
+(steps 4–6) and ALL memory/handoff docs — the point is to finish across multiple
+sessions with accurate memory and zero drift.
+
+Work on branch `claude/lucid-hawking-E5Ej2` (push there, never `main`). Stop and ask
+on ANY doubt. Check in before your FIRST push and after each numbered step. Do NOT
+drop any DHCP functionality. Do NOT add any feature DHCP does NOT have (e.g. the
+unsaved-changes guard — that's a future feature session, see backlog).
 
 ============================= READ FIRST, IN THIS ORDER =============================
-1. `CLAUDE.md` — canonical, non-negotiable D7460N architecture rules.
-2. `ORIGINAL-PROMPT.md` — the full original plan/spec (goal, the per-feature
-   KEEP-&-MODERNIZE heuristic, HTML/scope reality, D7460N compliance, JS authoring
-   conventions, cadence, memory standard, build order). This is the contract.
+1. `CLAUDE.md` — canonical, non-negotiable D7460N architecture rules (still the
+   target; the port-as-is below is an explicit, logged, one-time exception).
+2. `ORIGINAL-PROMPT.md` — the full original plan/spec (goal, KEEP-&-MODERNIZE
+   heuristic, HTML/scope reality, D7460N compliance, JS authoring conventions,
+   cadence, memory standard, build order). NOTE: its "port capabilities, not code;
+   rewrite to compliance as you port" is SUPERSEDED for this build by the strategy
+   override above (logged 2026-06-07). The historical prompt is left unchanged.
 3. `PROGRESS.json` — read the `meta` and the `cursor` (phase/last/next/open_q).
 4. `progress/log-001.ndjson` — the append-only memory shard. READ IT IN FULL.
-   Pay special attention to:
-   - every record dated **2026-06-07** (the complete step-7 handoff: revert note,
-     DO-NOT-REPEAT lesson, carried-forward decisions, VERIFIED dhcp facts,
-     corrected build plan, OPEN QUESTIONS), and
-   - lines 35–37 (step-7 requirements, the popover/undo finding, the forms
-     line-by-line inventory).
-5. `starter/.agents/SESSION-HANDOFF.md` — the prior Constraint Lock (CLAUDE.md
-   requires reading a handoff at session start; re-assert it).
+   Pay special attention to every record dated 2026-06-07 (the step-7 handoff;
+   the revert; the carried-forward decisions; VERIFIED dhcp facts; the dispatchEvent
+   decision; the state-persistence principle; the JSON-sourced-content correction;
+   the port-as-is strategy decision) and lines 35–37 (step-7 requirements, the
+   popover/undo finding, the forms line-by-line inventory).
+5. `starter/.agents/SESSION-HANDOFF.md` — the prior Constraint Lock (re-assert it).
 6. `ANALYSIS.md` — the dhcp→starter file reconciliation and per-file verdicts.
 
 Reference repos in scope: `DHCP` (messy-but-complete working prototype = the
-FEATURE + LOOK reference) and `starter` (the D7460N-correct but incomplete
-architecture reference). `autocss` (this repo) = the completion. The finished app
-must look, behave, and work like DHCP, changing nothing except to improve it to
-the D7460N Architecture.
+FEATURE + LOOK reference, and now the literal SOURCE we port from) and `starter`
+(the D7460N-correct but incomplete architecture reference). `autocss` (this repo)
+= the completion. End state: look/behave/work like DHCP now; become fully D7460N
+through the later refinement sessions.
 
 ============================= GROUND TRUTH / CURRENT STATE =========================
-- Branch `claude/lucid-hawking-E5Ej2`. HEAD = the latest commit on the branch —
-  the step-7 handoff PLUS this session's corrections (no-default-`checked` nav,
-  storage-driven selection simplified to persisted-else-first, the `dispatchEvent`
-  decision, the state-persistence principle, and the JSON-sourced-content
-  correction), all on top of `31c7925`. Working tree clean.
-- DONE + verified: steps 1–6.
+- Branch `claude/lucid-hawking-E5Ej2`. HEAD = the latest commit on the branch (the
+  step-7 handoff + this session's corrections), on top of `31c7925`. Tree clean.
+- DONE + verified + COMPLIANT: steps 1–6 (DO NOT replace these with DHCP versions).
   - Step 4 = transport/lifecycle (`config.js`, `env.js`, `api.js` incl. write
     methods, `storage.js`, `oninput.js`).
   - Step 5 = data shaping (`schema.js`, `rules.js`) with node tests (7/7).
@@ -45,142 +55,189 @@ the D7460N Architecture.
     the JSON item KEYS via `toTagName()` with the JSON VALUES injected. EVERYTHING
     rendered into the page is SOURCED FROM THE JSON — the `<h1>` title, the intro
     `<p>`, the column-header labels, the table rows, and (in step 7) the per-record
-    form fields. NOTHING is hardcoded; the code only faithfully renders whatever the
-    JSON returns. Verified live (chromium over http) that this injection works: no
-    console errors, and the `manage` endpoint's CURRENT data rendered its nav
-    titles, its title `<h1>`, its header columns (from the item keys), and its rows.
-    The SPECIFIC values (e.g. the particular header keys, and the row count) come
-    from the live JSON and CHANGE with the data — do NOT treat them as invariants.
-    The only code-level invariant is the `toTagName()` transform.
-  - NO nav radio is `checked` in the HTML by default. On load the runtime reads
-    the persisted endpoint from browser storage (`storage.js`) and CHECKS that nav
-    radio (`input.checked = true`), then DISPATCHES an `input` event on it
-    (`dispatchEvent(new Event('input', { bubbles: true }))`) so the radio's OWN
-    `oninput` fires the lifecycle — never `.click()`/`onclick`; the script never
-    calls the lifecycle itself. First-ever visit (no stored value) falls
-    back to the first nav radio. `:checked` is the single source of truth for both
-    the CSS state machine and the data call. (Verified live: fresh visit → "Manage";
-    storage seeded to `audit` → reload restores "Audit".) IMPORTANT: this storage
-    restore is the STARTER architecture convention (CLAUDE.md "JS Runtime
-    Conventions"), NOT dhcp — dhcp uses NO browser storage and defaults to the
-    first page every visit; autocss follows the starter convention, so it is not
-    new.
-- Step 7 (CRUD forms) was implemented (commits 21bdf93, 2abd648) then FULLY
-  REVERTED via `git reset --hard 31c7925` + force-push, because the attempt
-  improvised features and falsely claimed things were tested. REBUILD IT FRESH.
-- Files that DO NOT currently exist (were reverted): `assets/js/forms.js`,
-  `assets/js/format.js`, `assets/css/forms.css`, `assets/css/fallbacks.css`.
+    form fields. NOTHING is hardcoded. The SPECIFIC values (header keys, row count)
+    come from the live JSON and CHANGE with the data — do NOT treat them as
+    invariants. The only code-level invariant is the `toTagName()` transform.
+  - NO nav radio is `checked` in the HTML by default. On load the runtime reads the
+    persisted endpoint from browser storage (`storage.js`) and SELECTS it, else the
+    FIRST nav radio: `input.checked = true` then `input.dispatchEvent(new
+    Event('input', { bubbles: true }))` so the radio's OWN `oninput` fires the
+    lifecycle. The script never calls the lifecycle itself; never `.click()`. This
+    storage-restore is the STARTER convention, not DHCP (DHCP has no storage and
+    defaults to the first page). `dispatchEvent` here is the SINGLE sanctioned
+    exception (the one programmatic selection with no real user event).
+- Step 7 (a COMPLIANT rewrite) was implemented (commits 21bdf93, 2abd648) then
+  FULLY REVERTED via `git reset --hard 31c7925` + force-push (it improvised features
+  and falsely claimed things were tested). We are now porting AS-IS instead.
+- Files that DO NOT currently exist: `assets/js/forms.js`, `assets/js/format.js`,
+  `assets/css/forms.css`, `assets/css/fallbacks.css`.
 - `assets/js/inject.js` `createListItem` currently builds a row with ONLY the
-  `list-item` radio (the step-7 `row-toggle` checkbox is NOT there yet).
-- The data source is a shared live mockapi (one API base, endpoint suffix varies).
-  Save/Delete write to it — treat writes with care (see Open Question 2).
+  `list-item` radio (the `row-toggle` checkbox is NOT there yet).
+- Data source = a shared live mockapi (one API base, endpoint suffix varies).
+  Save/Delete write to it — treat writes with care (throwaway record / ask).
 
-============================= METHOD — HOW TO WORK (from the spec) ================
-- DEFAULT = KEEP & MODERNIZE. Dropping is a rare exception, never the fall-through.
-- For every feature: identify what it does with ALL its companions (HTML + CSS +
-  JS together; companion tracking mandatory). If you find a MORE MODERN native
-  HTML/CSS way, that is NOT license to change it — STOP and ASK me first, every
-  time, before altering any markup or CSS. If no modern improvement exists, keep
-  it unchanged. Only raise "drop?" after inspecting, and never drop silently.
-- D7460N compliance, non-negotiable:
-  - `oninput` on state-machine `<input>`s is the ONLY bridge to the UI; it is
-    fired by BOTH user action AND programmatically. NEVER use `.onchange`,
-    `.onclick`, `addEventListener`, or dynamic `import()`. `dispatchEvent` is the
-    SINGLE SANCTIONED exception — used ONLY to make a programmatically-selected nav
-    radio fire its OWN `oninput` on initial load/restore (the one place with no
-    real user event): `input.checked = true` + `input.dispatchEvent(new
-    Event('input', { bubbles: true }))`. All real user interactions fire `oninput`
-    natively — no dispatch.
-  - No `data-*`/`class`/`id`. Drive dirty/valid/enabled/visibility purely via CSS
-    `:has(:valid)`, `:has(:invalid)`, `:checked`, `:empty`/`:not(:empty)`,
-    `aria-disabled`.
-  - JSON→elements via `toTagName()` is allowed; NO `innerHTML` for presentation
-    (use `replaceChildren`/`createElement`/`textContent`). JS is CRUD-only,
-    stateless, idempotent. One API base.
-  - No `utils`/`helpers`/`utility` file names — name each module for what it DOES.
-  - Use `@layer`, `@starting-style`, `@view-transition`, cutting-edge CSS
-    (`field-sizing`, `appearance: base-select`, `::picker(select)`, anchor
-    positioning) without regard for browser support.
-- Cadence: file-by-file, feature-by-feature. Test each feature AND run regression
-  as you go. Stop and ask on ANY doubt. Check in before the FIRST push and after
-  each numbered step.
-
-============================= HARD RULES FOR THIS REBUILD (learned the hard way) ==
-1. TEST ONLY VIA THE REAL TRIGGER. Exercise the actual user path (simulate the
-   click on the row/label/button so the real `oninput` fires). NEVER call handler
-   functions directly and call that "tested." NEVER say something is tested,
+============================= CADENCE / HARD RULES (STILL APPLY) ==================
+- File-by-file. Stop and ask on ANY doubt. Check in before the FIRST push and after
+  each numbered step. Commit + update `PROGRESS.json` cursor + the NDJSON shard
+  after each step (append-only; never edit past records).
+1. TEST ONLY VIA THE REAL TRIGGER. Exercise the actual user path (simulate the click
+   on the row/label/button so the real `oninput`/`onchange` fires). NEVER call
+   handler functions directly and call that "tested." NEVER say something is tested,
    wired, or working unless the real path actually ran and you observed the result.
-2. NEVER ASSERT BEHAVIOR FROM READING CODE — observe it in a real browser. (A
-   prior claim that "the form fades in over 500ms" was wrong; the form does not
-   fade.)
-3. NEVER ADD CODE, FILES, OR FEATURES NOT EXPLICITLY REQUESTED (CLAUDE.md). The
-   reverted attempt invented an unsaved-changes overlay — do not re-add it.
-4. VERIFY EVERY DIVERGENCE FROM DHCP AGAINST DHCP before acting. Do not silently
-   "fix" what looks like a dhcp bug; surface it and ASK.
+2. NEVER ASSERT BEHAVIOR FROM READING CODE — observe it in a real browser.
+3. NEVER ADD CODE, FILES, OR FEATURES NOT REQUESTED. Porting as-is means MATCH DHCP;
+   do not "improve," redesign, or invent (the reverted attempt invented a broken
+   unsaved-changes overlay — do not).
+4. MATCH DHCP EXACTLY during the port. If DHCP looks buggy (e.g. the id lookup,
+   fact 2), PORT THE BUG AS-IS and log it in the ledger; do not silently fix.
 5. Test environment recipe (this env kills backgrounded servers): run the static
    file server AND the Playwright chromium test in ONE foreground node process
    (`createServer.listen(127.0.0.1:PORT)` → `chromium.launch` → `goto` → assert/
-   screenshot → `server.close()`), with `ignoreHTTPSErrors: true` (egress MITM
-   cert). Node test files: use the GLOB form `node --test 'tests/*.test.mjs'`.
+   screenshot → `server.close()`), `ignoreHTTPSErrors: true` (egress MITM cert).
+   Node tests: GLOB form `node --test 'tests/*.test.mjs'`.
 
 ============================= DO-NOT-REPEAT (the reverted attempt's mistakes) =====
-- The unsaved-changes OVERLAY was IMPROVISED (not in dhcp) and BROKEN: it used
-  `html:not(:hover) app-container:has(aside form fieldset:not(:empty))::after`.
-  `html:not(:hover)` is TRUE whenever the pointer is not over page CONTENT — over
-  the scrollbar, the browser chrome/address bar, another window, or before the
-  mouse first enters — so it shows "every time the form is open," not only on
-  intentional leave. NEVER use `html:not(:hover)` for mouse-leave detection.
-- Falsely claimed "all wired"/"tested end-to-end" while the real selection path
-  did not exist (the test synthesized `radio.checked=true; radio.oninput()`).
-- Assumed the form fade from reading `transitions.css`.
+- The unsaved-changes OVERLAY was IMPROVISED (not in DHCP) and BROKEN: `html:not(
+  :hover) app-container:has(aside form fieldset:not(:empty))::after`. `html:not(
+  :hover)` is TRUE whenever the pointer is not over page CONTENT (scrollbar, browser
+  chrome, another window, before mouse enters), so it showed "every time the form is
+  open." NEVER use `html:not(:hover)` for mouse-leave. Do not re-add it.
+- Falsely claimed "all wired"/"tested end-to-end" while the real selection path did
+  not exist (the test synthesized `radio.checked=true; radio.oninput()`).
+- Assumed the form fade from reading `transitions.css` (it does not fade).
 - Skipped reading the session handoff at start.
 
-============================= DECISIONS ALREADY MADE (carry forward) ==============
-(A) UNDO/REDO = native per-input browser undo (free) + the Reset button →
-    `restoreForm()` (restore form fields AND the mirrored row to the loaded
-    snapshot). NO custom history stack, NO Ctrl+Z/X JS.
-(B) DIRTY SIGNAL = "pure CSS, record-open proxy." NO dirty state at all (no hidden
-    dirty checkbox, no `data-dirty`). Aside/form visibility = CSS
-    `fieldset:not(:empty)`. Accepted consequence: cannot detect true
-    "changed-from-loaded"; Reset (restores values, record stays open) does NOT
-    close the aside — only Save (reload repopulates) or Close (clears fieldset)
-    closes it.
-(C) Save button gating = `aside form:has(:invalid)` (validity only). Reset/Delete/
-    Close are available whenever a record is open.
-NOTE: (B) means the unsaved-changes GUARD cannot truly know "unsaved" in pure CSS,
-and the `html:not(:hover)` leave-detection was broken anyway → the guard feature
-needs a fresh design decision with me (see Open Question 1). Decisions A/B/C
-themselves stand for the CRUD form.
-(D) STATE PERSISTENCE — GENERAL PRINCIPLE (per user). State always changes through
-    USER input, with the sole exception (so far) of first load (the sanctioned
-    `dispatchEvent` nav selection). `oninput` is independent and decoupled from
-    other processes. INTENT: EVERY state-machine `<input>` (radio OR checkbox)
-    SAVES its boolean state to browser storage (`storage.js`) on its own `oninput`
-    — so these booleans can be controlled/manipulated programmatically "when we
-    need them later." BUT do NOT auto-RESTORE them on load — NOT yet. The ONLY
-    state restored from browser history on load is the NAV radio input (persisted
-    endpoint → checked → dispatch). CURRENT STATE: only the nav selection is wired
-    (save + restore) via `persistSelection`/`getInitialSelection` in `oninput.js`.
-    SAVING the other durable inputs' states (a storage-backed map keyed by each
-    input's name/role, written on each input's own `oninput`) is a step-7+ task —
-    but their auto-restore stays OFF for now. SCOPE NUANCE (Open Question 8):
-    momentary ACTION triggers that check→act→uncheck (Save/Reset/Delete/Close/New)
-    have no meaningful resting state (always unchecked); the meaningful saved
-    states are the DURABLE toggles/selections.
+============================= STEP 7 — PORT DHCP'S CRUD FORMS AS-IS ===============
+Bring DHCP's working CRUD over AS-IS (keep its patterns: `.onchange`, `data-dirty/
+valid`, `innerHTML`, `radio.dispatchEvent`, console debug, the `label > id`
+lookup). Adapt ONLY what's needed to wire DHCP's code into autocss's EXISTING
+compliant modules (different names/contracts). Goal = DHCP parity, nothing dropped.
+- Port DHCP `assets/js/forms.js` → autocss `assets/js/forms.js` AS-IS. Adapt
+  imports: DHCP `postJSON/putJSON/deleteJSON` → autocss `api.js`
+  `postJson/putJson/deleteJson` (NOTE error contract differs, fact 7 — autocss
+  returns null/false instead of throwing; DHCP's try/catch will simply not catch,
+  which is fine for now, log it); DHCP `loadPageContent` → autocss
+  `runOnInputLifecycle`; DHCP `getFieldRules` → autocss `getFieldRules` (add it,
+  below); DHCP `denormalizeRecord` → autocss `schema.js`; DHCP inject fns → autocss
+  `inject.js`.
+- Port DHCP's form-related `inject.js` functions AS-IS into autocss `inject.js`:
+  `createInputFromKey`, `mirrorToSelectedRow`, `injectRowField`, `injectRowValues`,
+  `updateHeaderRow`; AND restore the TWO-input row in `createListItem` — the
+  `row-toggle` checkbox + `handleRowToggle` WITH DHCP's `radio.dispatchEvent(new
+  Event('input'))` AS-IS (the row-toggle→radio dispatch; fixing this to a direct
+  call is a ledger item). Per Open-Q4/fact: the form's field SET + labels follow
+  the table COLUMNS — keys+values read from the SELECTED ROW's cells, types/options
+  from `getFieldRules()` (inferred over the data). Port this exactly; revisit later.
+- Port DHCP's form helpers AS-IS (DHCP `utils.js`: `snapshotForm`,
+  `hasUnsavedChanges`, `restoreFormFields`, `isFormValid`, `formatDateForInput`,
+  `removeInlineStyles`, `clearFieldset`). Keep the `utils` shape for now; splitting
+  into concern-named modules is a ledger item.
+- Bring DHCP `loaders.js` RULES_CACHE/`getFieldRules` over (compute
+  `inferFieldRules(items)` per endpoint, cached) and wire it into autocss's
+  lifecycle so the form generator can type its inputs.
+- Port DHCP CSS AS-IS: `assets/css/forms.css`, `fallbacks.css`, `loading.css`;
+  `<link>` them in `index.html`. (Token/oklch reconcile + de-`data-*` = ledger.)
+- Wire `forms.js` into the app so its handlers register (DOM is ready: script at end
+  of `<body>`). The `<aside>` markup already exists (`<form><fieldset></fieldset>
+  <p aria-live="polite"></p>` + Close/Delete/Reset/Save role=button labels with
+  checkboxes; `<h2 aria-live="polite">DETAILS</h2>`).
+GOAL/verify (REAL trigger, chromium-over-http): click a row → form loads; edit →
+mirrors to the row; New/Save/Reset/Delete/Close all behave like DHCP. Save/Delete
+hit the shared mockapi — use a throwaway record or ask. Run regression on steps 1–6.
+
+============================= STEP 8 — DATASETS + REGRESSION (after parity) =======
+Exercise ALL 12 nav endpoints (manage, faqs, api-registration, audit, option-set,
+option-types, scope-type, server-types, servers, credentials, variables, settings):
+confirm each loads + its form renders like DHCP; full behavioral + regression pass
+(node tests + chromium). This completes DHCP PARITY.
+
+============================= FUTURE SESSIONS — each its OWN session + handoff =====
+Do these AFTER parity, ONE focused piece per session. Each session: read
+`PROGRESS.json` + the newest shard + this handoff; do the ONE piece; test via the
+REAL trigger; update the memory shard + this handoff; commit. This keeps accurate
+cross-session memory and avoids drift.
+1. PWA — add `sw.js` (precache + offline SPA fallback, asset list = autocss's real
+   files) and confirm/repair `manifest.webmanifest`. (ANALYSIS §4 / Q4.) Own session.
+2. Forms D7460N compliance — work the COMPLIANCE-DEBT LEDGER below; likely several
+   focused sessions (triggers; dirty/valid→CSS; innerHTML→replaceChildren;
+   row-toggle dispatch→direct; id-lookup; error display; spinner; naming/utils split).
+3. Unsaved-changes GUARD — a NEW feature (Popover API, "not a modal but the other
+   thing"), DHCP has NONE. Own session. Do NOT add during the port.
+4. State-persistence generalization (decision D) — own session.
+5. color-scheme + any remaining cross-cutting items.
+
+============================= D7460N COMPLIANCE-DEBT LEDGER (fix in future sessions)
+What we KNOWINGLY port as-is / defer, plus the decisions already taken this session
+for HOW to fix each later:
+- Form triggers: DHCP `.onchange` ×5 → `.oninput` (check → act → uncheck self).
+- Dirty/valid: DHCP `form.dataset.dirty/valid` + `updateButtonStates` → pure CSS.
+  DECISION (B): "no dirty state / record-open proxy" (aside visibility =
+  `fieldset:not(:empty)`; Save gated `aside form:has(:invalid)`); tension noted
+  (can't detect true "changed"; Reset keeps record open). Revisit when doing this.
+- Undo/Reset: DECISION (A) = native per-input undo + Reset → `restoreForm` (restore
+  fields + mirrored row); NO custom history stack, NO Ctrl+Z/X JS.
+- `innerHTML` (`clearFieldset`, `headerLi.innerHTML=''`) → `replaceChildren`.
+- Row-toggle: DHCP `radio.dispatchEvent(new Event('input'))` → DIRECT
+  `rowSelectHandler()` call (the toggle's own real `oninput` already fires).
+  NOTE: `dispatchEvent` is sanctioned ONLY for the single initial-load nav selection
+  (CLAUDE.md "JS Runtime Conventions"); the row-toggle should NOT use it.
+- id-lookup: DHCP `querySelector('label > id')` never matches the real `<id->` cell
+  → SAVE always POSTs / DELETE-by-id never fires (fact 2). DECISION needed (was
+  Q2): keep faithful (always POST) vs fix to `label > id-` (PUT/DELETE by id).
+- Error display: DHCP writes the main article intro `<p>` (fact 8) — decide vs the
+  form's `aria-live <p>` (was Q5).
+- Loading spinner: reconcile DHCP `:checked`-driven dual-ring vs autocss's single
+  `:root:has(article h1:empty)::before` — keep ONE (was Q6).
+- `createInputFromKey` QUIRK: new-item EMPTY fields get `required=false`
+  (unvalidated) — faithful to DHCP; revisit.
+- `rules.js`: dead `number`-type branch (values are stringified) — faithful to DHCP.
+- Naming: DHCP `utils.js` → split into concern-named modules (NO `utils`/`helpers`).
+- CSS: forms.css token/oklch reconcile, de-`data-*` gating, fix DHCP css bugs
+  (malformed `rgba(var(--error-color).05)`, self-ref `--valid-border-color`,
+  `.error` class); fallbacks.css drop the obsolete `nav details section:empty`.
+- State persistence (decision D): every state-machine input SAVES its boolean to
+  storage on its own `oninput`; auto-RESTORE is NAV-ONLY for now; generalize later
+  (which inputs + storage shape still open). `oninput` is independent/decoupled;
+  there is NO orchestrated load/restore order.
+- color-scheme: dark (DHCP fidelity) vs Rule 19 `light dark` auto-follow-OS.
+- Principles to preserve through refinement: all page content is JSON-sourced (no
+  hardcoding); `:checked` is the single source of truth for CSS state + the data
+  call; `humanize()` derives header/label text identically.
+
+============================= DECISIONS ALREADY MADE (for the refinement sessions) =
+(A) UNDO/REDO = native per-input browser undo + Reset → `restoreForm`. No history
+    stack, no Ctrl+Z/X JS.
+(B) DIRTY SIGNAL = "pure CSS, record-open proxy." No dirty state, no `data-dirty`;
+    aside visibility = `fieldset:not(:empty)`; Save gated `:has(:invalid)`. Reset
+    (restores values, record stays open) does NOT close the aside — only Save
+    (reload repopulates) or Close (clears fieldset) closes it.
+(C) Save gating = `aside form:has(:invalid)` (validity only). Reset/Delete/Close
+    available whenever a record is open.
+(D) STATE PERSISTENCE — GENERAL PRINCIPLE. State always changes through USER input,
+    sole exception (so far) = first load (the sanctioned `dispatchEvent` nav
+    selection); `oninput` is independent and decoupled. INTENT: EVERY state-machine
+    `<input>` (radio OR checkbox) SAVES its boolean state to storage on its own
+    `oninput`, so those booleans can be controlled/manipulated "when we need them
+    later." BUT do NOT auto-RESTORE them on load — NOT yet. The ONLY state restored
+    from history on load is the NAV radio. Generalizing the SAVE (durable inputs)
+    is a future task; auto-restore of others stays OFF. Momentary ACTION triggers
+    (Save/Reset/Delete/Close/New, check→act→uncheck) have no meaningful resting
+    state; the meaningful saved states are the DURABLE toggles/selections.
 
 ============================= VERIFIED DHCP REFERENCE FACTS (do NOT re-derive) ====
+(These tell you exactly what the as-is port will do and what each compliance fix
+targets.)
 1. `toTagName(key)` is the JSON-key→custom-element-tag transform (camel/underscore
-   → hyphen; a single-word key gets a TRAILING hyphen, so `id` → `id-`). The header
+   → hyphen; a single-word key gets a TRAILING hyphen, so `id` → `id-`). Header
    cells and row cells ARE these tags, derived from whatever KEYS the JSON items
    have — the tag SET is DATA-SOURCED, not fixed (the `manage` data currently yields
-   `id- name- created- updated- author- modified- type-`, but that follows the
-   JSON). The invariant is the transform; `toTagName('id')='id-'` is the piece that
-   matters for fact 2.
-2. dhcp `forms.js` looks up the row id via `querySelector('label > id')` (looks
-   for `<id>`), which NEVER matches the real `<id->` cell → id is always
-   undefined → dhcp SAVE ALWAYS POSTs (never PUT); dhcp DELETE-by-id never fires
-   (only the no-id DOM-remove branch works). This is dhcp's ACTUAL behavior (a
-   latent bug). Do NOT silently fix — see Open Question 2.
+   `id- name- created- updated- author- modified- type-`, but that follows the JSON).
+   The invariant is the transform; `toTagName('id')='id-'` matters for fact 2.
+2. dhcp `forms.js` looks up the row id via `querySelector('label > id')` (looks for
+   `<id>`), which NEVER matches the real `<id->` cell → id is always undefined →
+   dhcp SAVE ALWAYS POSTs (never PUT); dhcp DELETE-by-id never fires (only the no-id
+   DOM-remove branch works). dhcp's ACTUAL behavior (a latent bug). Port as-is; fix
+   later (ledger).
 3. dhcp has NO unsaved overlay / popover / `<dialog>` / mouse-leave / beforeunload
    anywhere (grep-verified). The guard is a NEW feature; only vestiges exist
    (`utils.unsavedCheck` defined-never-called, `config.CONFIRM_FLAGS` unused,
@@ -188,34 +245,32 @@ themselves stand for the CRUD form.
 4. dhcp FORM-LABEL text === COLUMN-HEADER text === `humanize(key)` =
    `toTagName(key).replace(/^item-/,'').replace(/-/g,' ').titleCase`. Header built
    in `injectPageContent`; form labels in the row→form builder as `humanize(key)+': '`.
-   New-item rebuilds the header via `updateHeaderRow(li)`. The autocss `humanize()`
-   is byte-identical to dhcp's derivation.
+   New-item rebuilds the header via `updateHeaderRow(li)`. autocss `humanize()` is
+   byte-identical. The form's field SET follows the table COLUMNS; keys+values come
+   from the SELECTED ROW's cells, types/options from `getFieldRules()`
+   (`inferFieldRules` over the data). Port as-is; revisit the coupling later.
 5. dhcp `createListItem` = TWO hidden inputs per row sharing one `<label>`: FIRST a
-   checkbox `name="row-toggle"` (`oninput = handleRowToggle`) — it is the label's
-   click target, and a checkbox UNTOGGLES on re-click, which is what lets a second
-   click DESELECT the row; SECOND a radio `name="list-item"` (single-selection +
-   `:checked` styling + the form-load query). `handleRowToggle`: if now checked,
-   uncheck all OTHER `row-toggle` checkboxes (single-select); set
-   `radio.checked = checkbox.checked`; then drive the row-select. MECHANISM:
-   dhcp does `radio.dispatchEvent(new Event('input'))` to fire the radio's oninput;
-   but `handleRowToggle` ALREADY runs from a REAL user event (the toggle
-   checkbox's own `oninput`), so it can do the row-select DIRECTLY (a direct
-   `rowSelectHandler()` call). Keep `dispatchEvent` to the SINGLE initial-load
-   exception; the row-toggle needs no dispatch. Re-clicking the selected row →
-   checkbox unchecks →
-   `radio.checked=false` → handler finds no `:checked` row → fieldset cleared →
-   aside closes via `fieldset:not(:empty)`.
-6. dhcp triggers New/Save/Reset/Delete/Close via `<checkbox>.onchange` ×5 —
-   FORBIDDEN → use `.oninput` (check → act → uncheck self).
-7. API ERROR CONTRACT DIFFERS. dhcp `fetch.js` `putJSON`/`postJSON` THROW on
-   failure (dhcp uses try/catch). autocss `api.js` `writeData` (`postJson`/
-   `putJson`) RETURNS `null` on failure (no throw) and returns `parseJson(response)`
-   on success; `deleteJson` returns `true`/`false`. So autocss must CHECK RETURN
-   VALUES, not try/catch. CAUTION: a successful write with an empty/unparseable
-   body → `parseJson` returns `null` → could be misread as failure; verify before
-   treating `result === null` as an error.
-8. dhcp error display: sets the main article intro `<p>`.textContent to
-   "⚠️ Error saving/deleting record." + `console.error`.
+   checkbox `name="row-toggle"` (`oninput = handleRowToggle`) — the label's click
+   target; a checkbox UNTOGGLES on re-click = lets a second click DESELECT the row;
+   SECOND a radio `name="list-item"` (single-selection + `:checked` styling + the
+   form-load query). `handleRowToggle`: if now checked, uncheck all OTHER
+   `row-toggle` checkboxes; set `radio.checked = checkbox.checked`; then dhcp does
+   `radio.dispatchEvent(new Event('input'))` to fire the radio's oninput. PORT THIS
+   AS-IS (the dispatch); the compliance fix (→ direct `rowSelectHandler()` call) is
+   a ledger item. Re-clicking the selected row → checkbox unchecks → `radio.checked=
+   false` → handler finds no `:checked` row → fieldset cleared → aside closes via
+   `fieldset:not(:empty)`.
+6. dhcp triggers New/Save/Reset/Delete/Close via `<checkbox>.onchange` ×5. Port
+   as-is; → `.oninput` is a ledger item.
+7. API ERROR CONTRACT DIFFERS. dhcp `fetch.js` `putJSON`/`postJSON` THROW on failure
+   (try/catch). autocss `api.js` `writeData` RETURNS `null` on failure (no throw),
+   `parseJson(response)` on success; `deleteJson` returns `true`/`false`. When you
+   wire DHCP forms.js to autocss api.js, DHCP's try/catch simply won't catch (calls
+   resolve to null/false) — acceptable for the port; note for the compliance pass.
+   CAUTION: a successful write with empty/unparseable body → `parseJson` null →
+   could read as failure.
+8. dhcp error display: sets the main article intro `<p>`.textContent to "⚠️ Error
+   saving/deleting record." + `console.error`.
 9. dhcp Delete of a NEW (no-id) item also clears the header row
    (`headerUl.querySelector('li').innerHTML=''`).
 10. dhcp `createInputFromKey` typing: select (required, blank "Select..." option +
@@ -224,124 +279,14 @@ themselves stand for the CRUD form.
     read-only heuristics: `key==='id'` OR 36-char uuid → readOnly + aria-disabled;
     ISO-Z date → datetime-local readOnly; key matches author|modified|created|
     updated → readOnly text; else text, `required = (val !== '')`, `pattern='.+'`.
-    QUIRK: new-item EMPTY fields get `required=false` (unvalidated) — faithful to
-    dhcp but flag it.
+    QUIRK: new-item EMPTY fields get `required=false` (unvalidated).
 
-============================= OPEN QUESTIONS — RESOLVE WITH ME BEFORE BUILDING ====
-1. UNSAVED-CHANGES GUARD (a stated requirement; original intent = Popover API,
-   "not a modal but the other thing new to HTML," popping on mouse-LEAVE-VIEWPORT
-   when there are unsaved changes). BLOCKED by: decision B (no dirty state → pure
-   CSS cannot know "truly changed") AND the fact that `html:not(:hover)`
-   leave-detection is broken. Needs a real design decision: drop for now / Popover
-   API + a minimal JS leave+dirty detection / something else. ASK before building;
-   do NOT re-add the broken overlay.
-2. SAVE/DELETE id BEHAVIOR: dhcp always POSTs and never deletes-by-id (verified
-   bug, fact 2). Keep faithful to dhcp (always POST) OR correct it so Save PUTs an
-   existing record and Delete DELETEs by the real `<id->` cell? ASK.
-3. "Form elements appear DELAYED" (user-reported, NOT yet diagnosed; it is NOT a
-   fade — the form does not fade). Reproduce in a real browser and ASK what
-   exactly is observed before changing anything.
-4. RESOLVED (per user): the FORM is derived from the table's COLUMNS. The field
-   SET + labels follow the column keys (header text === row cell tags === form
-   label === `humanize(key)`). Mechanically DHCP reads those keys+values from the
-   SELECTED ROW's cells (`updateFormFromSelectedRow` → `selectedRow.querySelectorAll(
-   'label > *:not(input)')`), and each field's TYPE/tabindex/readonly/select-OPTIONS
-   come from `getFieldRules()` = `inferFieldRules(items)` (inferred over the DATA,
-   cached per endpoint) — NOT from the header element, which DHCP only rebuilds on
-   new-item (`updateHeaderRow`) and clears on delete. (The table header is the FIRST
-   of the two back-to-back `<ul>`s in `main/article`.) The user notes this
-   column/row/rules coupling HAS TO CHANGE eventually; for step 7, PORT DHCP's
-   working code FAITHFULLY to make it work, DOCUMENT it, and REVISIT later — do NOT
-   redesign it now.
-5. Error display: match dhcp (main intro `<p>`) or use the form's `aria-live <p>`?
-6. Loading spinner: keep the existing single spinner in `layout.css`
-   (`:root:has(article h1:empty)::before`) or adopt dhcp's `:checked`-driven
-   dual-ring? Keep ONE.
-7. Still pending from earlier: PWA `manifest.webmanifest` + `sw.js` (ANALYSIS Q4);
-   `themes.css` color-scheme default = dark (dhcp fidelity) vs Rule 19 "light dark"
-   auto-follow-OS (a 1-line flip, unconfirmed); confirm the API base = the dhcp
-   mockapi is the intended data source.
-8. STATE PERSISTENCE SCOPE (decision D). DECIDED per user: auto-RESTORE on load is
-   NAV-ONLY — every other input is SAVED but NOT auto-restored (not yet). Still to
-   confirm before building: (a) which inputs SAVE their state (durable state
-   machines: selected row, open `<details>`/panels, theme + layout toggles; plus
-   how to treat momentary action triggers Save/Reset/Delete/Close/New that reset to
-   unchecked); (b) the storage key/shape (one state object keyed by each input's
-   name/role under the existing `autocss.app.v1` record). (c) is SETTLED — there is
-   NO orchestrated load/restore order: `oninput` is ONLY ever triggered by the
-   state-machine inputs themselves (independent/decoupled); the sole automated
-   startup action is read-storage + check the nav radio + dispatch `input` on it (a
-   programmatic `.checked` does not auto-dispatch `oninput`, so dispatchEvent is the
-   single sanctioned exception); all other inputs fire on the user's real
-   selection; data-driven visibility (`display:none` until `:has()`/`:not(:empty)`)
-   sequences everything naturally, one at a time.
-
-============================= STEP 7 — BUILD PLAN (after the questions above) =====
-CREATE:
-(a) `assets/js/forms.js` — the CRUD form lifecycle:
-    - `clearAsidePanel()` — uncheck the selected row's `row-toggle` + `list-item`,
-      clear the fieldset (`replaceChildren`), remove inline styles on `<main>`,
-      re-snapshot.
-    - snapshot/restore for Reset (store the loaded values so Reset can restore the
-      form fields AND the mirrored row).
-    - `buildFormFromRow()` (row cells → labelled typed fields via
-      `createInputFromKey(key, value, getFieldRules())`; each `input.oninput =
-      mirrorToSelectedRow`); register it via `setRowSelectHandler`. This is the
-      DHCP column/row/rules derivation (Open Question 4) — PORT IT FAITHFULLY for
-      now and flag it to revisit later; do NOT redesign it.
-    - New / Save / Reset / Delete / Close — each via `<checkbox>.oninput`
-      (check → act → uncheck self). Save: gather non-readOnly fields →
-      `denormalizeRecord(endpoint, data)` → `putJson(id)`/`postJson` (per the id
-      decision) → reload via the oninput lifecycle → re-snapshot. Delete:
-      `deleteJson(id)` or DOM-remove for a new (no-id) row.
-    - NO dirty state, NO `data-*`, NO `form.oninput` button-state writer (decision B).
-(b) a date module NAMED FOR ITS FUNCTION (e.g. `assets/js/format.js`) holding
-    `formatDateForInput` — NOT a "utils" file.
-(c) `assets/css/forms.css` — port dhcp's styling; reconcile color tokens to the
-    autocss oklch set (`--input-bg`, `--input-border`, `--button-bg`(+hover),
-    `--success`, `--error-soft`, `--error-strong`); KEEP cutting-edge
-    `field-sizing: content`, `appearance: base-select`, `::picker(select)`,
-    `option::checkmark`, `::picker-icon`; `:valid`/`:invalid` border-inline-start;
-    gate Save with `aside form:has(:invalid)`; FIX dhcp's CSS bugs (malformed
-    `rgba(var(--error-color).05)`, self-referential `--valid-border-color`, the
-    `.error` class, and `[data-dirty]` gating — all forbidden).
-(d) `assets/css/fallbacks.css` — `:empty`/`:has` empty-state messages; DROP the
-    obsolete `nav details section:empty` fallback (the nav is static, never empty).
-MODIFY:
-(e) `assets/js/inject.js` — ADD `createInputFromKey`, `mirrorToSelectedRow`,
-    `injectRowField`, `injectRowValues`, `updateHeaderRow`; EXPORT `humanize`; AND
-    add the `row-toggle` checkbox + `handleRowToggle` to `createListItem` (this
-    REVERSES the step-6 single-radio simplification — step 6 used one radio; step 7
-    needs the two-input row so a re-click DESELECTS and closes the aside).
-    `handleRowToggle` runs from the toggle checkbox's OWN real `oninput`, so it
-    drives the row-select with a DIRECT `rowSelectHandler()` call — keeping
-    `dispatchEvent` reserved for the single initial-load exception.
-(f) `assets/js/oninput.js` — compute `inferFieldRules(record.items)` per endpoint
-    (cache by endpoint) and export `getFieldRules()` so the form generator can type
-    its inputs.
-(g) `assets/js/app.js` — `import './forms.js'` (side-effect) so the form handlers
-    register (DOM is ready: the script is at the end of `<body>`).
-(h) `index.html` — `<link>` `forms.css` and `fallbacks.css`. The `<aside>` markup
-    already exists: `<form><fieldset></fieldset><p aria-live="polite"></p>` +
-    Close/Delete/Reset/Save `role="button"` labels with checkboxes, and
-    `<h2 aria-live="polite">DETAILS</h2>`.
-VERIFY every piece via the REAL trigger in chromium-over-http (one node process,
-`ignoreHTTPSErrors`). For Save/Delete, avoid polluting the shared mockapi (use a
-throwaway record, or ask first). Run regression on steps 1–6 after step 7.
-
-============================= STEP 8 + REMAINING =================================
-- Step 8: exercise ALL 12 nav endpoints (manage, faqs, api-registration, audit,
-  option-set, option-types, scope-type, server-types, servers, credentials,
-  variables, settings) — verify each loads and its form renders; full behavioral +
-  regression pass (node tests + chromium).
-- PWA: add `sw.js` (precache, offline SPA fallback) with an asset list matching
-  autocss's actual files, and confirm/repair `manifest.webmanifest` (ANALYSIS §4,
-  Q4). CLAUDE.md mandates PWA.
-- `themes.css` color-scheme decision (Open Q7).
-- Confirm the API base is the intended data source (Open Q7).
-- Keep `PROGRESS.json` cursor + the NDJSON shard updated after each step (append
-  only; never edit past records). Commit + push to
-  `claude/lucid-hawking-E5Ej2` after each numbered step (check in with me first).
+============================= REMAINING CROSS-CUTTING =============================
+- Confirm the API base = the DHCP mockapi is the intended data source (steps 4–6
+  already use it and work, so effectively confirmed; flag if you change endpoints).
+- "Form elements appear DELAYED" was a user report during the REVERTED rewrite — it
+  is NOT a fade. After the as-is port, observe whether it reproduces; if DHCP does
+  not have it, the port won't. Do not chase it speculatively.
 
 ============================= DEFAULTS ==========================================
 - Branch: `claude/lucid-hawking-E5Ej2` (push there, not `main`).
