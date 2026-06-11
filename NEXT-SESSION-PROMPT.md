@@ -90,12 +90,13 @@ B if the user wants the data model itself reworked (Open Question A/C).
 - Idempotent/stateless JS, no global mutable state, `document.querySelector` for
   targeting, no event listeners. `oninput` is the single bridge; `dispatchEvent` is
   sanctioned ONLY for the initial-load nav selection.
-- See Open Question A: decide UP FRONT whether this fix also converts the touched
-  code to D7460N compliance (onchange→oninput, drop `data-dirty/valid`,
-  innerHTML→replaceChildren) or stays minimal/functional and leaves those as
-  separate ledger sessions. Default per CLAUDE.md is compliant; but the backlog
-  lists forms-compliance as a SEPARATE session (#3), so the likely scope here is
-  FUNCTIONAL-ONLY with minimal surface change. CONFIRM with the user before coding.
+- This fix deliberately leaves the compliance-vs-functional scope OPEN (Open
+  Question A): do NOT assume a default — ASK the user at the start of the session
+  whether this fix also converts the touched code to D7460N compliance
+  (onchange→oninput, drop `data-dirty/valid` → CSS `:has(:invalid)`,
+  innerHTML→replaceChildren) or stays minimal/functional with compliance left to the
+  separate forms-compliance session(s) (#3). Both are defensible; it is the user's
+  call. Wait for the answer before coding.
 
 ============================= ALSO IN THIS SESSION =================================
 Finish the shared-mockapi residue cleanup (started for `manage` only). Residue
@@ -146,11 +147,13 @@ mass-deleting beyond the obvious Save-residue ({itemName/itemType, no items/titl
   records or seed data without explicit confirmation.
 
 ============================= OPEN QUESTIONS (resolve BEFORE coding) ===============
-A. SCOPE/COMPLIANCE: Should this session ALSO make the touched Save/Delete code
-   D7460N-compliant (onchange→oninput check→act→uncheck; remove `form.dataset.
-   dirty/valid` → CSS `:has(:invalid)`; innerHTML→replaceChildren), or stay
-   FUNCTIONAL-ONLY (minimal change to fix persistence) and leave compliance to the
-   separate forms-compliance session(s)? (Backlog currently separates them.)
+A. SCOPE/COMPLIANCE (left OPEN on purpose — ASK the user, no default assumed):
+   Should this session ALSO make the touched Save/Delete code D7460N-compliant
+   (onchange→oninput check→act→uncheck; remove `form.dataset.dirty/valid` → CSS
+   `:has(:invalid)`; innerHTML→replaceChildren), or stay FUNCTIONAL-ONLY (minimal
+   change to fix persistence) and leave compliance to the separate forms-compliance
+   session(s)? Both are defensible (the backlog currently separates them); it is the
+   user's call. Do NOT pick a default — ask first and wait.
 B. RESOURCE ID: Confirm what `raw[0].id` actually is for each endpoint (the legit
    `manage` record printed an `undefined` top-level id during investigation). If the
    read-anchor resource has no stable id, OPTION A's `PUT {endpoint}/{resourceId}`
