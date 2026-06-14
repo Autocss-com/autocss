@@ -63,29 +63,45 @@ names with palette values via `light-dark()`. Use `@layer` so themes override.
 - Pick the most appropriate system color per token and DOCUMENT each choice inline.
 - Apply the foundation so a bare drop-in is visible: `:root`/`body` get
   `background-color: var(--bg)` + `color: var(--fg)`; set `accent-color`, link
-  colors, `::selection`, and the `:focus-visible` outline (see "Focus / keyboard
-  navigation" below) from the contract.
+  colors, `::selection`, and the label-level `:focus-visible` indicator (see "Focus /
+  keyboard navigation" below) from the contract.
 - These names are chosen to map cleanly onto Tailwind/Bootstrap purposes later.
 - NOTE the Part-2 ambition: ultimately ALL of fg/bg/accent/emphasis/muted/disabled
   derive from ONE hex (the theme file name) via hue + alpha (+ future filter/
   transform for "glass"/"isometric"). Keep the contract small + derivable.
 
-## Focus / keyboard-navigation outline (accessibility — WCAG 2.4.7 & 2.4.11)
-- Provide a VISIBLE keyboard-focus indicator using `:focus-visible` (keyboard-only —
-  do NOT paint the ring on mouse `:focus`). NEVER `outline: none` without an equal-or-
+## Focus / keyboard-navigation indicator (accessibility — WCAG 2.4.7 & 2.4.11)
+ARCHITECTURE-SPECIFIC: the state-machine `<input>`s stay VISUALLY HIDDEN but remain
+KEYBOARD-FOCUSABLE; the focus indicator appears on the associated `<label>`, NEVER on
+the input. It must also be a TRANSFORMABLE, ANIMATABLE layer — future sessions will
+shape it into "tech-corner" brackets, blink it in via intro animation, transition it
+from one focused label to the next as the user tabs, and transform it with isometric
+3D and other effects. So do NOT use `outline` as the primary mechanism (an `outline`
+cannot be cornered, animated, or transformed with the element). Part 1 builds only the
+COLOR token + the correct, future-proof HOOK; the decorative styling is a later session.
+- Keep the inputs visually hidden but FOCUSABLE — do NOT use `display:none` or
+  `visibility:hidden` (both remove them from the tab order). Drive the indicator from
+  the LABEL via `:has()`, e.g. `label:has(> input:focus-visible)` (keyboard-only — no
+  indicator on mouse `:focus`). NEVER remove focus visibility without an equal-or-
   better replacement.
-- The outline COLOR matches the ACCENT hue: use `--outline` (defaults to `AccentColor`,
-  same family as `--fg-accent`) so the focus ring tracks the theme accent in every
-  scheme. In Part 2 it derives from the SAME single theme hex as the accent.
-- Apply globally from the contract, e.g.
-  `:focus-visible { outline: 2px solid var(--outline); outline-offset: 2px; }`.
-  Use `outline-offset` so the ring is not clipped, and ensure it has sufficient
-  contrast against both `--bg` and `--bg-accent`. Keep the ring on the state-machine
-  `<label>`s/radios (global nav AND the Light/Dark/System control) so the entire
-  keyboard path is visibly traversable — these radios are `aria-hidden`/visually
-  custom, so the FOCUS indicator must live on the focusable element.
-- forced-colors: let the ring fall back to a system color (`Highlight`/`CanvasText`);
-  do NOT hard-code it away — the outline MUST survive forced-colors mode.
+- COLOR matches the ACCENT hue: use `--outline` (defaults to `AccentColor`, same family
+  as `--fg-accent`) so the indicator tracks the theme accent in every scheme. In Part 2
+  it derives from the SAME single theme hex as the accent.
+- Make the indicator a STYLABLE, TRANSFORMABLE layer on the label — a pseudo-element
+  (`::before`/`::after`) or equivalent painted from `--outline`, NOT an `outline`
+  property — so later sessions can reshape it into tech-corner brackets, animate it
+  (blink/intro), transition it as focus moves label→label, and transform it (isometric
+  3D, etc.). Give it offset/spacing via the layer; ensure contrast against both `--bg`
+  and `--bg-accent`. Apply on BOTH global-nav labels AND the Light/Dark/System control
+  labels so the entire keyboard path is visibly traversable.
+- forced-colors: decorative pseudo-element/box-shadow styling is STRIPPED in forced-
+  colors mode, so provide a REAL `outline` fallback there (system `Highlight`/
+  `CanvasText`) under `@media (forced-colors: active)` — the focus indicator MUST
+  survive forced-colors. This is the ONE place `outline` is the right tool.
+- Part 1 scope = the `--outline` color + the `label:has(:focus-visible)` hook + the
+  forced-colors `outline` fallback. The tech-corners / intro-blink / tab-to-tab
+  transition / isometric-transform styling is a FUTURE session (Part 3 / effects) —
+  just do not block it here.
 
 ## System preference detection (ALL FOUR)
 - `prefers-color-scheme` — covered by `color-scheme: light dark` + system colors;
@@ -176,9 +192,12 @@ are ABSOLUTE, so there is NO `matchMedia` and NO compare logic.
   more|less`, `forced-colors: active`, `prefers-reduced-transparency: reduce`; assert
   computed `background-color`/`color` adapt. Verify NO FOUC at first paint.
 - FOCUS / keyboard nav: TAB through global nav, the Light/Dark/System control, and
-  form controls — every focus stop shows an accent-hued `:focus-visible` ring (no ring
-  on mouse click), the ring survives forced-colors, and the outline color tracks the
-  accent in light, dark, and (Part 2) themed palettes.
+  form controls — every focus stop shows the accent-hued indicator ON THE LABEL (the
+  input stays hidden; no indicator on mouse click), driven by
+  `label:has(> input:focus-visible)`; the indicator survives forced-colors (real
+  `outline` fallback), and its color tracks the accent in light, dark, and (Part 2)
+  themed palettes. Confirm the indicator is a transformable layer (pseudo-element),
+  not an `outline`, so future tech-corner/animation/3D work can build on it.
 - Regression: the autocss app still renders at visual parity in light & dark; node
   tests (`node --test 'tests/*.test.mjs'`) + the step-7/8 suites still pass.
 
