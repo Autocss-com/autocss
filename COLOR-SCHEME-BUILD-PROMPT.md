@@ -71,37 +71,59 @@ names with palette values via `light-dark()`. Use `@layer` so themes override.
   transform for "glass"/"isometric"). Keep the contract small + derivable.
 
 ## Focus / keyboard-navigation indicator (accessibility — WCAG 2.4.7 & 2.4.11)
-ARCHITECTURE-SPECIFIC: the state-machine `<input>`s stay VISUALLY HIDDEN but remain
-KEYBOARD-FOCUSABLE; the focus indicator appears on the associated `<label>`, NEVER on
-the input. It must also be a TRANSFORMABLE, ANIMATABLE layer — future sessions will
-shape it into "tech-corner" brackets, blink it in via intro animation, transition it
-from one focused label to the next as the user tabs, and transform it with isometric
-3D and other effects. So do NOT use `outline` as the primary mechanism (an `outline`
-cannot be cornered, animated, or transformed with the element). Part 1 builds only the
-COLOR token + the correct, future-proof HOOK; the decorative styling is a later session.
+ARCHITECTURE-SPECIFIC (MDN-verified): a `<label>` is NOT in the tab order — implicit
+association (input nested in label) needs no `id`/`for`, but KEYBOARD FOCUS LANDS ON
+THE INPUT, not the label. So the state-machine `<input>`s stay VISUALLY HIDDEN yet
+KEYBOARD-FOCUSABLE, and the indicator is painted on the LABEL, which reacts to its
+input's focus state via `:has()`. Making the label itself focusable would need
+`tabindex` + JS activation and would break the `:checked`/radio single-source-of-truth
+— do NOT.
 - Keep the inputs visually hidden but FOCUSABLE — do NOT use `display:none` or
-  `visibility:hidden` (both remove them from the tab order). Drive the indicator from
-  the LABEL via `:has()`, e.g. `label:has(> input:focus-visible)` (keyboard-only — no
-  indicator on mouse `:focus`). NEVER remove focus visibility without an equal-or-
-  better replacement.
+  `visibility:hidden` (both drop them from the tab order). Drive the indicator from the
+  LABEL: `label:has(> input:focus-visible)` (keyboard-only — nothing on mouse
+  `:focus`). NEVER remove focus visibility without an equal-or-better replacement.
 - COLOR matches the ACCENT hue: use `--outline` (defaults to `AccentColor`, same family
   as `--fg-accent`) so the indicator tracks the theme accent in every scheme. In Part 2
   it derives from the SAME single theme hex as the accent.
-- Make the indicator a STYLABLE, TRANSFORMABLE layer on the label — a pseudo-element
-  (`::before`/`::after`) or equivalent painted from `--outline`, NOT an `outline`
-  property — so later sessions can reshape it into tech-corner brackets, animate it
-  (blink/intro), transition it as focus moves label→label, and transform it (isometric
-  3D, etc.). Give it offset/spacing via the layer; ensure contrast against both `--bg`
-  and `--bg-accent`. Apply on BOTH global-nav labels AND the Light/Dark/System control
-  labels so the entire keyboard path is visibly traversable.
-- forced-colors: decorative pseudo-element/box-shadow styling is STRIPPED in forced-
-  colors mode, so provide a REAL `outline` fallback there (system `Highlight`/
-  `CanvasText`) under `@media (forced-colors: active)` — the focus indicator MUST
-  survive forced-colors. This is the ONE place `outline` is the right tool.
-- Part 1 scope = the `--outline` color + the `label:has(:focus-visible)` hook + the
-  forced-colors `outline` fallback. The tech-corners / intro-blink / tab-to-tab
-  transition / isometric-transform styling is a FUTURE session (Part 3 / effects) —
-  just do not block it here.
+
+### Indicator primitive — DECIDE AT BUILD TIME (both documented)
+CORRECTION (MDN-verified — do NOT re-derive the old wrong claim): a CSS `outline` CAN
+have rounded corners (via `border-radius`), an offset (`outline-offset`), animated
+`outline-color`/`outline-width`/`outline-style`, and it transforms WITH its element.
+What `outline` canNOT do: render as DISCONTINUOUS "tech-corner" brackets, be
+transformed/animated INDEPENDENTLY of its element, or be a SINGLE indicator that
+travels label→label. Choose per the roadmap, both are valid:
+- OPTION A — standalone transformable layer: a pseudo-element (`::before`/`::after`) or
+  an anchor-positioned element (Rule 32) painted from `--outline`. Needed for the
+  future tech-corner brackets, independent isometric-3D transforms, and a single
+  indicator that slides from one focused label to the next. More CSS; needs the
+  forced-colors fallback below.
+- OPTION B — CSS `outline` on the label (`outline: … var(--outline); outline-offset`).
+  Simplest + most accessibility-robust (survives forced-colors natively); supports
+  rounded corners + offset + color/width animation + transforms-with-element. BUT a
+  continuous stroke bound per-element: no bracket corners, no independent transform, no
+  traveling indicator.
+- Either way: ensure contrast against both `--bg` and `--bg-accent`, and apply on BOTH
+  global-nav labels AND the Light/Dark/System control labels so the entire keyboard
+  path is visibly traversable.
+
+### forced-colors
+Decorative pseudo-element/box-shadow styling is STRIPPED under forced-colors, so if
+OPTION A is chosen, provide a REAL `outline` fallback (system `Highlight`/`CanvasText`)
+in `@media (forced-colors: active)` — the indicator MUST survive forced-colors. (OPTION
+B survives natively.)
+
+### Part 1 scope + research task
+Part 1 = the `--outline` COLOR token + the `label:has(> input:focus-visible)` hook +
+(if Option A) the forced-colors outline fallback. The tech-corners / intro-blink /
+tab-to-tab transition / isometric-3D styling is a FUTURE session (Part 3 / effects) —
+do not block it here. RESEARCH TASK (Part 2 / effects, BEFORE committing the decorative
+build and the A-vs-B choice): investigate NEW / cutting-edge HTML+CSS for the indicator
+— CSS anchor positioning (a single traveling indicator), `@property`-typed custom
+properties (animatable corners/hues), `clip-path` / `border-image` / conic-gradients
+(tech-corner brackets), `@view-transition` + scroll-driven animations, and newer focus
+primitives — then pick Option A vs B WITH EVIDENCE. (CLAUDE.md: use cutting-edge
+experimental CSS freely.)
 
 ## System preference detection (ALL FOUR)
 - `prefers-color-scheme` — covered by `color-scheme: light dark` + system colors;
@@ -194,10 +216,9 @@ are ABSOLUTE, so there is NO `matchMedia` and NO compare logic.
 - FOCUS / keyboard nav: TAB through global nav, the Light/Dark/System control, and
   form controls — every focus stop shows the accent-hued indicator ON THE LABEL (the
   input stays hidden; no indicator on mouse click), driven by
-  `label:has(> input:focus-visible)`; the indicator survives forced-colors (real
-  `outline` fallback), and its color tracks the accent in light, dark, and (Part 2)
-  themed palettes. Confirm the indicator is a transformable layer (pseudo-element),
-  not an `outline`, so future tech-corner/animation/3D work can build on it.
+  `label:has(> input:focus-visible)`; its color tracks the accent in light, dark, and
+  (Part 2) themed palettes, and it survives forced-colors (natively for Option B, via
+  the `@media (forced-colors: active)` outline fallback for Option A).
 - Regression: the autocss app still renders at visual parity in light & dark; node
   tests (`node --test 'tests/*.test.mjs'`) + the step-7/8 suites still pass.
 
@@ -229,3 +250,10 @@ hex via hue/alpha) and Part 3 = the HTML controls (light/dark icon + the 4x4 hue
 picker that reads hues from the linked `color-theme-*.css` file names via
 `[href*="color-theme-"]` + `@property`, plus a native color input). Each is its own
 session + handoff.
+- FOCUS-INDICATOR RESEARCH (Part 2 / effects, its own task): research NEW / cutting-edge
+  HTML+CSS capabilities for the focus indicator — CSS anchor positioning (a single
+  indicator that travels label→label), `@property`-typed custom properties,
+  `clip-path`/`border-image`/conic-gradients (tech-corner brackets), `@view-transition`
+  + scroll-driven animations — and THEN finalize OPTION A (standalone transformable
+  layer) vs OPTION B (CSS outline) for the indicator, with evidence. See the "Focus /
+  keyboard-navigation indicator" section above.
