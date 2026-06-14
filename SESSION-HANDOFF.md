@@ -187,7 +187,19 @@ cross-session memory and avoids drift.
 4. Unsaved-changes GUARD — a NEW feature (Popover API, "not a modal but the other
    thing"), DHCP has NONE. Own session. Do NOT add during the port.
 5. State-persistence generalization (decision D) — own session.
-6. color-scheme + any remaining cross-cutting items.
+6. MODULAR COLOR SYSTEM — the color-scheme open_q is RESOLVED (2026-06-14, user-
+   confirmed) in favor of Rule 19 `:root{color-scheme: light dark}` (system/OS-follow
+   DEFAULT). Rebuild the color/theme concern as a drop-in, copy/paste-able system in
+   PARTS, each its OWN session: Part 1 = `color-scheme.css` (light/dark governor + all
+   four media-prefs [prefers-color-scheme, forced-colors, prefers-contrast, prefers-
+   reduced-transparency] + a semantic fg/bg variable contract defaulting to CSS system
+   colors + a 3-state Light/Dark/System radio replacing the header ☼ checkbox, with
+   persistence/restore wired into the EXISTING oninput init/storage); Part 2 =
+   `color-theme-*.css` (palette derived from a single hex in the FILE NAME); Part 3 =
+   the HTML controls/hue-picker. This SPLITS today's `themes.css` (mechanism+toggle →
+   `color-scheme.css`; the OKLCH palette → `color-theme-default.css`). The ready-to-
+   paste Part-1 build prompt is `COLOR-SCHEME-BUILD-PROMPT.md` (preliminary draft —
+   refine before building). Full design = NDJSON 2026-06-14 decision.
 
 ============================= D7460N COMPLIANCE-DEBT LEDGER (fix in future sessions)
 What we KNOWINGLY port as-is / defer, plus the decisions already taken this session
@@ -252,7 +264,9 @@ for HOW to fix each later:
   storage on its own `oninput`; auto-RESTORE is NAV-ONLY for now; generalize later
   (which inputs + storage shape still open). `oninput` is independent/decoupled;
   there is NO orchestrated load/restore order.
-- color-scheme: dark (DHCP fidelity) vs Rule 19 `light dark` auto-follow-OS.
+- color-scheme: RESOLVED 2026-06-14 → Rule 19 `light dark` (system-follow DEFAULT,
+  not forced dark). Now a MODULAR COLOR SYSTEM build series (see FUTURE SESSIONS #6 +
+  `COLOR-SCHEME-BUILD-PROMPT.md` + NDJSON 2026-06-14).
 - Principles to preserve through refinement: all page content is JSON-sourced (no
   hardcoding); `:checked` is the single source of truth for CSS state + the data
   call; `humanize()` derives header/label text identically.
