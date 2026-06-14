@@ -56,14 +56,36 @@ names with palette values via `light-dark()`. Use `@layer` so themes override.
 - Background: mirror — `--bg` (→ `Canvas`), `--bg-link`, `--bg-link-hover`,
   `--bg-accent` (→ `AccentColor`/`Highlight`), `--bg-emphasis` (= `--bg-accent`),
   `--bg-disabled` (→ `ButtonFace`/`Field`), `--bg-muted` (→ `ButtonFace`).
+- Focus ring: `--outline` (→ `AccentColor`, falling back to `Highlight` under
+  forced-colors) — the keyboard-focus indicator color, tied to the SAME ACCENT hue as
+  `--fg-accent` so the ring always matches the theme accent. In Part 2 it derives from
+  the SAME single theme hex as the accent.
 - Pick the most appropriate system color per token and DOCUMENT each choice inline.
 - Apply the foundation so a bare drop-in is visible: `:root`/`body` get
   `background-color: var(--bg)` + `color: var(--fg)`; set `accent-color`, link
-  colors, `::selection`, etc., from the contract.
+  colors, `::selection`, and the `:focus-visible` outline (see "Focus / keyboard
+  navigation" below) from the contract.
 - These names are chosen to map cleanly onto Tailwind/Bootstrap purposes later.
 - NOTE the Part-2 ambition: ultimately ALL of fg/bg/accent/emphasis/muted/disabled
   derive from ONE hex (the theme file name) via hue + alpha (+ future filter/
   transform for "glass"/"isometric"). Keep the contract small + derivable.
+
+## Focus / keyboard-navigation outline (accessibility — WCAG 2.4.7 & 2.4.11)
+- Provide a VISIBLE keyboard-focus indicator using `:focus-visible` (keyboard-only —
+  do NOT paint the ring on mouse `:focus`). NEVER `outline: none` without an equal-or-
+  better replacement.
+- The outline COLOR matches the ACCENT hue: use `--outline` (defaults to `AccentColor`,
+  same family as `--fg-accent`) so the focus ring tracks the theme accent in every
+  scheme. In Part 2 it derives from the SAME single theme hex as the accent.
+- Apply globally from the contract, e.g.
+  `:focus-visible { outline: 2px solid var(--outline); outline-offset: 2px; }`.
+  Use `outline-offset` so the ring is not clipped, and ensure it has sufficient
+  contrast against both `--bg` and `--bg-accent`. Keep the ring on the state-machine
+  `<label>`s/radios (global nav AND the Light/Dark/System control) so the entire
+  keyboard path is visibly traversable — these radios are `aria-hidden`/visually
+  custom, so the FOCUS indicator must live on the focusable element.
+- forced-colors: let the ring fall back to a system color (`Highlight`/`CanvasText`);
+  do NOT hard-code it away — the outline MUST survive forced-colors mode.
 
 ## System preference detection (ALL FOUR)
 - `prefers-color-scheme` — covered by `color-scheme: light dark` + system colors;
@@ -153,6 +175,10 @@ are ABSOLUTE, so there is NO `matchMedia` and NO compare logic.
   context to exercise `prefers-color-scheme: light|dark`, `prefers-contrast:
   more|less`, `forced-colors: active`, `prefers-reduced-transparency: reduce`; assert
   computed `background-color`/`color` adapt. Verify NO FOUC at first paint.
+- FOCUS / keyboard nav: TAB through global nav, the Light/Dark/System control, and
+  form controls — every focus stop shows an accent-hued `:focus-visible` ring (no ring
+  on mouse click), the ring survives forced-colors, and the outline color tracks the
+  accent in light, dark, and (Part 2) themed palettes.
 - Regression: the autocss app still renders at visual parity in light & dark; node
   tests (`node --test 'tests/*.test.mjs'`) + the step-7/8 suites still pass.
 
