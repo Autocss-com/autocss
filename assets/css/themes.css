@@ -1,13 +1,13 @@
 /* MARK: THEMES
    Color model: oklch() + light-dark(), alpha baked into each color.
    Values are the exact sRGB->OKLCH conversion of dhcp's palette (look reference).
-   Default scheme = dark (dhcp default). The header theme toggle flips
-   color-scheme to light, which re-resolves every light-dark() token.
-   light-dark(LIGHT, DARK).
+   light-dark(LIGHT, DARK). The light/dark MECHANISM (color-scheme + the
+   Light/Dark/System control) now lives in color-scheme.css; this file supplies
+   only the PALETTE tokens, which re-resolve from whatever color-scheme the
+   governor sets.
 */
 
 :root {
-  color-scheme: dark;
   accent-color: light-dark(oklch(45.98% 0.129 249.65), oklch(80.39% 0.1192 232.69));
 
   /* Backgrounds */
@@ -41,13 +41,6 @@
   --error-soft: oklch(62.8% 0.2577 29.23 / 0.2);
   --error-strong: oklch(62.8% 0.2577 29.23 / 0.4);
   --success: oklch(86.64% 0.2948 142.5);
-}
-
-/* MARK: THEME TOGGLE
-   Header's last toggle flips the whole tree to the light scheme.
-*/
-:root:has(header label:last-of-type input:checked) {
-  color-scheme: light;
 }
 
 /* MARK: LOOK/FEEL

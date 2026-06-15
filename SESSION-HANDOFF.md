@@ -200,27 +200,39 @@ cross-session memory and avoids drift.
    `color-scheme.css`; the OKLCH palette → `color-theme-default.css`). The ready-to-
    paste Part-1 build prompt is `COLOR-SCHEME-BUILD-PROMPT.md` (preliminary draft —
    refine before building). Full design = NDJSON 2026-06-14 decision.
-   >>> PART-1 STATUS (round 1, 2026-06-15, claude/lucid-hawking-E5Ej2): the standalone
-   governor FILE `assets/css/color-scheme.css` is AUTHORED and committed for user
-   inspection — `@layer color-scheme,color-theme`; `:root{color-scheme:light dark}`
-   (Rule 19); DOM-AGNOSTIC 3-state Light/Dark/System ABSOLUTE override via pure
-   `:root:has(input[name="scheme"][value=...]:checked)` (System falls through =
-   OS-follow); semantic fg/bg/`--outline` contract defaulting to documented CSS system
-   colors; foundation (bg/fg/accent-color/links/::selection/active-scheme tint); all 4
-   media-prefs. USER DIRECTIVES this round: control UI = ICON+TEXT+ARIA (glyphs in
-   markup); the `:has()` rules are DOM-agnostic (keyed off the unique `name="scheme"`,
-   not a wrapper); MIGRATION is a LATER step (these new files will REPLACE the old).
-   STILL TO DO in Part 1 (DEFERRED per user, NOT this round): (a) integration =
-   themes.css split + bridge `--txt`/`--bg`/`--accent` consumers + index.html 3-radio
-   control replacing the header ☼ checkbox + early `<link>` + `<meta>` align +
-   oninput.js persistence/restore; (b) the FOCUS-INDICATOR paint — only the accent-hued
-   `--outline` COLOR token exists; the `label:has(>input:focus-visible)` paint, the
-   OPTION A (transformable pseudo/anchor layer + forced-colors outline fallback) vs
-   OPTION B (CSS outline on label) primitive, and making the state-machine `<input>`s
-   visually-hidden-but-keyboard-FOCUSABLE (today `display:none`+`aria-hidden`) incl.
-   SCOPE (scheme control only vs global nav) are a later step (pick A/B with the
-   Part-2/effects research). NOT yet browser-verified. See the in-file DEFERRED footer
-   block + NDJSON 2026-06-15 feature record. <<<
+   >>> PART-1 STATUS (claude/lucid-hawking-E5Ej2):
+   ROUND 1 (2026-06-15) — authored the standalone governor FILE
+   `assets/css/color-scheme.css`: `@layer color-scheme,color-theme`;
+   `:root{color-scheme:light dark}` (Rule 19); DOM-AGNOSTIC 3-state Light/Dark/System
+   ABSOLUTE override via pure `:root:has(input[name="scheme"][value=...]:checked)`
+   (System falls through = OS-follow); semantic fg/bg/`--outline` contract defaulting
+   to documented CSS system colors; foundation (bg/fg/accent-color/links/::selection/
+   active-scheme tint); all 4 media-prefs. Control UI = ICON+TEXT+ARIA (glyphs in
+   markup); `:has()` rules keyed off the unique `name="scheme"` (no wrapper dep).
+   ROUND 2 (2026-06-15) — WIRED IT INTO THE APP (user-approved COHERENT swap, no broken
+   toggle): index.html meta `dark light`->`light dark`; linked color-scheme.css early
+   (after fonts.css, before themes.css); replaced the header ☼ checkbox with the
+   3-radio Light/Dark/System group (name=scheme, value=light|dark|system, input
+   aria-hidden, aria-label per label, System `checked`; glyphs ☼/☾/◐); REMOVED from
+   themes.css the `:root{color-scheme:dark}` + the `:has(header label:last-of-type
+   input:checked){color-scheme:light}` toggle (mechanism now lives in color-scheme.css;
+   themes.css = palette only). Parity kept WITHIN each scheme (palette is
+   light-dark()-only, NO prefers-color-scheme media query anywhere — grep-confirmed —
+   so tokens track the governor's color-scheme); the DEFAULT intentionally becomes
+   system-follow (Rule 19). layout.css:32 `header label:nth-of-type(1)` still targets
+   the separate hidden Layouts toggle (label #1) — unaffected.
+   STILL TO DO in Part 1 (DEFERRED per user): (a) oninput.js selection persistence +
+   on-load restore (reuse read/writePersistent + mirror getInitialSelection/
+   persistSelection; NO dispatchEvent — `:has(:checked)` reacts directly); (b) the
+   `--txt`/`--bg`/`--accent` consumer bridge onto `--fg`/`--bg`; (c) the FOCUS-INDICATOR
+   paint — only the accent-hued `--outline` COLOR token exists; the
+   `label:has(>input:focus-visible)` paint, OPTION A (transformable pseudo/anchor layer
+   + forced-colors outline fallback) vs OPTION B (CSS outline on label) primitive, and
+   making the state-machine `<input>`s visually-hidden-but-keyboard-FOCUSABLE (today
+   `display:none`+`aria-hidden`) incl. SCOPE (scheme control vs global nav) — a later
+   step (pick A/B with the Part-2/effects research); (d) BROWSER VERIFICATION (chromium
+   media-emulation + the standalone CodePen test). NOT yet browser-verified. See the
+   in-file DEFERRED footer block + the NDJSON 2026-06-15 feature records. <<<
 
 ============================= D7460N COMPLIANCE-DEBT LEDGER (fix in future sessions)
 What we KNOWINGLY port as-is / defer, plus the decisions already taken this session

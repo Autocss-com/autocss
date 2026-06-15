@@ -8,11 +8,12 @@
   <meta name="author" content="D7460N" />
   <meta name="description" content="AutoCSS — D7460N Architecture" />
   <meta name="robots" content="index, archive" />
-  <meta name="color-scheme" content="dark light" />
+  <meta name="color-scheme" content="light dark" />
   <link rel="canonical" href="https://autocss.com/" />
   <link rel="icon" type="image/svg+xml" href="./assets/images/brand/logo.svg" />
   <link rel="stylesheet" type="text/css" href="./assets/css/reset.css" />
   <link rel="stylesheet" type="text/css" href="./assets/css/fonts.css" />
+  <link rel="stylesheet" type="text/css" href="./assets/css/color-scheme.css" />
   <link rel="stylesheet" type="text/css" href="./assets/css/themes.css" />
   <link rel="stylesheet" type="text/css" href="./assets/css/layout.css" />
   <link rel="stylesheet" type="text/css" href="./assets/css/transitions.css" />
@@ -36,9 +37,17 @@
         Layouts
         <input type="checkbox" checked />
       </label>
-      <label>
-        &#9788;
-        <input type="checkbox" />
+      <label aria-label="Light color scheme">
+        &#9788; Light
+        <input type="radio" aria-hidden="true" name="scheme" value="light" />
+      </label>
+      <label aria-label="Dark color scheme">
+        &#9790; Dark
+        <input type="radio" aria-hidden="true" name="scheme" value="dark" />
+      </label>
+      <label aria-label="System color scheme">
+        &#9680; System
+        <input type="radio" aria-hidden="true" name="scheme" value="system" checked />
       </label>
     </header>
     <nav>
