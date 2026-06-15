@@ -221,9 +221,17 @@ cross-session memory and avoids drift.
    so tokens track the governor's color-scheme); the DEFAULT intentionally becomes
    system-follow (Rule 19). layout.css:32 `header label:nth-of-type(1)` still targets
    the separate hidden Layouts toggle (label #1) — unaffected.
-   STILL TO DO in Part 1 (DEFERRED per user): (a) oninput.js selection persistence +
-   on-load restore (reuse read/writePersistent + mirror getInitialSelection/
-   persistSelection; NO dispatchEvent — `:has(:checked)` reacts directly); (b) the
+   ROUND 3 (2026-06-15) — wired the JS selection persistence + on-load restore into the
+   EXISTING oninput.js init/storage (no new system, no new init fn), mirroring the nav
+   quartet: bindSchemeOnInput() [each `input[name=scheme]`.oninput -> persistColorScheme;
+   NO lifecycle call, NO dispatchEvent], restoreColorScheme() [light/dark -> radio.checked
+   = true, NO dispatch since `:has(:checked)` reacts directly; absent/"system" -> do
+   nothing, System stays HTML-checked, CSS follows OS], getInitialColorScheme() [reads
+   state.colorScheme], persistColorScheme() [writes a `colorScheme` key BESIDE
+   `navigation`/`environment` in the one autocss.app.v1 state via read/writePersistent].
+   Wired into initializeOnInputLifecycle() after the nav bind/trigger. JS sets ONLY
+   `.checked`, never styles; idempotent/stateless; `node --check` (ESM) passes.
+   STILL TO DO in Part 1 (DEFERRED per user): (b) the
    `--txt`/`--bg`/`--accent` consumer bridge onto `--fg`/`--bg`; (c) the FOCUS-INDICATOR
    paint — only the accent-hued `--outline` COLOR token exists; the
    `label:has(>input:focus-visible)` paint, OPTION A (transformable pseudo/anchor layer

@@ -125,6 +125,16 @@ export function bindNavOnInput() {
   });
 }
 
+// Bind every scheme radio's oninput to PERSIST the chosen value (idempotent).
+// The Light/Dark/System control is pure CSS for color (color-scheme.css reacts
+// to :checked); JS only remembers the choice — NO lifecycle/data call here, and
+// (unlike nav) NO dispatchEvent, because there is no data fetch to trigger.
+export function bindSchemeOnInput() {
+  document.querySelectorAll("input[type='radio'][name='scheme']").forEach(input => {
+    input.oninput = () => persistColorScheme(input.value);
+  });
+}
+
 // Enter the lifecycle by SELECTING a nav radio. NO nav radio is checked in the
 // HTML by default. Select the persisted endpoint from browser memory (storage),
 // or the first nav radio if there is none; check it and dispatch an `input`
@@ -146,6 +156,23 @@ export function triggerInitialSelection() {
   return true;
 }
 
+// Restore the persisted color-scheme choice by SELECTING its radio. Mirrors the
+// nav restore but with NO dispatchEvent: color is pure CSS, so `:has(:checked)`
+// reacts to the property directly (this is not a data lifecycle; dispatch stays
+// reserved for the nav-radio data call). If the stored value is absent or
+// "system", do NOTHING — the System radio stays checked (HTML default) and CSS
+// follows the OS.
+export function restoreColorScheme() {
+  const persisted = getInitialColorScheme();
+  if (persisted !== "light" && persisted !== "dark") {
+    return;
+  }
+  const radio = document.querySelector(`input[type='radio'][name='scheme'][value='${persisted}']`);
+  if (radio) {
+    radio.checked = true; // radios auto-uncheck the rest of the group
+  }
+}
+
 // --- Persistence ------------------------------------------------------------
 
 // Read the persisted endpoint selection.
@@ -154,12 +181,28 @@ export function getInitialSelection() {
   return typeof state?.navigation?.endpoint === "string" ? state.navigation.endpoint : "";
 }
 
+// Read the persisted color-scheme choice ("light" | "dark" | "system" | "").
+export function getInitialColorScheme() {
+  const state = readPersistent(STORAGE_KEY, COOKIE_KEY, {});
+  return typeof state?.colorScheme === "string" ? state.colorScheme : "";
+}
+
 // Persist the latest selected endpoint.
 function persistSelection(endpoint) {
   const current = readPersistent(STORAGE_KEY, COOKIE_KEY, {});
   writePersistent(STORAGE_KEY, COOKIE_KEY, {
     ...current,
     navigation: { endpoint },
+    updatedAt: new Date().toISOString()
+  });
+}
+
+// Persist the latest color-scheme choice beside `navigation` in the same state.
+function persistColorScheme(colorScheme) {
+  const current = readPersistent(STORAGE_KEY, COOKIE_KEY, {});
+  writePersistent(STORAGE_KEY, COOKIE_KEY, {
+    ...current,
+    colorScheme,
     updatedAt: new Date().toISOString()
   });
 }
@@ -177,6 +220,11 @@ export async function initializeOnInputLifecycle() {
 
   bindNavOnInput();
   triggerInitialSelection();
+
+  // Color-scheme control (CSS-driven): remember user choices and restore the
+  // persisted one on load. Independent of the nav data lifecycle.
+  bindSchemeOnInput();
+  restoreColorScheme();
 }
 
 // Expose the fetched nav map for the injector (step 6).
