@@ -37,16 +37,16 @@
     color-scheme: light dark;
   }
 
-  /* MARK: SCHEME CONTROL — absolute Light / Dark / System via pure :has()
-     A three-state radio group (name="scheme") forces an ABSOLUTE scheme. The
-     System radio matches NO override rule, so it falls through to `light dark`
-     (OS-follow). No media-query flip, no matchMedia, no compare logic. `value`
-     is a standard attribute (same as the nav radios), not data-*.
-     DOM-AGNOSTIC: keyed off the GROUP (`input[name="scheme"]`) anchored at
+  /* MARK: COLOR-SCHEME CONTROL — absolute Light / Dark / System via pure :has()
+     A three-state radio group (name="color-scheme") forces an ABSOLUTE scheme.
+     The System radio matches NO override rule, so it falls through to `light
+     dark` (OS-follow). No media-query flip, no matchMedia, no compare logic.
+     `value` is a standard attribute (same as the nav radios), not data-*.
+     DOM-AGNOSTIC: keyed off the GROUP (`input[name="color-scheme"]`) anchored at
      `:root`, NOT a wrapper like `header`, so the control can live anywhere in
      the page (the unique `name` is the scope). */
-  :root:has(input[name="scheme"][value="light"]:checked) { color-scheme: light; }
-  :root:has(input[name="scheme"][value="dark"]:checked)  { color-scheme: dark;  }
+  :root:has(input[name="color-scheme"][value="light"]:checked) { color-scheme: light; }
+  :root:has(input[name="color-scheme"][value="dark"]:checked)  { color-scheme: dark;  }
   /* System checked -> no rule matches -> stays `light dark` (OS-follow). */
 
   /* MARK: VARIABLE CONTRACT — semantic fg/bg, each defaulting to a CSS SYSTEM
@@ -126,8 +126,8 @@
 
   /* Active-scheme indication on the control (COLOR only; the sun/moon/auto
      glyphs + their text live in the markup per the icon+text+aria control).
-     DOM-agnostic: scoped to the label that directly wraps a scheme radio. */
-  label:has(> input[name="scheme"]:checked) {
+     DOM-agnostic: scoped to the label that directly wraps a color-scheme radio. */
+  label:has(> input[name="color-scheme"]:checked) {
     color: var(--fg-accent);
   }
 

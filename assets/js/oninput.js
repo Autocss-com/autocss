@@ -17,8 +17,6 @@ import { inferFieldRules } from "./rules.js";
 const STORAGE_KEY = "autocss.app.v1";
 const COOKIE_KEY = "autocss.app.v1";
 
-let isShellHydrated = false;
-
 // Per-endpoint inferred field rules cache (ported from dhcp loaders.js).
 // inferFieldRules() is computed once per endpoint and cached; the active set is
 // exposed via getFieldRules() for the form generator (inject.createInputFromKey).
@@ -33,7 +31,7 @@ export function getFieldRules() {
 // Fetched navigation map, kept for the injector (step 6) and binding.
 let navData = null;
 
-// --- Shell (fetched/injected once per session) -----------------------------
+// --- Shell text injectors (write API text into the existing HTML) ----------
 
 // Inject banner text into <app-banner> (create the <p> slot if absent).
 function injectBanner(text) {
@@ -54,26 +52,6 @@ function injectVersion() {
   if (el) {
     el.textContent = `v${VERSION.version}`;
   }
-}
-
-// Fetch + inject the once-per-session shell (banner, nav map, version).
-async function hydrateShell() {
-  if (OPTIONS.showBanner) {
-    const banner = await requestData(BANNER_ENDPOINT);
-    const first = Array.isArray(banner) ? banner[0] : banner;
-    injectBanner(first?.banner ?? "");
-  }
-
-  navData = await requestData(NAV_ENDPOINT);
-  injectNavText(navData);
-
-  injectVersion();
-
-  isShellHydrated = true;
-  logSuccess("Shell hydrated", {
-    banner: OPTIONS.showBanner,
-    navGroups: navData && typeof navData[0] === "object" ? Object.keys(navData[0]).length : 0
-  });
 }
 
 // --- Per-endpoint data lifecycle -------------------------------------------
@@ -125,12 +103,12 @@ export function bindNavOnInput() {
   });
 }
 
-// Bind every scheme radio's oninput to PERSIST the chosen value (idempotent).
+// Bind every color-scheme radio's oninput to PERSIST the chosen value (idempotent).
 // The Light/Dark/System control is pure CSS for color (color-scheme.css reacts
 // to :checked); JS only remembers the choice — NO lifecycle/data call here, and
 // (unlike nav) NO dispatchEvent, because there is no data fetch to trigger.
-export function bindSchemeOnInput() {
-  document.querySelectorAll("input[type='radio'][name='scheme']").forEach(input => {
+export function bindColorSchemeOnInput() {
+  document.querySelectorAll("input[type='radio'][name='color-scheme']").forEach(input => {
     input.oninput = () => persistColorScheme(input.value);
   });
 }
@@ -167,7 +145,7 @@ export function restoreColorScheme() {
   if (persisted !== "light" && persisted !== "dark") {
     return;
   }
-  const radio = document.querySelector(`input[type='radio'][name='scheme'][value='${persisted}']`);
+  const radio = document.querySelector(`input[type='radio'][name='color-scheme'][value='${persisted}']`);
   if (radio) {
     radio.checked = true; // radios auto-uncheck the rest of the group
   }
@@ -209,23 +187,31 @@ function persistColorScheme(colorScheme) {
 
 // --- Entry ------------------------------------------------------------------
 
-// Initialize the runtime: hydrate the shell once, then enter the oninput
-// lifecycle via a programmatic nav selection.
+// The single on-page-load function. Called ONCE from app.js. It only flips
+// controls from storage and injects the API's text into the existing HTML.
+// Everything else is CSS; the page data loads through the nav radio's own
+// `oninput`. No session tracking — this runs once, on load.
 export async function initializeOnInputLifecycle() {
   console.clear();
 
-  // Color-scheme control is pure-CSS UI and MUST NOT depend on the data API.
-  // Bind + restore FIRST, synchronously, BEFORE awaiting the shell: a slow or
-  // failed hydrateShell() must never skip them (otherwise the color still flips
-  // via CSS but the choice is never persisted/restored). The scheme radios are
-  // static markup, present at parse time, so this is safe to do up front.
-  bindSchemeOnInput();
+  // 1) Color-scheme: flip the control from storage (CSS reacts via :has). No
+  //    data and no await — done first so the data calls below can never skip it.
+  bindColorSchemeOnInput();
   restoreColorScheme();
 
-  if (!isShellHydrated) {
-    await hydrateShell();
+  // 2) Inject the API text into the existing static HTML (banner, nav labels,
+  //    version). Just the text content goes into markup that already exists.
+  if (OPTIONS.showBanner) {
+    const banner = await requestData(BANNER_ENDPOINT);
+    const first = Array.isArray(banner) ? banner[0] : banner;
+    injectBanner(first?.banner ?? "");
   }
+  navData = await requestData(NAV_ENDPOINT);
+  injectNavText(navData);
+  injectVersion();
 
+  // 3) Nav: flip the control from storage (first radio if none); selecting it
+  //    fires its own oninput, which is what loads the page data.
   bindNavOnInput();
   triggerInitialSelection();
 }

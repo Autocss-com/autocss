@@ -246,6 +246,28 @@ cross-session memory and avoids drift.
    round-trips to OS-follow, no permanent override). Nav binding stays gated behind
    hydrateShell (unchanged; nav needs the data). Color-scheme persistence is now
    BROWSER-VERIFIED.
+   ROUND 5 (2026-06-15) — SIMPLIFY per user (Least Power, LESS complexity, NO session
+   tracking). DELETED hydrateShell() + the isShellHydrated module flag + the "Shell
+   hydrated" log; the banner/nav-label/version injection is now INLINED as plain
+   sequential calls inside the SINGLE on-page-load function initializeOnInputLifecycle()
+   (runs ONCE from app.js — nothing re-calls it, and per-page DATA loads through the nav
+   radio's own oninput, not here, so no once-per-session guard is needed). Nav-label /
+   banner / version TEXT injection is unchanged (just text into the existing HTML, as
+   before). RENAMED scheme -> color-scheme EVERYWHERE: index.html `name="color-scheme"`
+   (x3); color-scheme.css `:root:has(input[name="color-scheme"][value=...]:checked)` +
+   `label:has(> input[name="color-scheme"]:checked)` + comments; oninput.js
+   bindSchemeOnInput -> bindColorSchemeOnInput (+ selector) and restoreColorScheme's
+   selector. Storage key stays camelCase `colorScheme` (consistent with sibling
+   navigation/environment/updatedAt). On-load order: color-scheme bind+restore FIRST
+   (pure CSS, no data), THEN inject API text, THEN nav bind + triggerInitialSelection.
+   BROWSER-VERIFIED (Playwright/chromium, OS=dark): API-DOWN -> color-scheme still
+   persists/restores/round-trips; API-UP -> nav labels inject (Manage / Frequently Asked
+   Questions / API Registration / Audit), nav 'manage' checked, H1 'Manage', 10 rows
+   (data path intact) + color-scheme 5/5. NOTE: round-2/3/4 entries above are HISTORY —
+   the names `scheme` / `hydrateShell` they reference no longer exist (now `color-scheme`
+   / inlined). FUTURE (user, track): nav items will later be BUILT from JSON key/value
+   pairs (like the table cells via toTagName), replacing the static nav skeleton; for now
+   only text is inserted into existing nav items.
    STILL TO DO in Part 1 (DEFERRED per user): (b) the
    `--txt`/`--bg`/`--accent` consumer bridge onto `--fg`/`--bg`; (c) the FOCUS-INDICATOR
    paint — only the accent-hued `--outline` COLOR token exists; the
