@@ -214,17 +214,20 @@ function persistColorScheme(colorScheme) {
 export async function initializeOnInputLifecycle() {
   console.clear();
 
+  // Color-scheme control is pure-CSS UI and MUST NOT depend on the data API.
+  // Bind + restore FIRST, synchronously, BEFORE awaiting the shell: a slow or
+  // failed hydrateShell() must never skip them (otherwise the color still flips
+  // via CSS but the choice is never persisted/restored). The scheme radios are
+  // static markup, present at parse time, so this is safe to do up front.
+  bindSchemeOnInput();
+  restoreColorScheme();
+
   if (!isShellHydrated) {
     await hydrateShell();
   }
 
   bindNavOnInput();
   triggerInitialSelection();
-
-  // Color-scheme control (CSS-driven): remember user choices and restore the
-  // persisted one on load. Independent of the nav data lifecycle.
-  bindSchemeOnInput();
-  restoreColorScheme();
 }
 
 // Expose the fetched nav map for the injector (step 6).

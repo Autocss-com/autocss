@@ -231,6 +231,21 @@ cross-session memory and avoids drift.
    `navigation`/`environment` in the one autocss.app.v1 state via read/writePersistent].
    Wired into initializeOnInputLifecycle() after the nav bind/trigger. JS sets ONLY
    `.checked`, never styles; idempotent/stateless; `node --check` (ESM) passes.
+   ROUND 4 (2026-06-15) — BUGFIX (user-reported: scheme choice not saving cross-session,
+   real device on autocss.com). ROOT CAUSE, reproduced + fixed in a REAL browser
+   (Playwright + chromium headless, colorScheme:dark, local serve of branch HEAD):
+   bindSchemeOnInput()+restoreColorScheme() ran AFTER `await hydrateShell()`, so when the
+   data hydrate fails/stalls (API down/slow/cert/timeout) the whole post-await block was
+   skipped -> radios never bound, restore never ran; the CSS color flip still worked
+   (pure `:has(:checked)`, zero JS) so it LOOKED fine but never persisted. FIX: moved both
+   to run FIRST, synchronously, BEFORE the await (color is pure UI, must not depend on the
+   data API; scheme radios are static markup at parse time -> safe up front; also cuts
+   FOUC). NOT an external-service workaround — decouples a UI toggle from data transport,
+   which the architecture already mandates. VERIFIED both API-DOWN (Light now persists +
+   restores despite hydrateShell throwing) and API-UP (5/5: Light saves+restores, System
+   round-trips to OS-follow, no permanent override). Nav binding stays gated behind
+   hydrateShell (unchanged; nav needs the data). Color-scheme persistence is now
+   BROWSER-VERIFIED.
    STILL TO DO in Part 1 (DEFERRED per user): (b) the
    `--txt`/`--bg`/`--accent` consumer bridge onto `--fg`/`--bg`; (c) the FOCUS-INDICATOR
    paint — only the accent-hued `--outline` COLOR token exists; the
