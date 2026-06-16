@@ -69,7 +69,7 @@
   :root {
     /* Foreground */
     --fg:            CanvasText;       /* body text on Canvas */
-    --fg-link:       LinkText;         /* links */
+    --fg-link:       var(--fg-accent); /* links share the accent hue */
     --fg-link-hover: ActiveText;       /* link hover/active */
     --fg-accent:     AccentColor;      /* accent / emphasis hue */
     --fg-emphasis:   var(--fg-accent); /* emphasis === accent hue */
@@ -82,6 +82,8 @@
     --bg-link-hover: Canvas;           /* (Part 2 may add a hover tint) */
     --bg-accent:     AccentColor;      /* accent surface (alt: Highlight) */
     --bg-emphasis:   var(--bg-accent); /* emphasis surface === accent surface */
+    --bg-selected:   rgb(from AccentColor r g b / 5%); /* selected/checked surface = 5% accent */
+    --bg-hover:      rgb(from AccentColor r g b / 5%); /* hover surface = 5% accent */
     --bg-disabled:   ButtonFace;       /* disabled control surface (alt: Field) */
     --bg-muted:      ButtonFace;       /* muted panel surface */
 
@@ -124,10 +126,16 @@
     color: var(--bg); /* Part 2 supplies an explicit on-accent text color */
   }
 
-  /* Active-scheme indication on the control (COLOR only; the sun/moon/auto
-     glyphs + their text live in the markup per the icon+text+aria control).
-     DOM-agnostic: scoped to the label that directly wraps a color-scheme radio. */
-  label:has(> input[name="color-scheme"]:checked) {
+  /* SELECTED + HOVER surfaces for state-machine controls (a <label> wrapping a
+     checkbox/radio — the architecture's interactive primitive). DOM-agnostic, so
+     every hovered/selected control (the color-scheme control, nav, data rows, …)
+     shares the SAME accent surface as ::selection. Selected also tints the text
+     to the accent hue. The sun/moon/auto glyphs + text live in the markup. */
+  label:has(> input:is([type="checkbox"], [type="radio"])):hover {
+    background-color: var(--bg-hover);
+  }
+  label:has(> input:is([type="checkbox"], [type="radio"]):checked) {
+    background-color: var(--bg-selected);
     color: var(--fg-accent);
   }
 
@@ -170,6 +178,8 @@
     :root {
       --bg: Canvas;
       --fg: CanvasText;
+      --bg-selected: Highlight;  /* collapse the 5% accent tint -> solid selection */
+      --bg-hover:    ButtonFace; /* collapse the 5% accent tint -> solid control  */
     }
   }
 }

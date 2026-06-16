@@ -268,6 +268,23 @@ cross-session memory and avoids drift.
    / inlined). FUTURE (user, track): nav items will later be BUILT from JSON key/value
    pairs (like the table cells via toTagName), replacing the static nav skeleton; for now
    only text is inserted into existing nav items.
+   ROUND 6 (2026-06-16) — standalone fallback test + color-scheme.css extension. TEST
+   STATE (still active in index.html): themes.css AND transitions.css <link>s are
+   commented out (temporary) to view color-scheme.css alone — body Canvas/CanvasText
+   flip correctly light<->dark; panels go bare (consumer bridge not built). Per user,
+   EXTENDED color-scheme.css: added `--bg-selected` + `--bg-hover` (both
+   `rgb(from AccentColor r g b / 5%)` = 5% accent); `--fg-link` now `var(--fg-accent)`
+   (links = accent); generalized the old color-scheme-only active indicator into a
+   DOM-AGNOSTIC selected/hover treatment for state-machine labels
+   (`label:has(> input:is([type=checkbox],[type=radio]):checked|...:hover)`) using the
+   new tokens + accent text; reduced-transparency collapses the tints to
+   Highlight/ButtonFace. BROWSER-VERIFIED: the SELECTED color-scheme control shows a 5%
+   accent pill + accent text in light AND dark. KNOWN LIMIT: nav/row SELECTED don't show
+   the tint in the themes-OFF test because layout.css (UNLAYERED) `var(--bg-active)`
+   (undefined -> transparent) overrides the layered color-scheme.css rule -> the CONSUMER
+   BRIDGE is the fix (now tracked in PROGRESS.future_goals). Also backlogged: REBUILD
+   transitions.css as ONE self-contained drop-in system (it fades things at different
+   times + some twice — not one independent system).
    STILL TO DO in Part 1 (DEFERRED per user): (b) the
    `--txt`/`--bg`/`--accent` consumer bridge onto `--fg`/`--bg`; (c) the FOCUS-INDICATOR
    paint — only the accent-hued `--outline` COLOR token exists; the
