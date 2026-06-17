@@ -285,8 +285,23 @@ cross-session memory and avoids drift.
    BRIDGE is the fix (now tracked in PROGRESS.future_goals). Also backlogged: REBUILD
    transitions.css as ONE self-contained drop-in system (it fades things at different
    times + some twice — not one independent system).
-   STILL TO DO in Part 1 (DEFERRED per user): (b) the
-   `--txt`/`--bg`/`--accent` consumer bridge onto `--fg`/`--bg`; (c) the FOCUS-INDICATOR
+   CANONICAL ARCHITECTURE (user-restated 2026-06-16; full text in PROGRESS.meta.color_system):
+   Phase 1 color-scheme.css = standalone, 3 jobs — (1) rename UA/system defaults into
+   intuitive --fg/--bg vars, setting NO literal color values (system-color defaults only);
+   (2) be the FALLBACK when no color-theme file is present; (3) define the variable names a
+   theme overrides. Phase 2 color-theme-??????.css = filename is the 6-hex base color
+   (brevity), contents are OKLCH variable OVERRIDES derived from that ONE color, and it
+   overrides PURELY by being linked AFTER color-scheme.css in <head> (natural cascade — NOT
+   @layer, NOT a 'bridge'). First theme = dhcp blue (= today's themes.css). CORRECTION: my
+   earlier "@layer / consumer-bridge / alias" framing was wrong + over-complex; the real
+   remaining work is a MIGRATION of consumers to the contract names + converting themes.css
+   into color-theme-<bluehex>.css. ALSO TO REVERT: my round-6 edit wrongly added a generic
+   painter `label:has(>input:checked){background:var(--bg-selected)}` INTO color-scheme.css
+   (overreach: that file establishes the contract + minimal foundation, it must NOT paint
+   app component states; it also lost to layout.css's unlayered --bg-active). Keep the
+   --bg-selected/--bg-hover TOKENS + links=accent; selected/hover belong in CONSUMER rules.
+   STILL TO DO in Part 1 (DEFERRED per user): (b) the COLOR-SYSTEM MIGRATION above
+   (consumers -> contract names; themes.css -> color-theme-<bluehex>.css); (c) the FOCUS-INDICATOR
    paint — only the accent-hued `--outline` COLOR token exists; the
    `label:has(>input:focus-visible)` paint, OPTION A (transformable pseudo/anchor layer
    + forced-colors outline fallback) vs OPTION B (CSS outline on label) primitive, and
