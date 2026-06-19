@@ -36,13 +36,7 @@ unsaved-changes guard — that's a future feature session, see backlog).
    popover/undo finding, the forms line-by-line inventory).
 5. `starter/.agents/SESSION-HANDOFF.md` — the prior Constraint Lock (re-assert it).
 6. `ANALYSIS.md` — the dhcp→starter file reconciliation and per-file verdicts.
-7. (ADVISORY external reference, NOT canonical) `modern-web-guidance`
-   (GoogleChrome/modern-web-guidance, a Claude Code plugin/marketplace) — modern
-   web-platform / Baseline guidance for native HTML/CSS/JS. CONSULT it when choosing
-   a native approach. It NEVER overrides CLAUDE.md or this handoff: on ANY conflict,
-   repo docs win. FUTURE FEATURE: periodically reconcile it against the app's current
-   features/capabilities and SUGGEST improvements it surfaces (identify != apply — do
-   NOT silently change anything; confirm with the user first, per the heuristic).
+7. `modern-web-guidance` (GoogleChrome/modern-web-guidance, Claude Code plugin) — advisory external reference; usage + periodic-review policy are canonical in CLAUDE.md Rule 33.
 
 Reference repos in scope: `DHCP` (messy-but-complete working prototype = the
 FEATURE + LOOK reference, and now the literal SOURCE we port from) and `starter`
