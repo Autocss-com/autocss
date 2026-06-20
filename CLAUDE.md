@@ -85,7 +85,7 @@ When a configured external API or service fails for any reason (SSL certificate 
 30. **ALWAYS** use `@starting-style` to fade in init load of page content
 31. **ALWAYS** use `@view-transition` to fade in targeted tab content.
 32. *ALWAYS** use anchor positioning for all hover content so that content never goes off the page. 
-33. **ALWAYS** consult `modern-web-guidance` (GoogleChrome/modern-web-guidance) as the standing reference for modern native HTML/CSS/JS and Baseline platform capabilities. Its **content is ADVISORY and SUBORDINATE** — on ANY conflict with these rules, **THESE rules win.** The **requirement** to consult it, to **periodically reconcile** it against this app's current features/capabilities, and to **SUGGEST** improvements it surfaces **IS canonical.** *Identify != apply* — never silently change anything; confirm with the user first.
+33. **ALWAYS** consult the standing references for modern native HTML/CSS/JS and Baseline platform capabilities: `modern-web-guidance` (GoogleChrome/modern-web-guidance) **and** the MDN Web Docs MCP server (`https://mcp.mdn.mozilla.net/` — tools `search` / `get-doc` / `get-compat` for live MDN docs + browser-compatibility data; the web-session-compatible connector, preferred for authoritative lookups). Their **content is ADVISORY and SUBORDINATE** — on ANY conflict with these rules, **THESE rules win.** The **requirement** to consult them, to **periodically reconcile** them against this app's current features/capabilities, and to **SUGGEST** improvements they surface **IS canonical.** *Identify != apply* — never silently change anything; confirm with the user first.
 
 ## HTML Layout Pattern
 
