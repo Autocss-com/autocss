@@ -179,6 +179,15 @@ app-container {
       cursor: pointer;
 
       &:hover {
+        background-color: var(--bg-hover);
+        color: var(--fg-emphasis);
+      }
+
+      /* Selected color-scheme (Light/Dark/System) pill — paint moved here from
+         color-scheme.css: consumers own component-state painting; the governor
+         only defines the --bg-selected/--bg-hover tokens this reads. */
+      &:has(> input:checked) {
+        background-color: var(--bg-selected);
         color: var(--fg-emphasis);
       }
 

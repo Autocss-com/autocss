@@ -126,18 +126,11 @@
     color: var(--bg); /* Part 2 supplies an explicit on-accent text color */
   }
 
-  /* SELECTED + HOVER surfaces for state-machine controls (a <label> wrapping a
-     checkbox/radio — the architecture's interactive primitive). DOM-agnostic, so
-     every hovered/selected control (the color-scheme control, nav, data rows, …)
-     shares the SAME accent surface as ::selection. Selected also tints the text
-     to the accent hue. The sun/moon/auto glyphs + text live in the markup. */
-  label:has(> input:is([type="checkbox"], [type="radio"])):hover {
-    background-color: var(--bg-hover);
-  }
-  label:has(> input:is([type="checkbox"], [type="radio"]):checked) {
-    background-color: var(--bg-selected);
-    color: var(--fg-accent);
-  }
+  /* SELECTED + HOVER painting is intentionally NOT done here. This governor only
+     DEFINES the --bg-selected / --bg-hover tokens (above); painting state-machine
+     controls (nav, data rows, buttons, the color-scheme control) is the CONSUMING
+     app's job — its own unlayered rules read these tokens (see layout.css /
+     forms.css). Keeps the governor to contract + foundation, not component state. */
 
   /* MARK: SYSTEM PREFERENCE DETECTION (all four) */
 
