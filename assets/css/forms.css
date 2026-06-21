@@ -1,29 +1,21 @@
-/* MARK: FORMS (PORTED AS-IS FROM DHCP — comply-later, see SESSION-HANDOFF LEDGER)
-   dhcp/assets/css/forms.css ported verbatim to reach parity. KNOWN issues kept
-   as-is (LEDGER items for the compliance pass): token/oklch reconcile (this file
-   self-defines its own RGB tokens below; rgba(var(--txt-active)) resolves to an
-   oklch value here and is silently dropped), malformed rgba(var(--error-color).05)
-   (missing comma), self-ref --valid-border-color, the .error class, and
+/* MARK: FORMS
+   Migrated to the modular color system: the self-defined RGB palette was removed;
+   colors now reference the contract / theme tokens (--input-bg, --input-border,
+   --bg-hover, --bg-selected, --fg-emphasis) plus the theme-only status tokens
+   (--error-strong, --success) from color-theme-*.css. The previously logged as-is
+   bugs are fixed here (malformed rgba(var(--error-color).05), the dropped
+   rgba(var(--txt-active)) value, and the self-referential valid/invalid tokens).
+   Still ported as-is (separate compliance-pass items): the .error class and the
    [data-dirty="true"] button gating (paired with forms.js form.dataset.dirty). */
-:root {
-  --input-border-color: 255, 255, 255;
-  --input-bg-color: 0, 0, 0;
-  --button-bg-color: 102, 204, 255;
-  --valid-border-color: var(--valid-border-color);
-  --invalid-border-color: var(--invalid-border-color);
-  --invalid-placeholder-color: var(--invalid-placeholder-color);
-  --error-color: 255, 0, 0;
-  --success-color: 0, 255, 0;
-}
 
 main {
   article {
     select {
-      border-color: rgba(var(--input-border-color), 0.1);
+      border-color: var(--input-border);
       width: fit-content;
       padding: .5rem 1rem;
       border-radius: var(--border-radius);
-      background-color: rgba(var(--input-bg-color), 0.1);
+      background-color: var(--input-bg);
       justify-self: end;
     }
   }
@@ -52,7 +44,7 @@ aside {
   }
 
   input:invalid:not(:placeholder-shown)::placeholder {
-    color: rgba(var(--error-color).05);
+    color: var(--error-strong);
     font-style: italic;
   }
 
@@ -62,8 +54,8 @@ aside {
     padding: 0.5rem;
     border-radius: var(--border-radius);
     width: 100%;
-    border: 0.125rem solid rgba(var(--input-border-color), 0.1);
-    background-color: rgba(var(--input-bg-color), 0.1);
+    border: 0.125rem solid var(--input-border);
+    background-color: var(--input-bg);
     font-size: 1rem;
     font-family: inherit;
     font-size: 100%;
@@ -77,19 +69,19 @@ aside {
   input:valid,
   select:valid {
     border: solid 0.125rem transparent;
-    border-inline-start-color: rgba(var(--success-color), 0.5);
+    border-inline-start-color: rgb(from var(--success) r g b / 0.5);
   }
 
   input:invalid,
   select:invalid {
     border: solid 0.25rem transparent;
-    border-inline-start-color: rgba(var(--error-color), 0.5);
+    border-inline-start-color: rgb(from var(--error-strong) r g b / 0.5);
   }
 
   /* https://codepen.io/una/pen/MWMmYxb?editors=1100 */
   select {
     appearance: base-select;
-    border: solid 0.0625rem rgba(var(--input-border-color), 0.1);
+    border: solid 0.0625rem var(--input-border);
     border-radius: var(--border-radius);
     display: grid;
     font-family: inherit;
@@ -114,7 +106,7 @@ aside {
   }
 
   input:invalid:not(:placeholder-shown)::placeholder {
-    color: rgba(var(--error-color));
+    color: var(--error-strong);
     font-style: italic;
   }
 
@@ -180,10 +172,10 @@ aside {
 
     button,
     [role="button"] {
-      background-color: rgba(var(--button-bg-color), 0.25);
+      background-color: var(--bg-hover);
 
       &:disabled {
-        background-color: rgba(var(--button-bg-color), 0.1);
+        background-color: var(--bg-hover);
         opacity: 0.5;
         cursor: not-allowed;
       }
@@ -192,14 +184,14 @@ aside {
       &:focus-visible,
       button:hover,
       button:focus-visible {
-        background-color: rgba(var(--button-bg-color), 0.5);
-        color: rgba(var(--txt-active));
+        background-color: var(--bg-selected);
+        color: var(--fg-emphasis);
       }
 
       &:has([data-dirty="true"]):valid::after {
         content: '✓ Ready to submit';
         display: block;
-        color: rgba(var(--success-color));
+        color: var(--success);
         margin-top: 0.5rem;
         animation: fadeIn 0.5s ease-in-out;
       }
@@ -247,6 +239,11 @@ aside {
       display: block;
     }
   }
+}
+
+/* Focus emphasis on form labels (relocated from themes.css). */
+form fieldset label:focus {
+  color: var(--fg-emphasis);
 }
 
 /* aside form:has(input:not(:placeholder-shown)) {

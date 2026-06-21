@@ -7,7 +7,7 @@ nav details section,
 main article ul[aria-hidden="true"] + ul,
 aside form fieldset {
   scrollbar-width: thin;
-  scrollbar-color: var(--accent2) #0000;
+  scrollbar-color: var(--fg-accent) #0000;
 
   transition: scrollbar-color .5s ease;
 

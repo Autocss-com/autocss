@@ -6,7 +6,7 @@
   --outline-style: dotted;
   --outline-width: 0.0625em;
   --outline-offset: -0.0625em;
-  --outline-color: var(--accent);
+  --outline-color: var(--outline);
   --outline-border-radius: var(--inner-radius);
 }
 
@@ -25,28 +25,28 @@ a:focus-visible {
 
 /* https://css-tricks.com/almanac/properties/a/accent-color/
    https://web.dev/articles/accent-color
-   --brand is owned by themes.css.
+   --fg-accent is owned by color-theme-*.css (Part 2 of the modular color system).
 */
 :root {
-  scrollbar-color: var(--brand) Canvas;
-  accent-color: var(--brand);
+  scrollbar-color: var(--fg-accent) Canvas;
+  accent-color: var(--fg-accent);
 }
 
 :focus-visible {
-  outline-color: var(--brand);
+  outline-color: var(--fg-accent);
 }
 
 ::selection {
-  background-color: var(--brand);
+  background-color: var(--fg-accent);
 }
 
 ::marker {
-  color: var(--brand);
+  color: var(--fg-accent);
 }
 
 :is(::-webkit-calendar-picker-indicator,
   ::-webkit-clear-button,
   ::-webkit-inner-spin-button,
   ::-webkit-outer-spin-button) {
-  color: var(--brand);
+  color: var(--fg-accent);
 }

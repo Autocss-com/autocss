@@ -101,7 +101,7 @@ app-container {
   }
 
   app-container > * {
-    background-color: var(--bg-panel);
+    background-color: var(--bg-muted);
   }
 
 
@@ -151,7 +151,7 @@ app-container {
     app-logo {
       padding: 1rem;
       margin-inline-start: 5rem;
-      color: var(--txt-active);
+      color: var(--fg-emphasis);
 
       &::before {
         content: '';
@@ -179,7 +179,7 @@ app-container {
       cursor: pointer;
 
       &:hover {
-        color: var(--txt-strong);
+        color: var(--fg-emphasis);
       }
 
       &:first-of-type {
@@ -225,7 +225,7 @@ app-container {
       summary {
         font-family: Oxanium-SemiBold, sans-serif;
         letter-spacing: 0.0625rem;
-        color: var(--txt-active);
+        color: var(--fg-emphasis);
         text-wrap: pretty;
         padding-inline: 1rem;
         padding-block: 0.5rem;
@@ -250,8 +250,8 @@ app-container {
 
           &:hover,
           &:has(> input:checked) {
-            background-color: var(--bg-active);
-            color: var(--txt-active);
+            background-color: var(--bg-selected);
+            color: var(--fg-emphasis);
             cursor: pointer;
           }
 
@@ -280,7 +280,7 @@ app-container {
     user-select: none;
     cursor: pointer;
     border: none;
-    background-color: var(--button-bg);
+    background-color: var(--bg-hover);
     color: inherit;
     align-items: center;
     justify-items: center;
@@ -291,8 +291,8 @@ app-container {
     font-size: 100%;
 
     &:hover {
-      background-color: var(--button-bg-hover);
-      color: var(--txt-active);
+      background-color: var(--bg-selected);
+      color: var(--fg-emphasis);
     }
 
     input[type="checkbox"] {
@@ -375,7 +375,7 @@ app-container {
         margin: 1rem;
 
         &:hover {
-          color: var(--txt-active);
+          color: var(--fg-emphasis);
         }
       }
 
@@ -442,7 +442,7 @@ app-container {
       ul[aria-hidden="true"] {
         align-content: start;
         font-family: Oxanium-Medium, sans-serif;
-        color: var(--txt-strong);
+        color: var(--fg-emphasis);
 
         li {
           &:first-child {
@@ -467,14 +467,14 @@ app-container {
             cursor: pointer;
 
             &:hover {
-              background-color: rgba(from currentcolor r g b / 0.05);
-              color: var(--txt-active);
+              background-color: var(--bg-hover);
+              color: var(--fg-emphasis);
             }
 
             /* Active/checked state */
             &:has(input:checked) {
-              background-color: rgba(from currentcolor r g b / 0.05);
-              color: var(--txt-active);
+              background-color: var(--bg-selected);
+              color: var(--fg-emphasis);
             }
 
             /* Spinner visible when selected */
@@ -631,4 +631,33 @@ fieldset {
   border: none;
   margin: 0;
   padding: 0;
+}
+
+/* MARK: BACKGROUND DECORATION
+   Relocated from themes.css (Part-2 color-theme files are variable-overrides only).
+   The full-bleed pattern + gradient that give the app its dhcp look; the gradient
+   value comes from the theme token --bg-grd. */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100dvh;
+  background-color: transparent;
+  background-image: url('../images/app/ui/pattern.png');
+  background-size: 4.6875rem;
+  background-repeat: repeat;
+  z-index: -5;
+}
+
+html::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100dvh;
+  z-index: -5;
+  background: var(--bg-grd);
 }

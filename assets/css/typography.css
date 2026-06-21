@@ -23,7 +23,7 @@ a:not([class]) {
 /* https://moderncss.dev/modern-css-for-dynamic-component-based-architecture/#container-query-fluid-type */
 :is(h1, h2, h3, h4) {
   font-family: Oxanium-SemiBold, sans-serif;
-  color: var(--txt-active);
+  color: var(--fg-emphasis);
   padding: 1rem;
   letter-spacing: 0.125rem;
   text-transform: uppercase;
