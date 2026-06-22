@@ -1,3 +1,5 @@
+@layer radii {
+
 /* MARK: RADII
 */
 
@@ -30,3 +32,5 @@ section {
 article > section {
   border-radius: var(--inner-radius);
 }
+
+} /* @layer radii */

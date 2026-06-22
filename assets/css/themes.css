@@ -1,3 +1,5 @@
+@layer themes {
+
 /* MARK: THEMES
    Color model: oklch() + light-dark(), alpha baked into each color.
    Values are the exact sRGB->OKLCH conversion of dhcp's palette (look reference).
@@ -92,3 +94,5 @@ button {
 form fieldset label:focus {
   color: var(--txt-active);
 }
+
+} /* @layer themes */

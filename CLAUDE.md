@@ -82,6 +82,10 @@ When a configured external API or service fails for any reason (SSL certificate 
 27. **NEVER** use `<div>` or `<span>` — ALWAYS use semantic HTML equivalents that address the intent of the element.
 28. **NEVER** nest wrapper elements for layout — ALWAYS use CSS Grid instead (e.g., `grid-template-columns` and `justify-content: space-between`).
 29. **ALWAYS** use `@layer` to distinguish different CSS features and to allow easier override by future developers.
+    - **Every CSS file is wrapped in its OWN named layer** — `@layer <filename> { … }` (e.g. `reset.css` → `@layer reset`), **with NO exceptions.** A file lacking a wrapper is a mistake, never an intentional signal — so no one wastes time inferring meaning from its absence.
+    - **Declare NO master `@layer` order statement.** The **`<link>` order in `index.html` IS the layer order** (a layer takes its position from where it is first seen). The load order *is* the Cascade — the **C** in CSS — used deliberately. Order the links so the most foundational file (e.g. `reset`) loads **FIRST = LOWEST priority**.
+    - **Purpose = pre-emptive deconfliction for future developers.** Because every one of our styles lives in a layer, ANY *unlayered* style another developer — or another system/framework embedding this UI — later writes wins **by default**, with zero extra effort and no specificity fight. We intentionally keep our own priority low so others' intent "just works."
+    - Keep wrappers **minimal** (do not re-indent file contents).
 30. **ALWAYS** use `@starting-style` to fade in init load of page content
 31. **ALWAYS** use `@view-transition` to fade in targeted tab content.
 32. *ALWAYS** use anchor positioning for all hover content so that content never goes off the page. 
