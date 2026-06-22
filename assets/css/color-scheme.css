@@ -85,7 +85,8 @@
     --bg-selected:   rgb(from AccentColor r g b / 5%); /* selected/checked surface = 5% accent */
     --bg-hover:      rgb(from AccentColor r g b / 5%); /* hover surface = 5% accent */
     --bg-disabled:   ButtonFace;       /* disabled control surface (alt: Field) */
-    --bg-muted:      rgb(from currentColor r g b / 5%); /* panel/region surface = 5% of text; Part 2 overrides with % accent */
+    --bg-muted:      ButtonFace;       /* muted panel surface */
+    --bg-panel:      rgb(from currentColor r g b / 5%); /* region surface (header/main/aside/footer) = 5% of text; Part 2 overrides with % accent */
 
     /* Focus ring — same accent hue as --fg-accent so the keyboard-focus
        indicator always tracks the theme accent. Forced-colors swaps it to
@@ -126,15 +127,15 @@
     color: var(--bg); /* Part 2 supplies an explicit on-accent text color */
   }
 
-  /* Region/landmark panel surfaces — a subtle tint so a theme-less drop-in still
-     reads as distinct panels. Default = 5% of the text color (currentColor);
-     Part 2 overrides --bg-muted with a % of the accent hue (from the theme file's
-     own base color). nav is intentionally excluded (it stays transparent). */
+  /* Region surfaces — a subtle tint so a theme-less drop-in still reads as
+     distinct panels. Default = 5% of the text color (currentColor); Part 2
+     overrides --bg-panel with a % of the accent hue (from the theme file's own
+     base color). nav is intentionally excluded (it stays transparent). */
   header,
   main,
   aside,
   footer {
-    background-color: var(--bg-muted);
+    background-color: var(--bg-panel);
   }
 
   /* COLOR-SCHEME CONTROL paint — this governor owns ITS OWN control's selected/
@@ -192,7 +193,7 @@
       --fg: CanvasText;
       --bg-selected: Highlight;  /* collapse the 5% accent tint -> solid selection */
       --bg-hover:    ButtonFace; /* collapse the 5% accent tint -> solid control  */
-      --bg-muted:    ButtonFace; /* collapse the 5% panel tint -> solid panel     */
+      --bg-panel:    ButtonFace; /* collapse the 5% panel tint -> solid panel     */
     }
   }
 }
