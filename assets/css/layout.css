@@ -100,9 +100,11 @@ app-container {
     }
   }
 
-  app-container > * {
-    background-color: var(--bg-muted);
-  }
+  /* Region panel backgrounds (header/main/aside/footer) are declared in
+     color-scheme.css (default = % currentColor; Part 2 = % accent) — a color
+     concern, not layout. (The old `app-container > *` rule here was nested inside
+     `app-container`, so it resolved to `app-container app-container > *` and never
+     matched — which is why the panels were not painting.) */
 
 
 
@@ -178,18 +180,8 @@ app-container {
       padding: 1rem;
       cursor: pointer;
 
-      &:hover {
-        background-color: var(--bg-hover);
-        color: var(--fg-emphasis);
-      }
-
-      /* Selected color-scheme (Light/Dark/System) pill — paint moved here from
-         color-scheme.css: consumers own component-state painting; the governor
-         only defines the --bg-selected/--bg-hover tokens this reads. */
-      &:has(> input:checked) {
-        background-color: var(--bg-selected);
-        color: var(--fg-emphasis);
-      }
+      /* The color-scheme control's hover/selected paint lives in color-scheme.css
+         (scoped to input[name="color-scheme"]) — a color concern, not layout. */
 
       &:first-of-type {
         display: none;

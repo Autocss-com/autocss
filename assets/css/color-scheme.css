@@ -85,7 +85,7 @@
     --bg-selected:   rgb(from AccentColor r g b / 5%); /* selected/checked surface = 5% accent */
     --bg-hover:      rgb(from AccentColor r g b / 5%); /* hover surface = 5% accent */
     --bg-disabled:   ButtonFace;       /* disabled control surface (alt: Field) */
-    --bg-muted:      ButtonFace;       /* muted panel surface */
+    --bg-muted:      rgb(from currentColor r g b / 5%); /* panel/region surface = 5% of text; Part 2 overrides with % accent */
 
     /* Focus ring — same accent hue as --fg-accent so the keyboard-focus
        indicator always tracks the theme accent. Forced-colors swaps it to
@@ -126,11 +126,30 @@
     color: var(--bg); /* Part 2 supplies an explicit on-accent text color */
   }
 
-  /* SELECTED + HOVER painting is intentionally NOT done here. This governor only
-     DEFINES the --bg-selected / --bg-hover tokens (above); painting state-machine
-     controls (nav, data rows, buttons, the color-scheme control) is the CONSUMING
-     app's job — its own unlayered rules read these tokens (see layout.css /
-     forms.css). Keeps the governor to contract + foundation, not component state. */
+  /* Region/landmark panel surfaces — a subtle tint so a theme-less drop-in still
+     reads as distinct panels. Default = 5% of the text color (currentColor);
+     Part 2 overrides --bg-muted with a % of the accent hue (from the theme file's
+     own base color). nav is intentionally excluded (it stays transparent). */
+  header,
+  main,
+  aside,
+  footer {
+    background-color: var(--bg-muted);
+  }
+
+  /* COLOR-SCHEME CONTROL paint — this governor owns ITS OWN control's selected/
+     hover surfaces (scoped to input[name="color-scheme"], DOM-agnostic so the
+     control can live anywhere). It does NOT paint other app controls (nav, data
+     rows, buttons) — those are consumer rules in layout.css/forms.css reading the
+     same --bg-hover/--bg-selected tokens. Glyphs + text live in the markup. */
+  label:has(> input[name="color-scheme"]):hover {
+    background-color: var(--bg-hover);
+    color: var(--fg-emphasis);
+  }
+  label:has(> input[name="color-scheme"]:checked) {
+    background-color: var(--bg-selected);
+    color: var(--fg-emphasis);
+  }
 
   /* MARK: SYSTEM PREFERENCE DETECTION (all four) */
 
@@ -173,6 +192,7 @@
       --fg: CanvasText;
       --bg-selected: Highlight;  /* collapse the 5% accent tint -> solid selection */
       --bg-hover:    ButtonFace; /* collapse the 5% accent tint -> solid control  */
+      --bg-muted:    ButtonFace; /* collapse the 5% panel tint -> solid panel     */
     }
   }
 }

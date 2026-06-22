@@ -32,7 +32,7 @@
 
     /* === BACKGROUND === */
     --bg:          light-dark(oklch(0% 0 0 / 0.8),       oklch(19.15% 0.0062 271.08));
-    --bg-muted:    light-dark(oklch(100% 0 89.88 / 0.2), oklch(100% 0 89.88 / 0.05));
+    --bg-muted:    rgb(from var(--fg-accent) r g b / 0.1);  /* region panel = 10% accent (overrides the 5%-currentColor default) */
     --bg-accent:   oklch(75.76% 0.1471 234.34 / 0.5);
     --bg-hover:    rgb(from var(--fg-accent) r g b / 0.1);  /* hover surface (rows + buttons resting) */
     --bg-selected: rgb(from var(--fg-accent) r g b / 0.2);  /* selected surface (rows + buttons hover) */
