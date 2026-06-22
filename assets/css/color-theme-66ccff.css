@@ -32,10 +32,10 @@
 
     /* === BACKGROUND === */
     --bg:          light-dark(oklch(0% 0 0 / 0.8),       oklch(19.15% 0.0062 271.08));
-    --bg-panel:    rgb(from var(--fg-accent) r g b / 0.1);  /* region surface = 10% accent (overrides the 5%-currentColor default) */
+    --bg-panel:    oklch(from var(--fg-accent) l c h / 0.1);  /* region surface = 10% accent (overrides the 5%-currentColor default) */
     --bg-accent:   oklch(75.76% 0.1471 234.34 / 0.5);
-    --bg-hover:    rgb(from var(--fg-accent) r g b / 0.1);  /* hover surface (rows + buttons resting) */
-    --bg-selected: rgb(from var(--fg-accent) r g b / 0.2);  /* selected surface (rows + buttons hover) */
+    --bg-hover:    oklch(from var(--fg-accent) l c h / 0.1);  /* hover surface (rows + buttons resting) */
+    --bg-selected: oklch(from var(--fg-accent) l c h / 0.2);  /* selected surface (rows + buttons hover) */
 
     /* === FOCUS === */
     --outline:     var(--fg-accent);
@@ -51,8 +51,8 @@
 
     /* === DECORATION — theme-only (consumed by layout.css / typography.css) === */
     --txt-shadow: light-dark(-1px 1px 0 oklch(100% 0 89.88 / 0.3), -1px 1px oklch(0% 0 0));
-    --bg-grd: light-dark(
-        linear-gradient(180deg, oklch(100% 0 89.88 / 0.7) 0, oklch(100% 0 89.88 / 0.4) 100%),
-        linear-gradient(180deg, oklch(38.15% 0.0304 230.17 / 0.9) 0, oklch(17.57% 0.0234 272.1) 100%));
+    --bg-grd: linear-gradient(180deg,
+        oklch(from var(--fg-accent) l c h / 0.2) 0%,
+        oklch(from var(--fg-accent) l c h / 0.05) 100%);
   }
 }

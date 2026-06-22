@@ -1,3 +1,5 @@
+@layer layout {
+
 /* MARK: LAYOUT | Vertical
 */
 :root {
@@ -662,3 +664,5 @@ html::before {
   z-index: -5;
   background: var(--bg-grd);
 }
+
+} /* @layer layout */

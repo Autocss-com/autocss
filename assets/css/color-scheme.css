@@ -87,6 +87,7 @@
     --bg-disabled:   ButtonFace;       /* disabled control surface (alt: Field) */
     --bg-muted:      ButtonFace;       /* muted panel surface */
     --bg-panel:      rgb(from currentColor r g b / 5%); /* region surface (header/main/aside/footer) = 5% of text; Part 2 overrides with % accent */
+    --bg-grd:        linear-gradient(180deg, rgb(from currentColor r g b / 8%) 0%, rgb(from currentColor r g b / 2%) 100%); /* app-container backdrop = currentColor transparency stops; Part 2 overrides with accent-based stops */
 
     /* Focus ring — same accent hue as --fg-accent so the keyboard-focus
        indicator always tracks the theme accent. Forced-colors swaps it to
@@ -136,6 +137,13 @@
   aside,
   footer {
     background-color: var(--bg-panel);
+  }
+
+  /* app-container backdrop gradient — visible through the grid gaps + the
+     transparent nav. Default = currentColor transparency stops so a theme-less
+     drop-in still has depth; Part 2 overrides --bg-grd with accent-based stops. */
+  app-container {
+    background: var(--bg-grd);
   }
 
   /* COLOR-SCHEME CONTROL paint — this governor owns ITS OWN control's selected/
