@@ -1,3 +1,5 @@
+@layer media {
+
 /* MARK: MEDIA
 */
 
@@ -13,3 +15,5 @@
   display: block;
   max-inline-size: 100%;
 }
+
+} /* @layer media */

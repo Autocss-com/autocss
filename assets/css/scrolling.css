@@ -1,3 +1,5 @@
+@layer scrolling {
+
 /* MARK: SCROLLING
 */
 
@@ -20,3 +22,5 @@ aside form fieldset {
 textarea {
   scrollbar-width: thin;
 }
+
+} /* @layer scrolling */

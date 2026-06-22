@@ -1,3 +1,5 @@
+@layer loading {
+
 /* MARK: LOADING (PORTED AS-IS FROM DHCP — comply-later, see SESSION-HANDOFF)
    dhcp/assets/css/loading.css dual-ring spinner ported verbatim. LEDGER item:
    reconcile with layout.css's existing single spinner
@@ -69,3 +71,5 @@ nav details label input[type="radio"]:checked ~ main:not(:has(article))::after {
     opacity: 0.3;
   }
 }
+
+} /* @layer loading */

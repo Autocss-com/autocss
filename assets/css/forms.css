@@ -1,3 +1,5 @@
+@layer forms {
+
 /* MARK: FORMS
    Migrated to the modular color system: the self-defined RGB palette was removed;
    colors now reference the contract / theme tokens (--input-bg, --input-border,
@@ -249,3 +251,5 @@ form fieldset label:focus {
 /* aside form:has(input:not(:placeholder-shown)) {
   display: grid;
 } */
+
+} /* @layer forms */

@@ -1,3 +1,5 @@
+@layer typography {
+
 /* MARK: TYPOGRAPHY
 */
 
@@ -71,3 +73,5 @@ blockquote {
   /* hanging-punctuation: first last; */
   text-wrap: pretty;
 }
+
+} /* @layer typography */

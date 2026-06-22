@@ -1,3 +1,5 @@
+@layer inputs {
+
 /* MARK: INPUTS
 */
 
@@ -14,3 +16,5 @@
   word-spacing: inherit;
   color: currentColor;
 }
+
+} /* @layer inputs */

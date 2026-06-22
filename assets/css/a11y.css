@@ -1,3 +1,5 @@
+@layer a11y {
+
 /* MARK: A11Y
 */
 
@@ -50,3 +52,5 @@ a:focus-visible {
   ::-webkit-outer-spin-button) {
   color: var(--fg-accent);
 }
+
+} /* @layer a11y */

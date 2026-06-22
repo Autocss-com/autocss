@@ -1,3 +1,5 @@
+@layer fallbacks {
+
 /* MARK: FALLBACKS (PORTED AS-IS FROM DHCP — comply-later, see SESSION-HANDOFF)
    Structural fallback messaging for the D7460N UI. Ported verbatim from
    dhcp/assets/css/fallbacks.css. LEDGER item: the `nav details section:empty`
@@ -79,3 +81,5 @@ header:has(app-user:empty)::after {
   color: gray;
   font-style: italic;
 }
+
+} /* @layer fallbacks */
