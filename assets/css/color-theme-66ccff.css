@@ -32,10 +32,10 @@
 
     /* === BACKGROUND === */
     --bg:          light-dark(oklch(0% 0 0 / 0.8),       oklch(19.15% 0.0062 271.08));
-    --bg-panel:    oklch(from var(--fg-accent) l c h / 0.1);  /* region surface = 10% accent (overrides the 5%-currentColor default) */
+    --bg-panel:    oklch(from var(--fg-accent) l c h / 0.05);  /* region surface = 5% accent (overrides the 5%-currentColor default) */
     --bg-accent:   oklch(75.76% 0.1471 234.34 / 0.5);
     --bg-hover:    oklch(from var(--fg-accent) l c h / 0.1);  /* hover surface (rows + buttons resting) */
-    --bg-selected: oklch(from var(--fg-accent) l c h / 0.2);  /* selected surface (rows + buttons hover) */
+    --bg-selected: oklch(from var(--fg-accent) l c h / 0.05);  /* selected surface (rows + buttons hover) */
 
     /* === FOCUS === */
     --outline:     var(--fg-accent);
