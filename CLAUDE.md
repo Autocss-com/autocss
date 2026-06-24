@@ -173,6 +173,14 @@ For navigation:
       </nav>
 ```
 
+## Issue / Project-Board Tracking (mirror of the backlog)
+
+`PROGRESS.json` (`meta.future_goals` + `cursor.open_q`) is the **single source of truth** for outstanding work. GitHub **Issues** + the **Projects board** are a one-way **mirror** for human visibility — never a competing tracker.
+
+- As part of the session-end ritual (commit → update `PROGRESS.json` → append shard → update `SESSION-HANDOFF.md`), **reconcile GitHub Issues with the backlog**: open an Issue for each new backlog / open-question item, and **close** the Issue when its item is done (the board's built-in Workflows then move it to Done).
+- Keep it lightweight: the title mirrors the item; the body carries the detail + a pointer to the relevant `PROGRESS.json` / prompt entry; apply the `backlog` label (so the board's auto-add Workflow can filter on it). Sub-tasks live in the parent Issue's body, not as separate Issues — unless one graduates into its own session.
+- Issues are effectively append-only (GitHub can close but not delete), so create deliberately. If the GitHub Projects toolset / board is unavailable in a session, **skip silently** — `PROGRESS.json` stays authoritative and the mirror catches up later.
+
 ## File Responsibilities
 
 - **index.html** — Complete DOM structure, loaded upfront
