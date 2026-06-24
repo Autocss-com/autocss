@@ -5,29 +5,49 @@
 The AutoCSS UI is ONE zero-dependency, browser-native HTML+CSS UI. This phase serves
 it as a REMOTE RESOURCE — referenced by URL like an image or a font — so any host can
 render it and supply its own data. **One UI, many back-ends.** The back-ends are
-data-logic layers (frameworks + CMSs: WordPress, Drupal, React, Vue, Angular, Laravel,
-Rails, …). Each supplies DATA; all share ONE CDN-hosted UI.
+interchangeable **data layers** (data-logic layers) — WordPress, Drupal, React, Vue,
+Angular, Laravel, Rails, … This is NOT "frameworks PLUS CMSs" as two categories; it is
+one open list of *possible* data layers, and **the point is that it does not matter** —
+the data layer and the technology behind it are entirely OPTIONAL / interchangeable.
+AutoCSS cares about exactly ONE thing: **when data shows up in the user-agent.** Each
+supplies DATA; all share ONE CDN-hosted UI.
 
 Thesis to prove: declarative-first / browser-first **interoperates with everything AND
-is simpler / faster / smaller / cheaper** than the over-engineered stacks it drops into.
+is simpler / faster / smaller / cheaper** than the over-engineered stacks it drops into —
+and ALSO **fully standard, accessible, and more secure**, because it offloads essentially
+all JavaScript down to a single `oninput` event (a smaller JS surface = a smaller attack
+surface).
 
 ## Why this is even possible (the linchpin — already built)
 CLAUDE.md Rule 29: every AutoCSS stylesheet lives in a named `@layer`, and the link
 order IS the cascade order — deliberately keeping our priority LOW. So **any unlayered
 style the host writes wins by default**, with zero effort and no specificity fight.
 That pre-emptive deconfliction is exactly what lets the UI "drop into any host" and be
-re-skinned by it. The CDN phase is the payoff of that work — lean on it.
+re-skinned by it. The CDN phase is the payoff of that work — lean on it. But note: this
+lowered-priority `@layer` trick is just ONE of MANY deliberate techniques in this
+codebase. Before building, **READ the full documentation (`CLAUDE.md`) and the project
+history (`PROGRESS.json` + the newest `progress/log-*.ndjson` shard + `SESSION-HANDOFF.md`)**
+to hold the whole picture in view — that context is what keeps the work to exactly what is
+asked (no more, no less) and prevents forgetting / hallucinating.
 
 ## The boundary (separation of concerns = the product)
-- **CDN provides** (presentation + behavior, NO app data): the HTML skeleton (full-bleed
-  Holy Grail), the CSS layer stack, the JS runtime (`api` / `oninput` / `storage` / `app`).
+- **CDN provides** (presentation + behavior, NO app data): the HTML skeleton — a
+  **single-page-application** architecture (ONE `index.html`, full-bleed Holy Grail) that
+  uses a **tabs architecture** for navigation and checkbox/radio `<input>`s as **state
+  machines** — the CSS layer stack, and the JS runtime (`api` / `oninput` / `storage` / `app`).
 - **Host provides** (data only): the API base URL + endpoint suffixes; optionally which
   `color-theme-*.css` to link, and its own override CSS.
 - The single config knob already exists in the runtime: **API base declared once; only
   the endpoint suffix varies** (`shell`, `home`, `products`, …). The host fills that in.
 - The UI MUST stay data-free: it carries structure/behavior/style, never the host's data.
+  It nonetheless handles **all user interaction** (with NO events except the single
+  `oninput`) **and all data states — including data loading states** — itself, in HTML+CSS.
 
-## Decisions to LOCK with the user FIRST (do not guess)
+## Decisions to LOCK with the user FIRST (do not guess — and never assume)
+
+> Minimal is always better; **adding code adds entropy.** This UI is purposely simple,
+> yet secure, by deliberate engineering + design — not by accident. **The user is the
+> arbiter of what is correct.** Lock each decision below WITH the user before building.
 1. **Delivery mechanism** — the defining fork:
    - **A) Link + module import** — host `<link>`s the CDN CSS and `<script type="module">`s
      the CDN JS; the HTML skeleton is included by the host (static partial / SSI) or
