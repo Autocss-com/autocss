@@ -15,24 +15,43 @@ state, behavior, or presentation.
 - **Zero dependencies** — native evergreen-browser features only; no frameworks, no
   bundler, no build step.
 - **Single `index.html`** — full-bleed Holy Grail layout via CSS Grid.
+- **Air-gapped layers** — complete separation: no shared hooks and no agreed-upon
+  vocabulary between HTML, CSS, and JS (which is *why* `class`/`id`/`data-*` are banned).
+  Any layer can be replaced without touching the others.
 
 The canonical, non-negotiable rules live in **`CLAUDE.md`**; the live backlog and
 project state live in **`PROGRESS.json`**.
+
+## Security by design
+
+Banning inline scripts, event-handler attributes, and `innerHTML` removes the usual XSS
+vectors by construction — so a strict **Content Security Policy** works from day one,
+with no `unsafe-inline` or `unsafe-eval`.
+
+## Accessibility by construction
+
+Because only semantic elements and real form controls are allowed — never `div`/`span`
+stand-ins — inaccessibility is effectively *unreachable*. Real buttons, inputs, and
+landmarks deliver **WCAG / Section 508** conformance as a property of the markup, not a
+retrofit.
 
 ## Demo ecosystem
 
 AutoCSS is proven by a set of **real, diverse products** — each its own repository in
 the `autocss-com` org, each with a completely different dataset, layout, workflow, and
 user experience. The diversity *is* the proof: one declarative-first UI approach
-adapting to anything. Repos follow the `autocss-<backend>` naming convention.
+adapting to anything. Adding a project adds **0 new codebases, 0 build pipelines, 0
+dependencies** — one UI serves one product or ten thousand identically. Repos follow the
+`autocss-<backend>` naming convention.
 
 | Repo | Product | Notes |
 | --- | --- | --- |
-| `autocss-vanilla` | **international.dance** | the current architecture as-is; ballet studio (accounts, store, payments) |
-| _tbd_ | Pokémon app | reuses the Holy Grail triage layout + workflow |
-| _tbd_ | Crime statistics (Fairfax County + Virginia State Police) | reuses the Holy Grail triage layout + workflow |
-| _tbd_ | Bible study app | reuses the Holy Grail triage layout + workflow |
-| _tbd_ | Psychiatrist site | — |
+| `autocss-vanilla` | **international.dance** (ballet studio) | the current architecture as-is; accounts, store, payments |
+| `autocss-wordpress` | **Psychiatrist** practice site | headless WordPress (booking, accounts) |
+| `autocss-vue` | **Pokémon** app | Holy Grail triage; PokéAPI + sprite pictures |
+| `autocss-angular` | **Crime statistics** (Fairfax County + Virginia State Police) | Holy Grail triage; FCPD ArcGIS + FBI CDE |
+| `autocss-react` | **Bible study** app | Holy Grail triage; AO Lab bible.helloao.org |
+| `autocss-drupal` · `autocss-joomla` · `autocss-sharepoint` | _reserved_ | held for future products |
 
 ### Hosting model
 
