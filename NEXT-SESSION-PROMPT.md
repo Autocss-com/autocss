@@ -13,16 +13,27 @@ remaining FUNCTIONAL gap discovered during the port: Save writes to the WRONG
 LEVEL and Delete never hits the server. Everything else outstanding is
 render/compliance and stays in the ledger for later sessions.
 
+SINCE PARITY (also DONE — do not re-litigate): the MODULAR COLOR SYSTEM landed —
+Phase 1→2 migration applied (consumers moved onto the `color-scheme.css` contract;
+`themes.css` → `color-theme-66ccff.css` in OKLCH); EVERY CSS file is now wrapped in
+its own `@layer <filename>`, and the load-order = cascade deconfliction is documented
+in CLAUDE.md Rule 29; region panels + the selected-tab seam were tuned to 5% accent.
+Tracking moved to GitHub: the backlog is mirrored as Issues #4–#14 (label `backlog`)
+on the autocss Project board, governed by the new CLAUDE.md "Issue / Project-Board
+Tracking" mandate (PROGRESS.json remains the single source of truth). THIS session =
+**GitHub Issue #4** — close it when done so the board auto-moves it to Done.
+
 Work on branch `claude/lucid-hawking-E5Ej2` (push there, never `main`). NOTE: a
 fresh container may check out `claude/great-ride-37t354` (EMPTY scaffolding) — that
 is a harness default; switch to `claude/lucid-hawking-E5Ej2`, where ALL work +
-memory live (current tip should be `a5defb8` or later; base of parity work
-`31c7925`). Verify with `git ls-remote` if the local clone looks empty.
+memory live. Confirm the current tip with `git log -1` / `git ls-remote` if the
+local clone looks empty.
 
 ============================= READ FIRST, IN THIS ORDER =============================
-1. `CLAUDE.md` — canonical, non-negotiable D7460N rules (this is a NEW focused
-   session, so the as-is exception does NOT automatically apply here — see Open
-   Question A about how compliant this fix must be).
+1. `CLAUDE.md` — canonical, non-negotiable D7460N rules (now also Rule 29 `@layer`
+   load-order deconfliction + the "Issue / Project-Board Tracking" mandate). This is a
+   NEW focused session, so the as-is exception does NOT automatically apply here — see
+   Open Question A about how compliant this fix must be.
 2. `PROGRESS.json` — `meta`, `cursor` (phase/last/next/open_q). The first two
    `open_q` entries are THIS session (the defect + the residue cleanup).
 3. `progress/log-001.ndjson` — read in full. CRUCIAL: the 2026-06-10 record
@@ -142,7 +153,9 @@ mass-deleting beyond the obvious Save-residue ({itemName/itemType, no items/titl
 - Check in before your FIRST push and after the fix is verified. Commit + update
   `PROGRESS.json` cursor + append to `progress/log-001.ndjson` (append-only; never
   edit past records) + update `SESSION-HANDOFF.md` (mark the defect FIXED, move it
-  out of the open items, refresh the LEDGER/cursor) when done.
+  out of the open items, refresh the LEDGER/cursor) + CLOSE GitHub Issue #4 (state
+  closed, reason completed) so the Project board auto-moves it to Done — per the
+  CLAUDE.md "Issue / Project-Board Tracking" mandate.
 - Treat live writes with care (throwaway record; clean up). Do NOT delete others'
   records or seed data without explicit confirmation.
 
