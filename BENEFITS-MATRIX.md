@@ -90,8 +90,11 @@ CX is risk reduction, cost efficiency, longevity, and organizational flexibility
 
 _New domain._ MX is the program's owners — leadership, executives, procurement & legal, and security & compliance (typically the prime contractor). It asks one question: is this defensible, affordable, and low-risk to own? The rows below are drawn from the documented stakeholder, procurement, security/compliance, and government material.
 
+**For government especially, this reframes a core assumption.** Programs are usually **stovepiped** — each builds its own front end and back end as if nothing can be shared. But because the architecture is **data-agnostic** — one UI conforms to each program's *own* data structure — the *method* of building web apps cuts **across** those stovepipes. A single front-end approach carries accessibility, usability, security, performance, interoperability, and scalability uniformly across the whole portfolio, instead of every program rebuilding (and re-certifying) them from scratch.
+
 | Capability | What management / the prime gets | How it works |
 | --- | --- | --- |
+| Cuts across stovepiped programs | One data-agnostic front-end conforms to each program's own data shape, so accessibility, usability, security, performance, interoperability, and scalability arrive across every program — not rebuilt per stovepipe. | Data-agnostic UI built from each program's own JSON keys via `toTagName()`; presentation/data decoupling; "one UI supports multiple systems and APIs" (cross-stack UI reuse). |
 | Defensible compliance | Accessibility and security are built in, not remediation projects — easing accreditation and audit. | WCAG 2.1 AA / Section 508 native; strict CSP on day one (no `unsafe-inline`/`unsafe-eval`); semantic, readable HTML "improves transparency and validation" (easier audits). |
 | Low procurement / supply-chain risk | Nothing third-party in the runtime to vet, license, or disclose. | Zero dependencies; "no SaaS dependencies in the runtime, no license entanglements to clear, no third-party data processors to disclose." |
 | Vendor independence & longevity | No framework lock-in or deprecation deadlines; the UI outlives backends and frameworks. | Browser-native standards; framework-optional; long-lived UI asset. |
