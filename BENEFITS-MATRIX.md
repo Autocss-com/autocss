@@ -4,6 +4,22 @@ Find your column. The D7460N Architecture serves four experience domains; open t
 
 UX, DX, and CX are defined as written in DHCP's "UI Architecture Feature Matrix" (`docs/architecture/README.md`). **MX (Management Experience) is new** — it is not yet in the docs, so it is drawn from the existing stakeholder, procurement, security/compliance, and government material.
 
+## In plain words (no tech knowledge needed)
+
+You know the screen you use to check email or look up a recipe? That screen is a **web browser**. A **web app** is just a helpful tool that opens inside it — think of a digital version of a paper form, a checkbook register, or a filing cabinet you reach through that same screen.
+
+**D7460N is a way of building those tools so they are simple, fast, and kind to the person using them.** Most tools today are assembled from piles of borrowed, constantly-changing parts that slow down, break, and need expensive repair. D7460N builds them almost entirely from the few sturdy pieces every browser already has — so there is far less to go wrong.
+
+Why that's worth being excited about:
+
+- **It just works, right away** — it opens fast, with no spinning or waiting.
+- **It remembers you** — your bigger text, your dark colors, and the place you left off all come back next time.
+- **It keeps working on bad internet** — even offline, like an app on your phone.
+- **It's made for everyone** — including people who use only a keyboard, or who rely on a screen reader to hear the page.
+- **It lasts** — it doesn't rot or break as the years pass, and it's inexpensive to keep running.
+
+And one tool, built once, can power many completely different things — a dance studio, a doctor's office, a crime-statistics map, a Bible-study app — all from the same sturdy foundation.
+
 ## The four experiences
 
 | Domain | Who it's for | What it covers (as documented) |
