@@ -1,141 +1,93 @@
-# Benefits matrix
+# D7460N benefits by experience — UX · DX · CX · MX
 
-_Sourced from the project documentation (`autocss`, `starter`, and `DHCP` READMEs plus DHCP's customer/client docs). Within each concern, rows are features; the audience columns say how each feature benefits that audience; the Details column gives the feature's technical aspects. A blank cell means the documentation does not state a specific benefit of that feature for that audience._
+Find your column. The D7460N Architecture serves four experience domains; open the one that is yours to see what you get, how it works, and where it is already proven.
+
+UX, DX, and CX are defined as written in DHCP's "UI Architecture Feature Matrix" (`docs/architecture/README.md`). **MX (Management Experience) is new** — it is not yet in the docs, so it is drawn from the existing stakeholder, procurement, security/compliance, and government material.
+
+## The four experiences
+
+| Domain | Who it's for | What it covers (as documented) |
+| --- | --- | --- |
+| **UX — User Experience** | End users | Perceived performance, usability, accessibility, and interaction stability — "the intersection of accessibility and usability," across the whole user journey. |
+| **DX — Developer Experience** | Developers, designers, DevOps, QA | Maintainability, clarity, velocity, and architectural durability — built on interoperable, W3C/Baseline web features. |
+| **CX — Customer / Business Experience** | Customers, product owners, clients, founders | Risk reduction, cost efficiency, longevity, and organizational flexibility. |
+| **MX — Management Experience** _(usually the prime)_ | Program leadership, executives, procurement & legal, security & compliance | _New._ Oversight, compliance & audit, procurement/legal, risk & cost control, and workforce — whether the program is defensible, affordable, and low-risk to own. |
+
+---
 
 <details>
-<summary><strong>Security</strong></summary>
+<summary><strong>UX — User Experience (end users)</strong></summary>
 
-| Feature | End Users | Developers | Stakeholders | Primes | Details |
-| --- | --- | --- | --- | --- | --- |
-| Strict Content Security Policy by default | | CSP is strict on day one — no multi-year migration toward removing `unsafe-*`, and nothing third-party to allowlist. | Security posture is built in from day one rather than a long hardening effort. | No `unsafe-inline`/`unsafe-eval` and no third-party scripts to audit eases security review. | Ships `script-src 'self'; style-src 'self'; object-src 'none'; base-uri 'self'; frame-ancestors 'none'`; achievable because inline `<script>`, `style=`, and `on*=` handlers are forbidden. |
-| Minimal JavaScript surface (near-zero script XSS) | Less exposure to script-based attacks in the app they use. | JS is one repeatable `oninput` CRUD event — far less code to secure. | "Minimal JavaScript = smaller attack surface." | Minimal scriptable UI eases accreditation and review. | Forbids inline `<script>`, `on*=` handlers, `innerHTML` with markup strings, and `eval`/`Function`/dynamic code; JavaScript is limited to `fetch()` CRUD. |
-| Zero third-party runtime dependencies | No third-party analytics/scripts running in their browser ("no cookie banners for analytics nobody asked for"). | Nothing upstream to audit or patch. | No supply-chain risk; no vendor lock-in. | No third-party data processors to disclose; the supply-chain compromise vector is removed. | 100% browser-native, zero runtime dependencies; CSP needs no third-party allowlist. |
+UX is "the intersection of accessibility and usability… the entire journey of a user, from the moment they input the URL to the point they close the app, and even beyond" (`DHCP/ADD.md`).
+
+| Capability | What end users get | How it works |
+| --- | --- | --- |
+| Stable first render + truthful loading state | The page is usable immediately and shows an honest "loading," then content appears in place when data lands. | The empty semantic shell renders before JavaScript; CSS drives the loading state and shows/hides regions by data presence (`:empty` / `:not(:empty)` / `:has()`). |
+| Works even with JavaScript disabled | Core navigation and UI keep working if JS is blocked or fails. | UI state is CSS state machines (`:checked` / `:has()`); JavaScript only delivers data. |
+| Make-it-their-own customization | Theme (light/dark/system), contrast, density, motion, font size, and language direction — remembered between visits and applied instantly. | `prefers-color-scheme` / `light-dark()`, `prefers-contrast`, `forced-colors`, `prefers-reduced-motion`, relative units, logical properties; choices persist in `localStorage`. |
+| Native accessibility | Keyboard and screen readers work because every control is real. | Semantic-only HTML; focus order = DOM order; WCAG 2.1 AA / Section 508. |
+| Speed they feel | Fast first paint, small download, immediate interaction. | No framework runtime; CSS-driven UI. Typical deployment: LCP under 0.12 s, payload under 100 KB, immediate time-to-interactive. |
+| Install + offline | Can be installed and used offline like a native app. | PWA: web manifest + service-worker caching ("Installable," "Network Independent"). |
+
+**Proven by:** the starter's "Where users live" account (leadership "had never seen a UI give that much attention and respect to the people using it"); the OS-preference customization list in `ADD.md`; and real apps end users already touch — international.dance, the Pokémon app, the Fairfax/VA crime-statistics app, and the Bible-study app.
 
 </details>
 
 <details>
-<summary><strong>Accessibility</strong></summary>
+<summary><strong>DX — Developer Experience (developers, designers, DevOps, QA)</strong></summary>
 
-| Feature | End Users | Developers | Stakeholders | Primes | Details |
-| --- | --- | --- | --- | --- | --- |
-| Semantic-HTML-only structure | Keyboard navigation and screen readers work because they are native. | Accessibility falls out of the semantic rule — not a separate layer to build. | 508/WCAG compliance is a property of the architecture, "not out of remediation budgets." | Meets WCAG 2.1 AA and Section 508 natively — built for government accessibility requirements. | Only real controls (`<button>/<a>/<input>/<label>/<select>`) and landmarks (`<header>/<nav>/<main>/<section>/<article>/<footer>`); focus order = DOM order; ARIA used sparingly; no `<div>/<span>/class/id`. |
-| Built-in user-preference adaptation | Theme (light/dark/system), font size/zoom, reduced motion, high contrast, density, and language direction — persisted and applied instantly. | Delivered with native CSS preference queries + custom properties; no JavaScript. | Signals respect to users; the README ties this to ownership, morale, and productivity. | `prefers-contrast` / `forced-colors` / `prefers-reduced-motion` support contributes to accessibility compliance. | `prefers-color-scheme`, `light-dark()`, `prefers-reduced-motion`, `prefers-contrast`, `forced-colors`, relative units, logical properties; persisted in `localStorage`. |
+DX is maintainability, clarity, velocity, and architectural durability, built on interoperable web features (W3C WebDX / Baseline).
 
-</details>
+| Capability | What developers get | How it works |
+| --- | --- | --- |
+| Open the file, it works | No build step, no transpiler, no framework version to track. | One `index.html`; native HTML/CSS/ES modules; refresh to see changes. |
+| One pattern for all data | Presentation and state logic — including every loading and error state — are already built; you just deliver JSON. | All CRUD runs through one `oninput` lifecycle into `fetch()`; data-table cells are custom elements generated from JSON keys via `toTagName()`. |
+| Air-gapped layers | Change one layer without touching the others; your styles override theirs without a fight. | HTML has no class/id/data-*/on*=; CSS reacts to the DOM; `@layer`/`@scope` keep specificity low. |
+| Predictable to test | No virtual-DOM diffing, version skew, or flaky hydration; components test in isolation. | Nothing rewrites the DOM; state lives in native attributes read by CSS. |
+| Standards, not abstractions | Build on interoperable features that keep working, not framework APIs that churn. | Baseline web platform: `:has()`, container/style queries, `@starting-style`, anchor positioning; CSS UI work reported 100–1000× faster than JS DOM manipulation. |
+| Reuse across stacks | One UI works with any backend or framework; modernize incrementally without rewrites. | Presentation/data decoupling; framework-optional; REST / GraphQL / file-based JSON. |
 
-<details>
-<summary><strong>Usability</strong></summary>
-
-| Feature | End Users | Developers | Stakeholders | Primes | Details |
-| --- | --- | --- | --- | --- | --- |
-| Auto-layout that adapts to the environment | The UI reads the platform and responds with no configuration. | Handled in CSS; no JavaScript environment detection. | | | OS, viewport, light/dark, contrast, reduced motion, language direction, and input method via media/container/style and pointer/hover/touch queries. |
-| Layout that adapts to the data | Empty, sparse, dense, and error states all render correctly. | The same CSS handles every state because CSS is reactive to the DOM. | | | Visibility driven by `:empty`/`:not(:empty)`/`:has()`/`[hidden]` keyed off delivered data. |
-| Pre-built presentation, loading, and error states | Content "renders in place, styled and ready," with loading/error states already handled. | Presentation and state logic (including all loading and error states) are already done — just deliver content via the API. | Faster delivery — no page-building. | | DHCP "speed build": deliver JSON via API/JS modules; content renders in place by default. |
+**Proven by:** the starter's Developers / DevOps / QA notes ("Open the file. It works."); DHCP's "speed build" — deliver content via the API and it renders in place, "like turning on the lights on a Christmas tree"; and the single codebase that drives the vanilla, Vue, Angular, React, and WordPress demos.
 
 </details>
 
 <details>
-<summary><strong>Interoperability</strong></summary>
+<summary><strong>CX — Customer / Business Experience (customers, product owners, clients, founders)</strong></summary>
 
-| Feature | End Users | Developers | Stakeholders | Primes | Details |
-| --- | --- | --- | --- | --- | --- |
-| One UI, any backend | | Talks to any backend over HTTP and JSON; add modules without touching the core. | One front-end serves infinite backends, languages, and platforms. | Complements backend frameworks; can wrap existing APIs or services. | REST/GraphQL/file-based JSON via `fetch()`; the presentation layer is fetched (not copied) as an independent resource; compatible with Cloudflare, AWS, and standard CI/CD. |
-| Runs alongside existing stacks | | Works with what you have already shipped; extensible without touching the core. | Complements, rather than replaces, existing systems. | | `@layer` keeps styles low-specificity and easily overridden; minimal nesting, no IDs/classes. |
+CX is risk reduction, cost efficiency, longevity, and organizational flexibility.
 
-</details>
+| Capability | What the business gets | How it works |
+| --- | --- | --- |
+| One UI, many products | The same front-end serves completely different products — different data, brand, and workflow. | The presentation layer is fetched (not copied); branding is a CSS-variable swap. |
+| $0 to add the next project | Adding a project adds 0 codebases, 0 build pipelines, 0 dependencies. | One front-end on a CDN, called by any backend (README scaling table: 1 → 10,000 projects, one front-end). |
+| No migration bills | The site does not accrue technical debt while sitting still; no framework migration in year three. | Browser-native standards; the UI is a long-lived asset; modernize incrementally. |
+| Lower total cost | Smaller files, less tooling, no licenses, easier to scale. | Payload under 100 KB; zero dependencies; static hosting (GitHub Pages, Cloudflare, AWS). |
+| Flexible integration | Works with what you already run; wrap existing APIs or a CMS instead of replacing them. | Any REST / GraphQL / file backend; framework-optional. |
+| Resilient & installable | Keeps working offline and on poor networks; installable like an app. | PWA caching, background sync, resilient network handling. |
 
-<details>
-<summary><strong>Future-proofing</strong></summary>
-
-| Feature | End Users | Developers | Stakeholders | Primes | Details |
-| --- | --- | --- | --- | --- | --- |
-| Browser-native standards as the only dependency | | No framework version to track; modern baseline CSS replaces most JavaScript UI work. | No deprecation deadlines; no vendor lock-in. | Built on W3C/WCAG standards already present in every environment. | Depends only on the browser (HTML/CSS/ES Modules); uses `:has()`, container queries, `@starting-style`, anchor positioning, view transitions. |
-
-</details>
-
-<details>
-<summary><strong>Risk reduction</strong></summary>
-
-| Feature | End Users | Developers | Stakeholders | Primes | Details |
-| --- | --- | --- | --- | --- | --- |
-| Predictable DOM, no framework churn | | Components test in isolation; no virtual-DOM diffing, framework version skew, or flaky hydration. | Low risk: minimal attack surface, no scriptable UI. | Minimal attack surface supports the risk posture for audits. | Nothing rewrites the DOM; UI state lives in native attributes read by CSS. |
-| Progressive enhancement | Core UI keeps working even if JavaScript is disabled. | CSS handles UI state; JavaScript only delivers data. | | | DHCP: "Progressive Enhancement — fully functional with JavaScript disabled"; CSS `:checked`/`:has()` state machines. |
+**Proven by:** the autocss demo ecosystem — international.dance (a ballet studio with accounts, store, and payments), a psychiatrist practice on headless WordPress, a Pokémon app, the Fairfax County / Virginia crime-statistics app, and a Bible-study app: one architecture, five very different real products. Also the client summary dashboard (Reusability: Modular; Risk: Low).
 
 </details>
 
 <details>
-<summary><strong>Obsolescence resistance</strong></summary>
+<summary><strong>MX — Management Experience (management / the prime)</strong></summary>
 
-| Feature | End Users | Developers | Stakeholders | Primes | Details |
-| --- | --- | --- | --- | --- | --- |
-| No framework deprecation / migration treadmill | | No transpiler or framework version to track or upgrade. | No framework migration bills in year three; the site does not accrue technical debt while sitting still. | Standards-based implementation that stays "future proof." | Browser-native; native standards evolve backward-compatibly. |
+_New domain._ MX is the program's owners — leadership, executives, procurement & legal, and security & compliance (typically the prime contractor). It asks one question: is this defensible, affordable, and low-risk to own? The rows below are drawn from the documented stakeholder, procurement, security/compliance, and government material.
 
-</details>
+| Capability | What management / the prime gets | How it works |
+| --- | --- | --- |
+| Defensible compliance | Accessibility and security are built in, not remediation projects — easing accreditation and audit. | WCAG 2.1 AA / Section 508 native; strict CSP on day one (no `unsafe-inline`/`unsafe-eval`); semantic, readable HTML "improves transparency and validation" (easier audits). |
+| Low procurement / supply-chain risk | Nothing third-party in the runtime to vet, license, or disclose. | Zero dependencies; "no SaaS dependencies in the runtime, no license entanglements to clear, no third-party data processors to disclose." |
+| Vendor independence & longevity | No framework lock-in or deprecation deadlines; the UI outlives backends and frameworks. | Browser-native standards; framework-optional; long-lived UI asset. |
+| Predictable cost & workforce | Predictable cost; the developers you already have can build it; headcount stays on features, not toolchain. | No build pipeline to staff; "all devs familiar with HTML, CSS, and JS can be productive immediately"; lower total cost. |
+| Portfolio leverage | One UI reused across programs and systems lowers cost and risk across the portfolio. | Cross-stack UI reuse; presentation/data decoupling; one codebase, many backends. |
+| Fits government / enterprise stacks | Modernize SharePoint- or CMS-backed systems without replacing them. | SharePoint = headless CMS + auth, SPA = experience layer, CSS = UI logic (SharePoint SPA safety checklist). |
+| Continuity | Stays usable offline and under poor connectivity. | PWA offline capability + resilient network handling. |
 
-<details>
-<summary><strong>Performance</strong></summary>
-
-| Feature | End Users | Developers | Stakeholders | Primes | Details |
-| --- | --- | --- | --- | --- | --- |
-| CSS-driven UI (no JavaScript UI runtime) | Fast first paint; small payload; no framework runtime. | CSS rendering reported 100–1000× faster than JavaScript DOM-manipulation equivalents. | Typical deployment: LCP under 0.12s, payload under 100 KB, immediate time-to-interactive. | | State via hidden checkboxes + `:checked`/`:has()`; no virtual-DOM diffing; CSS is always live and reactive. |
-| Static, CDN-cacheable assets | Fast loads from cache. | Static assets only; deployment is a file copy. | CDN-cacheable; lower bandwidth. | | No build pipeline to maintain, monitor, or break; static hosting; PWA service worker. |
-
-</details>
-
-<details>
-<summary><strong>Development speed</strong></summary>
-
-| Feature | End Users | Developers | Stakeholders | Primes | Details |
-| --- | --- | --- | --- | --- | --- |
-| No build step | | Open `index.html`, edit, refresh — no bundler, transpiler, or framework version. | Faster delivery — developers start coding instantly. | | Native HTML/CSS/ES Modules; "no build step, no compilation." |
-| One repeatable pattern + done-for-you defaults | | One `oninput` event for all CRUD; presentation and loading/error states already built. | Junior devs can ship; senior devs from any background can maintain it; cross-team dependencies shrink. | Existing developers can use it with no new tools. | Shared `oninput` lifecycle; `document.querySelector` targeting; idempotent, stateless modules. |
+**Proven by:** the customer overview ("designed for government, accessibility, and security requirements from the ground up," "easier audits," "lower total cost," "reduce long-term risk"); the starter's Stakeholders/executives, Procurement/legal, and Security/compliance sections; the SharePoint SPA safety checklist; and the client summary dashboard (Risk: Low).
 
 </details>
 
-<details>
-<summary><strong>Longevity</strong></summary>
+---
 
-| Feature | End Users | Developers | Stakeholders | Primes | Details |
-| --- | --- | --- | --- | --- | --- |
-| No technical debt while idle | | Nothing to patch or refactor — no dependencies or upgrades. | A site that does not accrue technical debt while sitting still; no migration bills in year three. | Lower long-term risk from standards-based durability. | Zero runtime dependencies; browser-native standards. |
-
-</details>
-
-<details>
-<summary><strong>Reusability</strong></summary>
-
-| Feature | End Users | Developers | Stakeholders | Primes | Details |
-| --- | --- | --- | --- | --- | --- |
-| Presentation layer as a fetched, independent resource | | Modules are drop-in; add without touching the core. | Build once, use everywhere; clone into dashboards, portals, or simplified interfaces. | Suitable for replication across environments; no additional licenses or installation. | Air-gapped layers (no shared hooks) make the UI CDN-hostable and callable by any backend; custom elements generated from JSON keys via `toTagName()`. |
-
-</details>
-
-<details>
-<summary><strong>Scalability</strong></summary>
-
-| Feature | End Users | Developers | Stakeholders | Primes | Details |
-| --- | --- | --- | --- | --- | --- |
-| One front-end at scale | Uniform look and feel across every project. | Same codebase; different data, backends, and brands. | Adding a project adds 0 codebases, 0 pipelines, 0 dependencies, $0, and 0 launch time — scale is a deployment, not a migration. | | Brand changes are CSS variable swaps; README scaling table (1 → 10,000 projects on one front-end). |
-| Built for growth without added complexity | | Modular and declarative. | Scalable for future features without increasing complexity. | | Modular, concern-named files; `@layer`. |
-
-</details>
-
-<details>
-<summary><strong>Maintainability</strong></summary>
-
-| Feature | End Users | Developers | Stakeholders | Primes | Details |
-| --- | --- | --- | --- | --- | --- |
-| Air-gapped separation of concerns | | Each layer uses only what is native to it; any layer is replaceable without touching the others; styles are easily overridden. | | Semantic, readable HTML improves transparency and validation. | HTML has no class/id/data-*/on*=; CSS reacts to the DOM; JS hands off JSON; `@layer` keeps specificity low. |
-| Clean, readable, standards-based code | | Standard vanilla HTML/CSS/JS with minimal nesting. | | Easier audits — readable HTML improves transparency. | Semantic markup; concern-named files; CSS layers. |
-
-</details>
-
-<details>
-<summary><strong>Cost</strong></summary>
-
-| Feature | End Users | Developers | Stakeholders | Primes | Details |
-| --- | --- | --- | --- | --- | --- |
-| No licenses / SaaS / vendor lock-in | | | No licenses; predictable cost; headcount stays on features instead of toolchain. | No SaaS dependencies in the runtime; no license entanglements to clear; no third-party data processors. | Open source; browser-native runtime. |
-| Lower total cost of ownership | | | Smaller files, less tooling, no licenses, and easier scaling lower total cost; no upgrades or dependencies to patch. | Lower long-term cost and risk. | "Lower total cost" per customer overview; payload under 100 KB reduces bandwidth. |
-
-</details>
+**Sources (all in these repos):** `autocss/README.md`; `D7460N/starter/README.md`; `D7460N/DHCP/README.md`, `ADD.md`, `docs/architecture/README.md` (UI Architecture Feature Matrix), `docs/architecture/sharepoint-spa-safety-checklist-ready.md`, `docs/customer/customer-overview.md`, `docs/client/client-summary-dashboard.md`.
