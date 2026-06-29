@@ -181,4 +181,3 @@ which one must be added to the session scope — do not work around it.
   UX/DX/CX/MX experience domains, gained a plain-language section and the MX cross-stovepipe
   lead row, then the v2 copy added the agnostic-by-design thread, the standalone-CSS row,
   and the MX ATO / reusable-security-posture framing.
-```
