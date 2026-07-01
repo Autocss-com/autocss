@@ -124,9 +124,13 @@ Definitions taken verbatim from DHCP's feature matrix:
   Where a claim is a management-facing interpretation (e.g. ATO), label it as such.
 - When adding a NEW kind of content the user wants to keep safe, COPY the file first
   (don't risk the known-good one) — the user explicitly works this way.
-- Real shipped examples to use: the autocss demo ecosystem (international.dance ballet
-  studio w/ accounts+store+payments; psychiatrist practice on headless WordPress; Pokémon;
-  Fairfax County / Virginia crime statistics; Bible study) and the DHCP management portal.
+- Real examples to use: the autocss demo ecosystem (international.dance ballet
+  studio w/ accounts+store+payments — the LIVE vanilla demo; plus the PLANNED psychiatrist
+  practice on headless WordPress, Pokémon, Fairfax County / Virginia crime statistics, and
+  Bible study products — a LATER iteration) and the DHCP management portal. NOTE (2026-07-01):
+  the near-term remote-rendering phase builds React/Vue/Angular reference demos + the vanilla
+  international.dance demo, NOT tied to products yet; WordPress/Joomla are dropped from that
+  phase. See `REMOTE-RENDERING-DEMO-BUILD-PROMPT.md`.
 
 ## THE NEW WORK: THOR -> D7460N lineage (needs wider scope)
 
