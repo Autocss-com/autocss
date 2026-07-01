@@ -1,10 +1,11 @@
 # BUILD PROMPT — AutoCSS Remote-Rendering Demo Phase (4 demos — 1 vanilla + 3 frameworks)
 
 > **NEXT-SESSION HANDOFF. Written 2026-07-01 on branch `claude/autocss-remote-rendering-demo-kueqca`.**
-> This prompt REFOCUSES (does not delete) `CDN-PHASE-BUILD-PROMPT.md`. That older file
-> is marked "PRELIMINARY DRAFT" and is now partly stale; where the two disagree, **THIS
-> file + `PROGRESS.json` (`meta.future_goals`, dated 2026-06-25) win.** `CLAUDE.md`
-> remains canonical over everything.
+> This is the SINGLE authoritative build prompt for the remote-rendering demo phase. It absorbed and
+> REPLACED the old `CDN-PHASE-BUILD-PROMPT.md` (retired 2026-07-01: its still-true thesis is folded
+> into §11 below; its stale "CDN" framing is dropped — AutoCSS stays at `https://autocss.com`, §1).
+> On any conflict, **this file + `PROGRESS.json` (`meta.future_goals`) win**, and `CLAUDE.md` remains
+> canonical over everything.
 
 ---
 
@@ -15,8 +16,7 @@
    2026-06-25 is background only — NOTE its product↔back-end mapping is SUPERSEDED here: the framework
    demos are NOT tied to products yet, see §2), and `open_q`.
 4. `progress/log-001.ndjson` — append-only memory shard; read IN FULL, esp. all 2026-06-25 records.
-5. This file.
-6. `CDN-PHASE-BUILD-PROMPT.md` — background on the "UI as a service" thesis (advisory; some parts stale).
+5. This file (esp. **§11** — the "why it works" thesis + linchpin, folded in from the retired CDN prompt).
 
 **Branch facts (updated 2026-07-01):** `claude/lucid-hawking-E5Ej2` — which carried all AutoCSS
 work + memory — was PROMOTED TO `main` on 2026-07-01 (PR #2, merge commit `90a6a8b`; PR #43 then
@@ -35,7 +35,7 @@ data-layer back-end**, to render the data those back-ends supply. **Have UI, bri
 (BYOD). One UI, many back-ends.** AutoCSS is the ONE zero-dependency, browser-native HTML+CSS UI;
 each back-end is an interchangeable **data layer** that supplies only DATA. AutoCSS cares about
 exactly one thing: **when data shows up in the user-agent** (it watches via `:has()`, `:empty`,
-etc. and renders reactively).
+etc. and renders reactively). See **§11** for the full thesis and why this is even possible.
 
 **Naming clarification from the user (2026-07-01):** it was called the "CDN phase" only because the
 user first considered moving AutoCSS to a CDN. **That is dropped for now. For simplicity, AutoCSS
@@ -215,3 +215,37 @@ framework build step; it is the baseline the 3 framework demos are compared agai
 5. Build that **one** framework back-end end-to-end onto GitHub Pages via GitHub Actions (Stage 1 =
    renders its own data-layer, no AutoCSS yet), check in with the user, then replicate to the other
    two. Attach AutoCSS (Stage 2) only AFTER the back-end renders on Pages.
+
+---
+
+## 11. WHY IT WORKS — THESIS & LINCHPIN (folded in from the retired CDN prompt)
+> This section absorbs the still-true conceptual "why" from the old `CDN-PHASE-BUILD-PROMPT.md`,
+> retired 2026-07-01 so there is ONE build prompt. The CDN framing itself is dropped (AutoCSS stays
+> at `https://autocss.com`, §1); only the rationale that remains true is kept here.
+
+**Thesis to prove:** fully decoupled / declarative-first / browser-first **interoperates with
+everything AND is simpler / faster / smaller / cheaper / more performant** than the over-engineered
+stacks it drops into — and ALSO **more standard, accessible, usable, scalable, and secure**, because
+it offloads essentially all JavaScript down to a single `oninput` event (a smaller JS surface = a
+smaller attack surface).
+
+**Why this is even possible (the linchpin — already built):**
+1. AutoCSS uses modern CSS (`:has()`, `:empty`, …) to watch, in real time, for the data a data-layer
+   delivers to the user-agent, and reacts declaratively.
+2. CLAUDE.md Rule 29: every AutoCSS stylesheet lives in a named `@layer`, and the `<link>` order in
+   `index.html` IS the cascade order — deliberately keeping AutoCSS priority LOW. It styles everything
+   by default, yet **any unlayered style the host writes wins by default**, with no `!important` and
+   no specificity fight. That pre-emptive deconfliction is exactly what lets the UI drop into any host
+   and be re-skinned by it.
+
+**The boundary (separation of concerns = the product):**
+- **AutoCSS provides** (presentation + behavior, NO app data): the HTML skeleton — one `index.html`,
+  full-bleed Holy Grail, tabs-architecture nav, checkbox/radio `<input>` state machines — plus the
+  `@layer` CSS stack and the JS runtime (`api` / `oninput` / `storage` / `app`).
+- **The host provides** (data only): the API base URL + endpoint suffixes; optionally which
+  `color-theme-*.css` to link, and its own override CSS.
+- The single config knob already exists: **API base declared once; only the endpoint suffix varies**
+  (`shell`, `home`, `products`, …). The host fills that in.
+- The UI stays data-free: it carries structure/behavior/style, never the host's data — yet it handles
+  ALL user interaction (no events except the single `oninput`) and ALL data states, including loading
+  states, itself, in HTML+CSS.
