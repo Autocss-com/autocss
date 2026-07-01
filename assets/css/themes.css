@@ -1,0 +1,98 @@
+@layer themes {
+
+/* MARK: THEMES
+   Color model: oklch() + light-dark(), alpha baked into each color.
+   Values are the exact sRGB->OKLCH conversion of dhcp's palette (look reference).
+   light-dark(LIGHT, DARK). The light/dark MECHANISM (color-scheme + the
+   Light/Dark/System control) now lives in color-scheme.css; this file supplies
+   only the PALETTE tokens, which re-resolve from whatever color-scheme the
+   governor sets.
+*/
+
+:root {
+  accent-color: light-dark(oklch(45.98% 0.129 249.65), oklch(80.39% 0.1192 232.69));
+
+  /* Backgrounds */
+  --bg: light-dark(oklch(0% 0 0 / 0.8), oklch(19.15% 0.0062 271.08));
+  --bg-02: light-dark(oklch(0% 0 0 / 0.5), oklch(30.59% 0.0164 229.59));
+  --bg-panel: light-dark(oklch(100% 0 89.88 / 0.2), oklch(100% 0 89.88 / 0.05));
+  --bg-active: light-dark(oklch(100% 0 89.88 / 0.2), oklch(100% 0 89.88 / 0.05));
+  --bg-accent: oklch(75.76% 0.1471 234.34 / 0.5);
+  --bg-grd: light-dark(
+      linear-gradient(180deg, oklch(100% 0 89.88 / 0.7) 0, oklch(100% 0 89.88 / 0.4) 100%),
+      linear-gradient(180deg, oklch(38.15% 0.0304 230.17 / 0.9) 0, oklch(17.57% 0.0234 272.1) 100%));
+
+  /* Text */
+  --txt: light-dark(oklch(34.31% 0.04 284.09), oklch(100% 0 89.88 / 0.6));
+  --txt-active: light-dark(oklch(0% 0 0), oklch(100% 0 89.88));
+  --txt-link: light-dark(oklch(38.5% 0.1956 272.38 / 0.5), oklch(80.39% 0.1192 232.69 / 0.5));
+  --txt-muted: light-dark(oklch(0% 0 0 / 0.5), oklch(100% 0 89.88 / 0.5));
+  --txt-shadow: light-dark(-1px 1px 0 oklch(100% 0 89.88 / 0.3), -1px 1px oklch(0% 0 0));
+
+  /* Accents */
+  --accent: light-dark(oklch(80.39% 0.1192 232.69), oklch(45.98% 0.129 249.65));
+  --accent2: oklch(75.76% 0.1471 234.34);
+  --brand: oklch(80.39% 0.1192 232.69);
+
+  /* Component colors (theme-invariant; exact oklch of dhcp's forms.css palette) */
+  --txt-strong: light-dark(oklch(34.31% 0.04 284.09), oklch(100% 0 89.88));
+  --button-bg: oklch(80.39% 0.1192 232.69 / 0.1);
+  --button-bg-hover: oklch(80.39% 0.1192 232.69 / 0.25);
+  --input-bg: oklch(0% 0 0 / 0.1);
+  --input-border: oklch(100% 0 89.88 / 0.1);
+  --error-soft: oklch(62.8% 0.2577 29.23 / 0.2);
+  --error-strong: oklch(62.8% 0.2577 29.23 / 0.4);
+  --success: oklch(86.64% 0.2948 142.5);
+}
+
+/* MARK: LOOK/FEEL
+*/
+body {
+  background-color: var(--bg);
+  color: var(--txt);
+
+  &::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100dvh;
+    background-attachment: initial;
+    background-color: transparent;
+    background-image: url('../images/app/ui/pattern.png');
+    background-size: 4.6875rem;
+    background-repeat: repeat;
+    z-index: -5;
+  }
+}
+
+html::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100dvh;
+  z-index: -5;
+  background: var(--bg-grd);
+}
+
+/* MARK: ALL PANELS
+*/
+app-container > * {
+  background-color: var(--bg-panel);
+}
+
+[role="button"],
+button {
+  --bg-panel: oklch(100% 0 89.88 / 0.1);
+}
+
+/* MARK: FORMS
+*/
+form fieldset label:focus {
+  color: var(--txt-active);
+}
+
+} /* @layer themes */
