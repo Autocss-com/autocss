@@ -3,25 +3,23 @@
 > PRELIMINARY DRAFT — working copy, subject to refinement before the build session.
 
 The AutoCSS UI is ONE zero-dependency, browser-native HTML+CSS UI. This phase serves
-it as a REMOTE RESOURCE — referenced by URL like an image or a font — so any host can
-render it and supply its own data. **One UI, many back-ends.** The back-ends are
-interchangeable **data layers** (data-logic layers) — WordPress, Drupal, React, Vue,
-Angular, Laravel, Rails, … This is NOT "frameworks PLUS CMSs" as two categories; it is
-one open list of *possible* data layers, and **the point is that it does not matter** —
-the data layer and the technology behind it are entirely OPTIONAL / interchangeable.
-AutoCSS cares about exactly ONE thing: **when data shows up in the user-agent.** Each
-supplies DATA; all share ONE CDN-hosted UI.
+it as a fully decoupled REMOTE RESOURCE — referenced by URL like an image or a font — so any host can
+render it and supply its own data. **Have UI, bring your own data (BYOD)**, **One UI, many back-ends.** 
+The back-ends are interchangeable **data layers** (data-logic layers). Examples of *possible* data-layers 
+could be; WordPress, Joomla, React, Vue, Angular, etc. — The data layer and the technology behind it are 
+entirely OPTIONAL / interchangeable. AutoCSS cares only about exactly ONE thing: **when data shows up in the 
+user-agent.** Each (optional) data layer supplies DATA; all share ONE CDN-hosted UI (AutoCSS).
 
-Thesis to prove: declarative-first / browser-first **interoperates with everything AND
-is simpler / faster / smaller / cheaper** than the over-engineered stacks it drops into —
-and ALSO **fully standard, accessible, and more secure**, because it offloads essentially
-all JavaScript down to a single `oninput` event (a smaller JS surface = a smaller attack
-surface).
+Thesis to prove: fully decoupled / declarative-first / browser-first **interoperates with everything AND
+is simpler / faster / smaller / cheaper / more performant** than the over-engineered stacks it drops into —
+and ALSO **fully standard, accessible, usable, scalable, and more secure**, because it offloads essentially
+all JavaScript down to a single `oninput` event (a smaller JS surface = a smaller attack surface).
 
 ## Why this is even possible (the linchpin — already built)
-CLAUDE.md Rule 29: every AutoCSS stylesheet lives in a named `@layer`, and the link
-order IS the cascade order — deliberately keeping our priority LOW. So **any unlayered
-style the host writes wins by default**, with zero effort and no specificity fight.
+1. AutoCSS uses modern CSS such as `:has()`, `:empty`, ect., to watch (in real time) for and react to dynamic data delivered by the data-layer to the user-agent.
+2. CLAUDE.md Rule 29: every AutoCSS stylesheet lives in a named `@layer`, and the link
+order in `index.html` IS the cascade order — deliberately keeping AutoCSS priority LOW. This styles everything by default and allows
+**any unlayered style the host writes to wins by default**, with zero effort and no specificity fight.
 That pre-emptive deconfliction is exactly what lets the UI "drop into any host" and be
 re-skinned by it. The CDN phase is the payoff of that work — lean on it. But note: this
 lowered-priority `@layer` trick is just ONE of MANY deliberate techniques in this
