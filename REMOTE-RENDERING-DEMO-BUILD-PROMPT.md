@@ -12,20 +12,21 @@
 ## 0. READ FIRST, IN THIS ORDER (non-negotiable, per CLAUDE.md + prior handoffs)
 1. `CLAUDE.md` — canonical D7460N architecture rules (still the target).
 2. `SESSION-HANDOFF.md` — prior Constraint Lock; re-assert it.
-3. `PROGRESS.json` — read `meta`, `cursor`, `meta.future_goals` (the **DEMO ECOSYSTEM** entry dated
-   2026-06-25 is background only — NOTE its product↔back-end mapping is SUPERSEDED here: the framework
-   demos are NOT tied to products yet, see §2), and `open_q`.
-4. `progress/log-001.ndjson` — append-only memory shard; read IN FULL, esp. all 2026-06-25 records.
+3. `PROGRESS.json` — read `meta`, `cursor`, `meta.future_goals` (the **DEMO ECOSYSTEM** entry —
+   RESCOPED 2026-07-01 — already LEADS with THIS phase's direction: 4 demos, framework demos NOT tied
+   to products yet, WordPress/Joomla dropped; the older product↔back-end mapping is preserved there
+   only as the DEFERRED later iteration), `meta.demo_data_sources` (deferred products),
+   `meta.board_tracking` (board label rules), and `open_q`.
+4. `progress/log-001.ndjson` — append-only memory shard; read IN FULL, esp. the 2026-06-25 AND
+   2026-07-01 records (the 2026-07-01 rescope + board-tracking lessons).
 5. This file (esp. **§11** — the "why it works" thesis + linchpin, folded in from the retired CDN prompt).
 
 **Branch facts (updated 2026-07-01):** `claude/lucid-hawking-E5Ej2` — which carried all AutoCSS
-work + memory — was PROMOTED TO `main` on 2026-07-01 (PR #2, merge commit `90a6a8b`; PR #43 then
-recorded the promotion in the memory files). So the canonical work + memory now live on **`main`**.
-This demo-phase branch `claude/autocss-remote-rendering-demo-kueqca` was cut from the old
-`lucid-hawking` tip (`783709c`, now contained in `main`) and adds only this build prompt; it does
-NOT yet carry PR #43's memory updates that landed on `main`. For future demo work, **branch off the
-latest `main`.** **Never DIRECT-push to `main` — it is branch-protected; promote via a PR merge.**
-Do NOT touch `CLAUDE.md` or `ORIGINAL-PROMPT.md`.
+work + memory — was PROMOTED TO `main` on 2026-07-01 (PR #2, `90a6a8b`), and the demo-phase docs +
+memory were then reconciled to this phase's direction across PRs #43–#50. The canonical work + memory
+now live on **`main`** (this prompt included). For future demo work, **branch off the latest `main`.**
+**Never DIRECT-push to `main` — it is branch-protected; promote via a PR merge.** Do NOT touch
+`ORIGINAL-PROMPT.md`; `CLAUDE.md` is canonical — edit it ONLY when the user explicitly authorizes it.
 
 ---
 
@@ -125,12 +126,12 @@ GitHub Pages serves static files only. **No PHP, no MySQL, no server runtime.**
 - Order: back-ends render on Pages first, THEN attach AutoCSS.
 - React/Vue/Angular → build via GitHub Actions → deploy to Pages.
 
-### Still OPEN — LOCK WITH THE USER before/at the relevant step (CDN prompt's "Decisions to LOCK"):
+### Still OPEN — LOCK WITH THE USER before/at the relevant step:
 1. **Pacing** → recommend proving ONE framework repo end-to-end on Pages first (React, Vue, or
    Angular — pick one), then replicate to the other two. Confirm.
 2. **Delivery mechanism (when attaching AutoCSS)** → the 2026-06-25 memory CONFIRMED a **light-DOM web
-   component (NOT iframe)**; the older CDN prompt "recommended" plain `<link>` + `<script type=module>`
-   (Option A). Re-confirm which for this phase before wiring AutoCSS.
+   component (NOT iframe)**; the alternative is plain `<link>` + `<script type=module>` (host-included
+   skeleton). Re-confirm which for this phase before wiring AutoCSS.
 3. **HTML skeleton delivery** → host hand-includes the Holy-Grail markup vs. fetch-as-text (never
    string-build HTML in JS — violates CLAUDE.md).
 4. **Versioning + integrity** → URL pinning, long-cache, SRI hashes, CORS posture for cross-origin data.
@@ -185,8 +186,11 @@ framework build step; it is the baseline the 3 framework demos are compared agai
   foreground node process because this env kills backgrounded servers). Never assert behavior from
   reading code.
 - Session-end ritual: commit → update `PROGRESS.json` cursor → append to `progress/log-001.ndjson`
-  (append-only; never edit past records) → update `SESSION-HANDOFF.md`. Reconcile GitHub Issues
-  (label `backlog`/`demo`) as a one-way mirror if the board is available; skip silently if not.
+  (append-only; never edit past records) → update `SESSION-HANDOFF.md`. Reconcile GitHub Issues as a
+  one-way mirror if the board is available (skip silently if not). Board columns are LABEL-DRIVEN +
+  MUTUALLY EXCLUSIVE: Backlog = `backlog` only, In Progress = `in-progress` only (REMOVE `backlog`),
+  Done = Issue closed; `demo` is an orthogonal grouping tag. See CLAUDE.md "Issue / Project-Board
+  Tracking" + `PROGRESS.json` `meta.board_tracking`.
 - External-service failures: STOP and advise the user; NEVER add fallbacks/mock redirects/architecture
   workarounds (CLAUDE.md "External Service Issues").
 - Consult advisory refs (`modern-web-guidance`, MDN MCP) per Rule 33; repo docs win on conflict;
@@ -200,8 +204,9 @@ framework build step; it is the baseline the 3 framework demos are compared agai
   session's skills list. **Next session: check the available-skills list for `caveman`; if present,
   apply it for the session per the user's standing request ("until told otherwise").** If still
   absent, tell the user.
-- Nothing was changed in `autocss-com/autocss` this session except adding/refining this file. No
-  back-end code was written (the new repos were not in this session's GitHub scope).
+- In the 2026-07-01 sessions the demo-phase docs + memory were reconciled to this direction
+  (`PROGRESS.json`, `README.md`, the `CLAUDE.md` board rule, this prompt; Issues #5/#33-#41 + board).
+  NO back-end code was written and the 4 demo repos were NOT yet in GitHub scope — confirm that first.
 
 ---
 
