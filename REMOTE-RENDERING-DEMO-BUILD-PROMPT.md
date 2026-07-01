@@ -41,12 +41,22 @@ Back-ends reference it remotely at `https://autocss.com/assets/css/*.css` and
 
 ---
 
-## 2. THE 5 BACK-ENDS (user-confirmed 2026-07-01)
-Angular, Vue, React, WordPress, Joomla.
+## 2. THE BACK-ENDS (user-updated 2026-07-01)
+Full set (5): Angular, Vue, React, WordPress, Joomla. **This DROPS Drupal and SharePoint from the
+earlier "reserved" list and ADDS Joomla.**
 
-- This DROPS Drupal and SharePoint from the earlier "reserved" list and ADDS **Joomla**.
+### ⭐ ACTIVE NOW (user-confirmed 2026-07-01): **JUST THE 3 FRAMEWORKS — React, Vue, Angular.**
+> "Let's drop wordpress and joomla for now. Just the frameworks."
+
+**WordPress + Joomla are DEFERRED to a later iteration.** Their repos exist (`autocss-com/wordpress`,
+`autocss-com/joomla`) but do NOT build them this phase. IMPORTANT CONSEQUENCE: the "GitHub Pages
+can't run PHP" decision (§4, options A/B/C) **no longer blocks the current work** — it only matters
+when WP/Joomla come back. So the active path is clean: all three frameworks build to static and
+deploy to Pages via GitHub Actions.
+
 - The user's 2026-06-25 real-product → back-end mapping (in `PROGRESS.json`) was:
   WordPress→psychiatrist, Vue→Pokémon, Angular→crime-stats, React→Bible-study; Joomla was reserved.
+  (Products are a LATER iteration — see the framing decision below.)
 
 ### Framing decision (user-confirmed 2026-07-01): ITERATIVE. Framework-reference demos NOW; real products LATER.
 > "These will eventually be real products, but I want to do this iteratively."
@@ -71,19 +81,24 @@ scoped to only `d7460n/starter`, `d7460n/dhcp`, `autocss-com/autocss`, so Claude
 push to the new repos** — hence this handoff. Per prior memory: **the USER creates + maintains org
 repos; Claude is repo-scoped and cannot create them.**
 
+**EXACT REPO NAMES (user-provided 2026-07-01 — plain names, NOT `autocss-<backend>`):**
+- **Active now:** `autocss-com/react`, `autocss-com/vue`, `autocss-com/angular`
+- **Deferred:** `autocss-com/wordpress`, `autocss-com/joomla`
+
 **FIRST ACTIONS NEXT SESSION:**
-1. **Confirm the exact repo owner/names with the user.** Expected convention (from memory:
-   `autocss-<backend>`): `autocss-com/autocss-angular`, `autocss-com/autocss-vue`,
-   `autocss-com/autocss-react`, `autocss-com/autocss-wordpress`, `autocss-com/autocss-joomla`.
-   **Do not assume — verify.**
-2. **Confirm these repos are in this session's GitHub scope.** If they are not, STOP and tell the
-   user; nothing can be written to them until they are in scope.
-3. Confirm which branch to work on inside each new repo (default assumption: a feature branch, never
-   `main`; confirm the exact branch name the user wants — mirror the D7460N "never main" rule).
+1. **Confirm the 3 active repos are in this session's GitHub scope** (`autocss-com/react`,
+   `autocss-com/vue`, `autocss-com/angular`). In the 2026-07-01 session Claude's scope was still only
+   `d7460n/starter`, `d7460n/dhcp`, `autocss-com/autocss` — so verify the new repos are reachable. If
+   they are NOT in scope, STOP and tell the user; nothing can be written to them until they are.
+2. Confirm which branch to work on inside each repo (default: a feature branch, never `main`; confirm
+   the exact branch name the user wants — mirror the D7460N "never main" rule).
 
 ---
 
-## 4. ⚠️ HARD TECHNICAL REALITY — GitHub Pages is STATIC-ONLY (must be resolved with the user)
+## 4. ⚠️ HARD TECHNICAL REALITY — GitHub Pages is STATIC-ONLY (DEFERRED: only affects WP/Joomla)
+> **NOTE (2026-07-01): WordPress + Joomla are DEFERRED (§2), so this section does NOT block the
+> current 3-framework work. Keep it here for when WP/Joomla resume.**
+
 GitHub Pages serves static files only. **No PHP, no MySQL, no server runtime.**
 
 - **Angular / Vue / React** — OK on Pages. They compile to static assets. Use a **GitHub Actions
@@ -111,15 +126,18 @@ GitHub Pages serves static files only. **No PHP, no MySQL, no server runtime.**
 
 ### Locked (2026-07-01):
 - Keep AutoCSS at `https://autocss.com` (no separate CDN move for now).
-- 5 back-ends = Angular, Vue, React, WordPress, Joomla.
+- **ACTIVE back-ends this phase = React, Vue, Angular only** (repos `autocss-com/react`, `.../vue`,
+  `.../angular`). **WordPress + Joomla DEFERRED** (repos `autocss-com/wordpress`, `.../joomla` exist,
+  left untouched for now).
 - Framework-reference demos now; real products later; iterative.
 - Order: back-ends render on Pages first, THEN attach AutoCSS.
-- Angular/Vue/React → build via GitHub Actions → deploy to Pages.
+- React/Vue/Angular → build via GitHub Actions → deploy to Pages.
 
 ### Still OPEN — LOCK WITH THE USER before/at the relevant step (CDN prompt's "Decisions to LOCK"):
-1. **WP/Joomla on Pages** → choose A / B / C (see §4). **Blocks the WP + Joomla repos.**
-2. **Pacing** → recommend proving ONE framework repo end-to-end on Pages first (Angular, Vue, or
-   React — cleanest), then replicate; OR scaffold all five at once. Confirm.
+1. **WP/Joomla on Pages** → choose A / B / C (see §4). **DEFERRED — only when WP/Joomla resume; does
+   not block current work.**
+2. **Pacing** → recommend proving ONE framework repo end-to-end on Pages first (React, Vue, or
+   Angular — pick one), then replicate to the other two. Confirm.
 3. **Delivery mechanism (when attaching AutoCSS)** → the 2026-06-25 memory CONFIRMED a **light-DOM web
    component (NOT iframe)**; the older CDN prompt "recommended" plain `<link>` + `<script type=module>`
    (Option A). Re-confirm which for this phase before wiring AutoCSS.
@@ -185,19 +203,23 @@ swap the data → same UI.
 ---
 
 ## 9. OUTSTANDING / ADMIN
-- **"Caveman" skill:** the user asked (2026-07-01) to apply a "caveman" skill for the session, but it
-  was not present in the session's skills list or on disk, so it could not be used. **Next session:
-  confirm it is uploaded/registered and how the user wants it applied** before relying on it.
-- Nothing was changed in `autocss-com/autocss` this session except adding this file. No back-end code
-  was written (blocked on repo scope).
+- **"Caveman" skill:** the user re-uploaded it late in the 2026-07-01 session ("Uploaded the caveman
+  skill maybe you will pick that up next session also"). It was NOT yet visible in the 2026-07-01
+  session's skills list. **Next session: check the available-skills list for `caveman`; if present,
+  apply it for the session per the user's standing request ("until told otherwise").** If still
+  absent, tell the user.
+- Nothing was changed in `autocss-com/autocss` this session except adding/refining this file. No
+  back-end code was written (the new repos were not in this session's GitHub scope).
 
 ---
 
-## 10. FIRST FIVE ACTIONS NEXT SESSION (checklist)
+## 10. FIRST ACTIONS NEXT SESSION (checklist)
 1. Do the §0 reading; re-assert the Constraint Lock.
-2. Confirm exact new repo names + that they are in GitHub scope (§3). If not in scope → STOP + tell user.
-3. Confirm the caveman skill status (§9).
-4. Lock the WP/Joomla-on-Pages decision A/B/C (§4) and the pacing decision (§5.2).
-5. Build **one** framework back-end (Angular/Vue/React) end-to-end onto GitHub Pages via Actions
-   (Stage-1 done), check in with the user, then replicate. Attach AutoCSS (Stage 2) only after the
-   back-end renders on Pages.
+2. Confirm the **3 active repos** (`autocss-com/react`, `autocss-com/vue`, `autocss-com/angular`) are
+   in this session's GitHub scope (§3). If not in scope → STOP + tell the user. (WordPress/Joomla are
+   deferred — ignore for now.)
+3. Check the available-skills list for **`caveman`** (§9); apply it if present, else tell the user.
+4. Lock the **pacing** decision (§5.2): pick ONE framework to prove end-to-end first, then replicate.
+5. Build that **one** framework back-end end-to-end onto GitHub Pages via GitHub Actions (Stage 1 =
+   renders its own data-layer, no AutoCSS yet), check in with the user, then replicate to the other
+   two. Attach AutoCSS (Stage 2) only AFTER the back-end renders on Pages.
