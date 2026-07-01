@@ -21,12 +21,11 @@ all JavaScript down to a single `oninput` event (a smaller JS surface = a smalle
 order in `index.html` IS the cascade order — deliberately keeping AutoCSS priority LOW. This styles everything by default and allows
 **any unlayered style the host writes to wins by default**, with zero effort and no specificity fight.
 That pre-emptive deconfliction is exactly what lets the UI "drop into any host" and be
-re-skinned by it. The CDN phase is the payoff of that work — lean on it. But note: this
-lowered-priority `@layer` trick is just ONE of MANY deliberate techniques in this
-codebase. Before building, **READ the full documentation (`CLAUDE.md`) and the project
+re-skinned by it. These modern standard techniques are just SOME of MANY deliberate techniques in this
+codebase. Before building, **FULLY READ the full documentation (`CLAUDE.md`) and the project
 history (`PROGRESS.json` + the newest `progress/log-*.ndjson` shard + `SESSION-HANDOFF.md`)**
 to hold the whole picture in view — that context is what keeps the work to exactly what is
-asked (no more, no less) and prevents forgetting / hallucinating.
+asked (no more, no less) and helps to prevent forgetting / hallucinating.
 
 ## The boundary (separation of concerns = the product)
 - **CDN provides** (presentation + behavior, NO app data): the HTML skeleton — a
