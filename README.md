@@ -37,27 +37,35 @@ retrofit.
 
 ## Demo ecosystem
 
-AutoCSS is proven by a set of **real, diverse products** — each its own repository in
-the `autocss-com` org, each with a completely different dataset, layout, workflow, and
-user experience. The diversity *is* the proof: one declarative-first UI approach
-adapting to anything. Adding a project adds **0 new codebases, 0 build pipelines, 0
-dependencies** — one UI serves one product or ten thousand identically. Repos follow the
-`autocss-<backend>` naming convention.
+AutoCSS is proven by serving **one shared UI** — hosted at `https://autocss.com` — remotely to
+several independent front-ends, each supplying its own data. The diversity *is* the proof: one
+declarative-first UI approach adapting to anything. Adding a project adds **0 new codebases, 0 build
+pipelines, 0 dependencies** — one UI serves one product or ten thousand identically.
 
-| Repo | Product | Notes |
+**Current phase (iterative) — 4 demos,** each its own repo in the `autocss-com` org:
+
+| Repo | Demo | Notes |
 | --- | --- | --- |
-| `autocss-vanilla` | **international.dance** (ballet studio) | the current architecture as-is; accounts, store, payments |
-| `autocss-wordpress` | **Psychiatrist** practice site | headless WordPress (booking, accounts) |
-| `autocss-vue` | **Pokémon** app | Holy Grail triage; PokéAPI + sprite pictures |
-| `autocss-angular` | **Crime statistics** (Fairfax County + Virginia State Police) | Holy Grail triage; FCPD ArcGIS + FBI CDE |
-| `autocss-react` | **Bible study** app | Holy Grail triage; AO Lab bible.helloao.org |
-| `autocss-drupal` · `autocss-joomla` · `autocss-sharepoint` | _reserved_ | held for future products |
+| `autocss-com/vanilla` | **international.dance** (ballet studio) | the current AutoCSS architecture as-is |
+| `autocss-com/react` | React reference demo | idiomatic React data-layer; not tied to a product yet |
+| `autocss-com/vue` | Vue reference demo | idiomatic Vue data-layer; not tied to a product yet |
+| `autocss-com/angular` | Angular reference demo | idiomatic Angular data-layer; not tied to a product yet |
+
+The three framework demos are **standard/idiomatic instances of each framework** — they show how it
+exposes data and how to call AutoCSS remotely, and are **not yet tied to a product** (real products
+are a later iteration). Each builds to static assets and deploys to GitHub Pages via GitHub Actions;
+the remote AutoCSS UI is attached only after the back-end renders on Pages.
+
+**Deferred to a later iteration:** the real products (a psychiatrist practice, a Pokémon app, a
+Fairfax County / Virginia crime-statistics app, a Bible-study app) and their back-end mappings, plus
+**WordPress** and **Joomla** — which need more than static GitHub Pages can host (PHP + database +
+server runtime). See `REMOTE-RENDERING-DEMO-BUILD-PROMPT.md` for the authoritative plan.
 
 ### Hosting model
 
-Each demo **self-hosts its static front-end on GitHub Pages** (custom domains
-supported). Because the architecture is 100% static, Pages serves the UI directly with
-no build step.
+Each demo **self-hosts its static front-end on GitHub Pages** (custom domains supported). The three
+framework demos build to static assets (via GitHub Actions) which Pages then serves; the vanilla
+demo is 100% static and needs no build step.
 
 GitHub Pages is static-only — no server, no database, no secrets — so dynamic features
 (user accounts/login, saved favorites + notes, payments + store) run against an

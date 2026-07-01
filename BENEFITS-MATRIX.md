@@ -45,7 +45,7 @@ UX is "the intersection of accessibility and usability… the entire journey of 
 | Speed they feel | Fast first paint, small download, immediate interaction. | No framework runtime; CSS-driven UI. Typical deployment: LCP under 0.12 s, payload under 100 KB, immediate time-to-interactive. |
 | Install + offline | Can be installed and used offline like a native app. | PWA: web manifest + service-worker caching ("Installable," "Network Independent"). |
 
-**Proven by:** the starter's "Where users live" account (leadership "had never seen a UI give that much attention and respect to the people using it"); the OS-preference customization list in `ADD.md`; and real apps end users already touch — international.dance, the Pokémon app, the Fairfax/VA crime-statistics app, and the Bible-study app.
+**Proven by:** the starter's "Where users live" account (leadership "had never seen a UI give that much attention and respect to the people using it"); the OS-preference customization list in `ADD.md`; and real apps — international.dance (live) plus the planned Pokémon, Fairfax/VA crime-statistics, and Bible-study apps (a later product iteration; the near-term phase builds the vanilla international.dance demo + React/Vue/Angular reference demos).
 
 </details>
 
@@ -75,13 +75,13 @@ CX is risk reduction, cost efficiency, longevity, and organizational flexibility
 | Capability | What the business gets | How it works |
 | --- | --- | --- |
 | One UI, many products | The same front-end serves completely different products — different data, brand, and workflow. | The presentation layer is fetched (not copied); branding is a CSS-variable swap. |
-| $0 to add the next project | Adding a project adds 0 codebases, 0 build pipelines, 0 dependencies. | One front-end on a CDN, called by any backend (README scaling table: 1 → 10,000 projects, one front-end). |
+| $0 to add the next project | Adding a project adds 0 codebases, 0 build pipelines, 0 dependencies. | One shared front-end served remotely from autocss.com, called by any backend (README scaling table: 1 → 10,000 projects, one front-end). |
 | No migration bills | The site does not accrue technical debt while sitting still; no framework migration in year three. | Browser-native standards; the UI is a long-lived asset; modernize incrementally. |
 | Lower total cost | Smaller files, less tooling, no licenses, easier to scale. | Payload under 100 KB; zero dependencies; static hosting (GitHub Pages, Cloudflare, AWS). |
 | Flexible integration | Works with what you already run; wrap existing APIs or a CMS instead of replacing them. | Any REST / GraphQL / file backend; framework-optional. |
 | Resilient & installable | Keeps working offline and on poor networks; installable like an app. | PWA caching, background sync, resilient network handling. |
 
-**Proven by:** the autocss demo ecosystem — international.dance (a ballet studio with accounts, store, and payments), a psychiatrist practice on headless WordPress, a Pokémon app, the Fairfax County / Virginia crime-statistics app, and a Bible-study app: one architecture, five very different real products. Also the client summary dashboard (Reusability: Modular; Risk: Low).
+**Proven by:** the autocss demo ecosystem — international.dance (a ballet studio with accounts, store, and payments), a psychiatrist practice on headless WordPress, a Pokémon app, the Fairfax County / Virginia crime-statistics app, and a Bible-study app: one architecture, five very different real products (status 2026-07-01: international.dance is the live vanilla demo; the near-term remote-rendering phase builds React/Vue/Angular reference demos not-yet-tied-to-products, with the mapped products + WordPress a later iteration — see `REMOTE-RENDERING-DEMO-BUILD-PROMPT.md`). Also the client summary dashboard (Reusability: Modular; Risk: Low).
 
 </details>
 
