@@ -47,8 +47,8 @@ Back-ends reference it remotely at `https://autocss.com/assets/css/*.css` and
 
 ## 2. THE DEMOS (user-updated 2026-07-01)
 **4 demos total:**
-- **1 vanilla AutoCSS demo — International.dance** (the current AutoCSS architecture as-is, serving
-  the International.dance content).
+- **1 vanilla AutoCSS demo — International.dance** (repo `autocss-com/vanilla`; the current AutoCSS
+  architecture as-is, serving the International.dance content).
 - **3 framework demos — React, Vue, Angular** (repos `autocss-com/react`, `autocss-com/vue`,
   `autocss-com/angular`).
 
@@ -79,21 +79,21 @@ the back-end renders on Pages.
 ---
 
 ## 3. THE REPOS (⚠️ SCOPE — this is WHY we handed off to a new session)
-The user **has already created** the 3 framework repos. In the 2026-07-01 session Claude's GitHub
+The user **has already created** the 4 demo repos. In the 2026-07-01 session Claude's GitHub
 access was scoped to only `d7460n/starter`, `d7460n/dhcp`, `autocss-com/autocss`, so Claude **could
 not see or push to the new repos** — hence this handoff. Per prior memory: **the USER creates +
 maintains org repos; Claude is repo-scoped and cannot create them.**
 
 **EXACT REPO NAMES (user-provided 2026-07-01 — plain names, NOT `autocss-<backend>`):**
+- **The vanilla demo:** `autocss-com/vanilla` — the AutoCSS vanilla instance for **International.dance**.
 - **The 3 framework demos:** `autocss-com/react`, `autocss-com/vue`, `autocss-com/angular`.
-- **The vanilla demo:** the AutoCSS vanilla instance for **International.dance** (repo/hosting per the
-  user).
 
 **FIRST ACTIONS NEXT SESSION:**
-1. **Confirm the 3 active repos are in this session's GitHub scope** (`autocss-com/react`,
-   `autocss-com/vue`, `autocss-com/angular`). In the 2026-07-01 session Claude's scope was still only
-   `d7460n/starter`, `d7460n/dhcp`, `autocss-com/autocss` — so verify the new repos are reachable. If
-   they are NOT in scope, STOP and tell the user; nothing can be written to them until they are.
+1. **Confirm the 4 demo repos are in this session's GitHub scope** (`autocss-com/vanilla`,
+   `autocss-com/react`, `autocss-com/vue`, `autocss-com/angular`). In the 2026-07-01 session Claude's
+   scope was still only `d7460n/starter`, `d7460n/dhcp`, `autocss-com/autocss` — so verify the new
+   repos are reachable. If they are NOT in scope, STOP and tell the user; nothing can be written to
+   them until they are.
 2. Confirm which branch to work on inside each repo (default: a feature branch, never `main`; confirm
    the exact branch name the user wants — mirror the D7460N "never main" rule).
 
@@ -119,7 +119,7 @@ GitHub Pages serves static files only. **No PHP, no MySQL, no server runtime.**
 ### Locked (2026-07-01):
 - Keep AutoCSS at `https://autocss.com` (no separate CDN move for now).
 - **4 demos total: 1 vanilla AutoCSS demo (International.dance) + 3 framework demos — React, Vue,
-  Angular** (repos `autocss-com/react`, `.../vue`, `.../angular`).
+  Angular** (repos `autocss-com/vanilla`, `.../react`, `.../vue`, `.../angular`).
 - **WordPress + Joomla DROPPED this phase** — they need more setup than GitHub Pages alone can host.
 - Framework demos are NOT tied to a product yet; assigning real products is a later iteration.
 - Order: back-ends render on Pages first, THEN attach AutoCSS.
@@ -207,9 +207,9 @@ framework build step; it is the baseline the 3 framework demos are compared agai
 
 ## 10. FIRST ACTIONS NEXT SESSION (checklist)
 1. Do the §0 reading; re-assert the Constraint Lock.
-2. Confirm the **3 framework repos** (`autocss-com/react`, `autocss-com/vue`, `autocss-com/angular`)
-   are in this session's GitHub scope (§3). If not in scope → STOP + tell the user. (WordPress/Joomla
-   are dropped from this phase — ignore.)
+2. Confirm the **4 demo repos** (`autocss-com/vanilla`, `autocss-com/react`, `autocss-com/vue`,
+   `autocss-com/angular`) are in this session's GitHub scope (§3). If not in scope → STOP + tell the
+   user. (WordPress/Joomla are dropped from this phase — ignore.)
 3. Check the available-skills list for **`caveman`** (§9); apply it if present, else tell the user.
 4. Lock the **pacing** decision (§5): pick ONE framework to prove end-to-end first, then replicate.
 5. Build that **one** framework back-end end-to-end onto GitHub Pages via GitHub Actions (Stage 1 =
