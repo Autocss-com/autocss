@@ -17,11 +17,14 @@
 5. This file.
 6. `CDN-PHASE-BUILD-PROMPT.md` — background on the "UI as a service" thesis (advisory; some parts stale).
 
-**Branch facts:** All AutoCSS work + memory live on `claude/lucid-hawking-E5Ej2`. The demo-phase
-working branch `claude/autocss-remote-rendering-demo-kueqca` is currently IDENTICAL to it (0/0
-divergence as of 2026-07-01) and carries all memory files. **Work the demo phase on
-`claude/autocss-remote-rendering-demo-kueqca`. Never push to `main`. Do NOT touch `CLAUDE.md`
-or `ORIGINAL-PROMPT.md`.**
+**Branch facts (updated 2026-07-01):** `claude/lucid-hawking-E5Ej2` — which carried all AutoCSS
+work + memory — was PROMOTED TO `main` on 2026-07-01 (PR #2, merge commit `90a6a8b`; PR #43 then
+recorded the promotion in the memory files). So the canonical work + memory now live on **`main`**.
+This demo-phase branch `claude/autocss-remote-rendering-demo-kueqca` was cut from the old
+`lucid-hawking` tip (`783709c`, now contained in `main`) and adds only this build prompt; it does
+NOT yet carry PR #43's memory updates that landed on `main`. For future demo work, **branch off the
+latest `main`.** **Never DIRECT-push to `main` — it is branch-protected; promote via a PR merge.**
+Do NOT touch `CLAUDE.md` or `ORIGINAL-PROMPT.md`.
 
 ---
 
