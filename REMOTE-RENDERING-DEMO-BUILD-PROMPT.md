@@ -1,4 +1,4 @@
-# BUILD PROMPT — AutoCSS Remote-Rendering Demo Phase (5 back-end data-layers)
+# BUILD PROMPT — AutoCSS Remote-Rendering Demo Phase (4 demos — 1 vanilla + 3 frameworks)
 
 > **NEXT-SESSION HANDOFF. Written 2026-07-01 on branch `claude/autocss-remote-rendering-demo-kueqca`.**
 > This prompt REFOCUSES (does not delete) `CDN-PHASE-BUILD-PROMPT.md`. That older file
@@ -11,8 +11,9 @@
 ## 0. READ FIRST, IN THIS ORDER (non-negotiable, per CLAUDE.md + prior handoffs)
 1. `CLAUDE.md` — canonical D7460N architecture rules (still the target).
 2. `SESSION-HANDOFF.md` — prior Constraint Lock; re-assert it.
-3. `PROGRESS.json` — read `meta`, `cursor`, `meta.future_goals` (esp. the **DEMO ECOSYSTEM**
-   entry dated 2026-06-25 — it is the authoritative product/back-end mapping), and `open_q`.
+3. `PROGRESS.json` — read `meta`, `cursor`, `meta.future_goals` (the **DEMO ECOSYSTEM** entry dated
+   2026-06-25 is background only — NOTE its product↔back-end mapping is SUPERSEDED here: the framework
+   demos are NOT tied to products yet, see §2), and `open_q`.
 4. `progress/log-001.ndjson` — append-only memory shard; read IN FULL, esp. all 2026-06-25 records.
 5. This file.
 6. `CDN-PHASE-BUILD-PROMPT.md` — background on the "UI as a service" thesis (advisory; some parts stale).
@@ -44,49 +45,49 @@ Back-ends reference it remotely at `https://autocss.com/assets/css/*.css` and
 
 ---
 
-## 2. THE BACK-ENDS (user-updated 2026-07-01)
-Full set (5): Angular, Vue, React, WordPress, Joomla. **This DROPS Drupal and SharePoint from the
-earlier "reserved" list and ADDS Joomla.**
+## 2. THE DEMOS (user-updated 2026-07-01)
+**4 demos total:**
+- **1 vanilla AutoCSS demo — International.dance** (the current AutoCSS architecture as-is, serving
+  the International.dance content).
+- **3 framework demos — React, Vue, Angular** (repos `autocss-com/react`, `autocss-com/vue`,
+  `autocss-com/angular`).
 
-### ⭐ ACTIVE NOW (user-confirmed 2026-07-01): **JUST THE 3 FRAMEWORKS — React, Vue, Angular.**
-> "Let's drop wordpress and joomla for now. Just the frameworks."
+### Only the 3 frameworks this phase (user-confirmed 2026-07-01)
+> "We are now just doing the 3 frameworks because the others need additional setup than github.com
+> alone can handle."
 
-**WordPress + Joomla are DEFERRED to a later iteration.** Their repos exist (`autocss-com/wordpress`,
-`autocss-com/joomla`) but do NOT build them this phase. IMPORTANT CONSEQUENCE: the "GitHub Pages
-can't run PHP" decision (§4, options A/B/C) **no longer blocks the current work** — it only matters
-when WP/Joomla come back. So the active path is clean: all three frameworks build to static and
-deploy to Pages via GitHub Actions.
+**WordPress + Joomla are DROPPED from this phase.** They are PHP+DB server apps that need more setup
+than GitHub (Pages) alone can host, so they are out of scope for now — do NOT build them this phase.
 
-- The user's 2026-06-25 real-product → back-end mapping (in `PROGRESS.json`) was:
-  WordPress→psychiatrist, Vue→Pokémon, Angular→crime-stats, React→Bible-study; Joomla was reserved.
-  (Products are a LATER iteration — see the framing decision below.)
+### Framing decision (user-confirmed 2026-07-01): the frameworks are NOT tied to a product yet.
+> "We will not tie the frameworks to a product yet." · "These will eventually be real products, but I
+> want to do this iteratively."
 
-### Framing decision (user-confirmed 2026-07-01): ITERATIVE. Framework-reference demos NOW; real products LATER.
-> "These will eventually be real products, but I want to do this iteratively."
-
-So for THIS stage each repo is a **standard/idiomatic instance of that framework/CMS** that (a)
+So for THIS stage each framework repo is a **standard/idiomatic instance of that framework** that (a)
 demonstrates how it exposes/renders data and (b) serves as a **developer reference for how to call
-AutoCSS remotely**. Distinct real products (and the Joomla product) are a LATER iteration, not now.
+AutoCSS remotely**. **No product is assigned to any framework demo yet** — assigning real products is
+a LATER iteration. (The vanilla demo is the one exception: it serves International.dance.)
 
 ### Sequence (user-confirmed 2026-07-01): back-ends FIRST, AutoCSS SECOND.
 > "Let's get the back-end data-layers installed into each repo I just created and working using
 > github pages, first. … Then we can attach autocss."
 
-**Step 1 of the phase = get each back-end data-layer standing up and RENDERING on GitHub Pages.**
+**Step 1 of the phase = get each framework data-layer standing up and RENDERING on GitHub Pages.**
 **Step 2 = attach AutoCSS (wire the remote UI to the back-end's data).** Do NOT attach AutoCSS until
 the back-end renders on Pages.
 
 ---
 
 ## 3. THE REPOS (⚠️ SCOPE — this is WHY we handed off to a new session)
-The user **has already created** the 5 repos. In the 2026-07-01 session Claude's GitHub access was
-scoped to only `d7460n/starter`, `d7460n/dhcp`, `autocss-com/autocss`, so Claude **could not see or
-push to the new repos** — hence this handoff. Per prior memory: **the USER creates + maintains org
-repos; Claude is repo-scoped and cannot create them.**
+The user **has already created** the 3 framework repos. In the 2026-07-01 session Claude's GitHub
+access was scoped to only `d7460n/starter`, `d7460n/dhcp`, `autocss-com/autocss`, so Claude **could
+not see or push to the new repos** — hence this handoff. Per prior memory: **the USER creates +
+maintains org repos; Claude is repo-scoped and cannot create them.**
 
 **EXACT REPO NAMES (user-provided 2026-07-01 — plain names, NOT `autocss-<backend>`):**
-- **Active now:** `autocss-com/react`, `autocss-com/vue`, `autocss-com/angular`
-- **Deferred:** `autocss-com/wordpress`, `autocss-com/joomla`
+- **The 3 framework demos:** `autocss-com/react`, `autocss-com/vue`, `autocss-com/angular`.
+- **The vanilla demo:** the AutoCSS vanilla instance for **International.dance** (repo/hosting per the
+  user).
 
 **FIRST ACTIONS NEXT SESSION:**
 1. **Confirm the 3 active repos are in this session's GitHub scope** (`autocss-com/react`,
@@ -98,10 +99,7 @@ repos; Claude is repo-scoped and cannot create them.**
 
 ---
 
-## 4. ⚠️ HARD TECHNICAL REALITY — GitHub Pages is STATIC-ONLY (DEFERRED: only affects WP/Joomla)
-> **NOTE (2026-07-01): WordPress + Joomla are DEFERRED (§2), so this section does NOT block the
-> current 3-framework work. Keep it here for when WP/Joomla resume.**
-
+## 4. ⚠️ TECHNICAL REALITY — GitHub Pages is STATIC-ONLY (this is WHY it's just the 3 frameworks)
 GitHub Pages serves static files only. **No PHP, no MySQL, no server runtime.**
 
 - **Angular / Vue / React** — OK on Pages. They compile to static assets. Use a **GitHub Actions
@@ -110,18 +108,9 @@ GitHub Pages serves static files only. **No PHP, no MySQL, no server runtime.**
   deliberately "over-engineered" data-layer stacks AutoCSS drops into — **their own build tooling
   (npm/node/bundlers) is fine and expected; AutoCSS's zero-dep rule applies ONLY to AutoCSS itself,
   NOT to these back-ends.**
-- **WordPress / Joomla** — ❌ **cannot run as a live install on Pages** (both are PHP+DB server apps).
-  A decision is REQUIRED before building these two. Present these options and LOCK one WITH the user
-  (do not guess):
-  - **(A) Emulate the CMS as static JSON [RECOMMENDED].** Commit static files that mimic each CMS's
-    real REST API shape — WordPress `/wp-json/wp/v2/…`, Joomla `/api/index.php/v1/…` — served from
-    Pages, plus a small static front page. Faithfully demos "how a WordPress/Joomla data-layer
-    exposes data to AutoCSS," and is the only option that actually runs on Pages. Fits the current
-    framework-reference framing.
-  - **(B) Host a real WP/Joomla elsewhere** (PHP host / container / wordpress.com) and point the demo
-    at it via CORS. Not Pages; a live server the user maintains.
-  - **(C) Static-export a real site** (WordPress: Simply Static / WP2Static; Joomla equivalent).
-    Requires a live CMS to export FROM — which contradicts "can't run locally."
+- **WordPress / Joomla** — ❌ cannot run on Pages (both are PHP+DB server apps). They need more setup
+  than GitHub alone can host, which is exactly why they are **DROPPED from this phase** (§2). Not
+  built here.
 
 ---
 
@@ -129,30 +118,27 @@ GitHub Pages serves static files only. **No PHP, no MySQL, no server runtime.**
 
 ### Locked (2026-07-01):
 - Keep AutoCSS at `https://autocss.com` (no separate CDN move for now).
-- **ACTIVE back-ends this phase = React, Vue, Angular only** (repos `autocss-com/react`, `.../vue`,
-  `.../angular`). **WordPress + Joomla DEFERRED** (repos `autocss-com/wordpress`, `.../joomla` exist,
-  left untouched for now).
-- Framework-reference demos now; real products later; iterative.
+- **4 demos total: 1 vanilla AutoCSS demo (International.dance) + 3 framework demos — React, Vue,
+  Angular** (repos `autocss-com/react`, `.../vue`, `.../angular`).
+- **WordPress + Joomla DROPPED this phase** — they need more setup than GitHub Pages alone can host.
+- Framework demos are NOT tied to a product yet; assigning real products is a later iteration.
 - Order: back-ends render on Pages first, THEN attach AutoCSS.
 - React/Vue/Angular → build via GitHub Actions → deploy to Pages.
 
 ### Still OPEN — LOCK WITH THE USER before/at the relevant step (CDN prompt's "Decisions to LOCK"):
-1. **WP/Joomla on Pages** → choose A / B / C (see §4). **DEFERRED — only when WP/Joomla resume; does
-   not block current work.**
-2. **Pacing** → recommend proving ONE framework repo end-to-end on Pages first (React, Vue, or
+1. **Pacing** → recommend proving ONE framework repo end-to-end on Pages first (React, Vue, or
    Angular — pick one), then replicate to the other two. Confirm.
-3. **Delivery mechanism (when attaching AutoCSS)** → the 2026-06-25 memory CONFIRMED a **light-DOM web
+2. **Delivery mechanism (when attaching AutoCSS)** → the 2026-06-25 memory CONFIRMED a **light-DOM web
    component (NOT iframe)**; the older CDN prompt "recommended" plain `<link>` + `<script type=module>`
    (Option A). Re-confirm which for this phase before wiring AutoCSS.
-4. **HTML skeleton delivery** → host hand-includes the Holy-Grail markup vs. fetch-as-text (never
+3. **HTML skeleton delivery** → host hand-includes the Holy-Grail markup vs. fetch-as-text (never
    string-build HTML in JS — violates CLAUDE.md).
-5. **Versioning + integrity** → URL pinning, long-cache, SRI hashes, CORS posture for cross-origin data.
-6. **Theming per host** → which `color-theme-*.css`; optionally demo a host re-skin via its own
+4. **Versioning + integrity** → URL pinning, long-cache, SRI hashes, CORS posture for cross-origin data.
+5. **Theming per host** → which `color-theme-*.css`; optionally demo a host re-skin via its own
    unlayered CSS (the `@layer` deconfliction, live).
-7. **Data contract doc** → the JSON shape each back-end MUST return (see §6).
-8. **Data per demo (later iteration)** → real products: WordPress→psychiatrist, Vue→Pokémon,
-   Angular→crime-stats, React→Bible-study, Joomla→**TBD (ask the user)**. Not needed for the
-   framework-reference stage.
+6. **Data contract doc** → the JSON shape each back-end MUST return (see §6).
+7. **Data per framework demo** → use generic/sample data; the framework demos are NOT tied to
+   products yet (real products = later iteration). The vanilla demo uses International.dance content.
 
 ---
 
@@ -186,6 +172,9 @@ points at its OWN data; the full AutoCSS UI renders the host's data; the host's 
 overrides an AutoCSS rule with **no `!important`** (deconfliction demonstrated). Same AutoCSS bundle,
 swap the data → same UI.
 
+(The vanilla International.dance demo is the existing AutoCSS instance serving its own content — no
+framework build step; it is the baseline the 3 framework demos are compared against.)
+
 ---
 
 ## 8. CADENCE / HARD RULES (carry from CLAUDE.md + SESSION-HANDOFF — still apply)
@@ -218,11 +207,11 @@ swap the data → same UI.
 
 ## 10. FIRST ACTIONS NEXT SESSION (checklist)
 1. Do the §0 reading; re-assert the Constraint Lock.
-2. Confirm the **3 active repos** (`autocss-com/react`, `autocss-com/vue`, `autocss-com/angular`) are
-   in this session's GitHub scope (§3). If not in scope → STOP + tell the user. (WordPress/Joomla are
-   deferred — ignore for now.)
+2. Confirm the **3 framework repos** (`autocss-com/react`, `autocss-com/vue`, `autocss-com/angular`)
+   are in this session's GitHub scope (§3). If not in scope → STOP + tell the user. (WordPress/Joomla
+   are dropped from this phase — ignore.)
 3. Check the available-skills list for **`caveman`** (§9); apply it if present, else tell the user.
-4. Lock the **pacing** decision (§5.2): pick ONE framework to prove end-to-end first, then replicate.
+4. Lock the **pacing** decision (§5): pick ONE framework to prove end-to-end first, then replicate.
 5. Build that **one** framework back-end end-to-end onto GitHub Pages via GitHub Actions (Stage 1 =
    renders its own data-layer, no AutoCSS yet), check in with the user, then replicate to the other
    two. Attach AutoCSS (Stage 2) only AFTER the back-end renders on Pages.
