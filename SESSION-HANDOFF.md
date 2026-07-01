@@ -14,7 +14,10 @@ LEDGER below and fixed later. PRESERVE all already-completed compliant work
 (steps 4–6) and ALL memory/handoff docs — the point is to finish across multiple
 sessions with accurate memory and zero drift.
 
-Work on branch `claude/lucid-hawking-E5Ej2` (push there, never `main`). Stop and ask
+Work on a fresh branch cut from the latest `main` (never direct-push to `main` — it
+is branch-protected; promote via a PR merge). NOTE: `claude/lucid-hawking-E5Ej2` was
+PROMOTED TO MAIN on 2026-07-01 (PR #2, merge commit `90a6a8b`) — all its work now
+lives on `main`, so branch off `main`, not off the old lucid-hawking tip. Stop and ask
 on ANY doubt. Check in before your FIRST push and after each numbered step. Do NOT
 drop any DHCP functionality. Do NOT add any feature DHCP does NOT have (e.g. the
 unsaved-changes guard — that's a future feature session, see backlog).
@@ -467,6 +470,8 @@ targets.)
   not have it, the port won't. Do not chase it speculatively.
 
 ============================= DEFAULTS ==========================================
-- Branch: `claude/lucid-hawking-E5Ej2` (push there, not `main`).
+- Branch: cut a fresh branch from the latest `main`. `claude/lucid-hawking-E5Ej2` was
+  merged to `main` 2026-07-01 (PR #2, `90a6a8b`); never direct-push to protected `main`
+  (promote via PR merge).
 - Memory: `PROGRESS.json` (read first) + `progress/log-001.ndjson` (append-only).
 - Assets carried from the `starter` base.
