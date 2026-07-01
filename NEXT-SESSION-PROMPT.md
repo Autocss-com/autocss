@@ -23,11 +23,12 @@ on the autocss Project board, governed by the new CLAUDE.md "Issue / Project-Boa
 Tracking" mandate (PROGRESS.json remains the single source of truth). THIS session =
 **GitHub Issue #4** — close it when done so the board auto-moves it to Done.
 
-Work on branch `claude/lucid-hawking-E5Ej2` (push there, never `main`). NOTE: a
-fresh container may check out `claude/great-ride-37t354` (EMPTY scaffolding) — that
-is a harness default; switch to `claude/lucid-hawking-E5Ej2`, where ALL work +
-memory live. Confirm the current tip with `git log -1` / `git ls-remote` if the
-local clone looks empty.
+Work on a fresh branch cut from the latest `main` (never direct-push to `main` — it is
+branch-protected; promote via a PR merge). NOTE: `claude/lucid-hawking-E5Ej2` was
+PROMOTED TO MAIN on 2026-07-01 (PR #2, merge commit `90a6a8b`) — ALL work + memory now
+live on `main`, so branch off `main`. A fresh container may check out an EMPTY harness
+default branch; switch to a branch based on the latest `main`. Confirm the current tip
+with `git log -1` / `git ls-remote` if the local clone looks empty.
 
 ============================= READ FIRST, IN THIS ORDER =============================
 1. `CLAUDE.md` — canonical, non-negotiable D7460N rules (now also Rule 29 `@layer`
@@ -185,6 +186,8 @@ D. CLEANUP SCOPE: For the residue sweep, confirm whether to delete only obvious
 - Do NOT touch `CLAUDE.md` (canonical) or `ORIGINAL-PROMPT.md` (historical).
 
 ============================= DEFAULTS ============================================
-- Branch: `claude/lucid-hawking-E5Ej2` (push there, not `main`; not `great-ride`).
+- Branch: cut a fresh branch from the latest `main`. `claude/lucid-hawking-E5Ej2` was
+  merged to `main` 2026-07-01 (PR #2, `90a6a8b`); never direct-push to protected `main`
+  (promote via PR merge).
 - Memory: `PROGRESS.json` (read first) + `progress/log-001.ndjson` (append-only).
 - Data source: the one mockapi base in `api.js` (DHCP domain).
