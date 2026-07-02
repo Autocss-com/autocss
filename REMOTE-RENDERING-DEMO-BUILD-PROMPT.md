@@ -7,6 +7,20 @@
 > On any conflict, **this file + `PROGRESS.json` (`meta.future_goals`) win**, and `CLAUDE.md` remains
 > canonical over everything.
 
+> **STATUS UPDATE 2026-07-02 (session `claude/autocss-remote-rendering-demo-ml2uf8`).** **Stage 1 is
+> BUILT for all 3 framework back-ends.** Each of `autocss-com/react` (Vite+React 19),
+> `autocss-com/vue` (Vite+Vue 3), and `autocss-com/angular` (Angular 20) now stands up a
+> standard/idiomatic instance that fetches its OWN `public/data/records.json` (AutoCSS
+> `[{id,title,intro,items:[]}]` contract shape) and renders a `<table>` with loading/error states,
+> deployed to GitHub Pages via a GitHub Actions workflow. Base paths `/react/` `/vue/` `/angular/`.
+> All three were built + **browser-verified** (6 rows, no console errors) and pushed; **PR #1 is open
+> to `main`** in each repo. The user enabled **Pages Source = GitHub Actions** on all repos.
+> **Self-approval is blocked** (author can't approve own PR) and **merge-to-`main` (= the Pages deploy)
+> is pending the user.** `autocss-com/vanilla` was NOT in this session's GitHub scope (deferred; the
+> 4th demo, not on the Stage-1 path). **NEXT = merge the 3 PRs → confirm the live Pages URLs → Stage 2
+> (attach the remote AutoCSS UI).** Full detail: `progress/log-001.ndjson` (2026-07-02) + `PROGRESS.json`
+> `cursor`. §5.1 pacing note: the user chose "build all three at once" rather than prove-one-first.
+
 ---
 
 ## 0. READ FIRST, IN THIS ORDER (non-negotiable, per CLAUDE.md + prior handoffs)
