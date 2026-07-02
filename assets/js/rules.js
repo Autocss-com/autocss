@@ -4,7 +4,7 @@
 // stateless; no DOM. Consumed by the form/field generator (inject.js, step 6)
 // to auto-build typed inputs from data.
 
-import { DHCP_TYPES } from "./config.js";
+import { DHCP_TYPES } from "./profile.js";
 
 export function inferFieldRules(items = []) {
   if (!Array.isArray(items) || !items.length) return {};
