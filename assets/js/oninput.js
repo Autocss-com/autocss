@@ -8,7 +8,8 @@
 // and calls those injectors.
 
 import { requestData, logStage, logSuccess } from "./api.js";
-import { NAV_ENDPOINT, BANNER_ENDPOINT, VERSION, OPTIONS } from "./config.js";
+import { VERSION, OPTIONS } from "./config.js";
+import { NAV_ENDPOINT, BANNER_ENDPOINT } from "./profile.js";
 import { readPersistent, writePersistent } from "./storage.js";
 import { injectNavText, injectPageContent } from "./inject.js";
 import { normalizeRecord, normalizeItems } from "./schema.js";

@@ -1,7 +1,7 @@
 // MARK: CONFIG
-// Project-specific runtime configuration: the endpoint registry and flags.
-// The API base origin lives in api.js (declared once); this file only names
-// the endpoint suffixes and option flags the app uses.
+// Generic runtime option flags (project-agnostic). The API base origin lives in
+// api.js (declared once); the data source's endpoints + field maps live in
+// profile.js. This file holds only flags a host would set the same way anywhere.
 
 import { isDev, FEATURES } from "./env.js";
 
@@ -21,26 +21,6 @@ export const OPTIONS = {
   liveReload: FEATURES.liveReload
 };
 
-// Shell endpoint suffixes (fetched once per session).
-export const NAV_ENDPOINT = "navItems";
-export const BANNER_ENDPOINT = "app-banner";
-
-// Valid data endpoint suffixes (DHCP domain — joined to API_BASE_URL).
-export const ENDPOINTS = [
-  "manage",
-  "api-registration",
-  "audit",
-  "credentials",
-  "faqs",
-  "option-set",
-  "option-types",
-  "scope-type",
-  "server-types",
-  "servers",
-  "variables",
-  "settings"
-];
-
 // Unsaved-change confirmation flags (consumed by the form lifecycle).
 export const CONFIRM_FLAGS = {
   save: { value: false },
@@ -51,6 +31,3 @@ export const CONFIRM_FLAGS = {
 
 // Standard JSON request headers for write operations.
 export const JSON_HEADERS = { "Content-Type": "application/json" };
-
-// DHCP type options used for generated dropdowns (matches data casing).
-export const DHCP_TYPES = ["Host", "IP", "URL", "File", "Service"];
