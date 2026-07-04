@@ -84,6 +84,7 @@
       <article>
         <h1></h1>
         <p></p>
+        <section></section>
         <label role="button" aria-label="Add new item">
           <input type="checkbox" />
           New Item
@@ -131,6 +132,9 @@
     </footer>
     <app-banner></app-banner>
   </app-container>
+  <!-- Content-level element pool (inert): non-tabular records clone real
+       semantic elements from here by tag name; see inject.injectContentBlocks. -->
+  <template><h1></h1><h2></h2><h3></h3><p></p><blockquote></blockquote></template>
   <script type="module" src="./assets/js/app.js"></script>
 </body>
 
