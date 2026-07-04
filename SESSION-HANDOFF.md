@@ -48,6 +48,12 @@ FEATURE + LOOK reference, and now the literal SOURCE we port from) and `starter`
 through the later refinement sessions.
 
 ============================= GROUND TRUTH / CURRENT STATE =========================
+- CONTENT BRANCH (2026-07-02, NEW user-authorized feature beyond the port; design =
+  autocss PR #53): `inject.injectContentBlocks` renders an ordered `content` array of
+  `{tag:text}` blocks as real semantic elements into `<article><section>` — reuse-first
+  then clone from an inert `<template>` pool (allow-list), idempotent across nav (surplus
+  emptied+kept; CSS `:empty` hides). Text-only, no `id`, no `innerHTML`. INERT on the live
+  DHCP app (no `content` field). Browser-verified (scratchpad/verify-content.mjs, 6/6).
 - Branch `claude/lucid-hawking-E5Ej2`. (NOTE: a fresh container may check out
   `claude/great-ride-37t354` = EMPTY scaffolding; that is a harness default — switch
   to lucid-hawking, where ALL work + memory live. User-confirmed 2026-06-10.)

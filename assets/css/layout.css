@@ -341,6 +341,11 @@ app-container {
         /* Show when not empty */
       }
 
+      &:has(section > :not(:empty)) {
+        display: grid;
+        /* Also show for non-tabular content-only records */
+      }
+
       input[type="search"] {
         display: none;
         /* Hide by default */
@@ -390,6 +395,27 @@ app-container {
         &:not(:empty) {
           display: grid;
           /* Show when not empty */
+        }
+      }
+
+      section {
+        display: none;
+        /* Hide by default */
+        align-content: start;
+
+        &:has(> :not(:empty)) {
+          display: grid;
+          /* Show when it holds real content */
+        }
+
+        > :empty {
+          display: none;
+          /* Emptied/surplus blocks stay hidden */
+        }
+
+        > :not(:empty) {
+          margin-inline: 1rem;
+          /* Align with the article's other content */
         }
       }
 

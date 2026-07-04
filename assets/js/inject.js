@@ -135,7 +135,52 @@ export function createListItem(item = {}) {
   return li;
 }
 
-// Inject a normalized page record into the article: h1/intro + dual-<ul> table.
+// Non-tabular content: render an ordered `content` array of { tag: text } blocks
+// (e.g. { h2: "..." }, { p: "..." }) as REAL semantic elements in <article><section>.
+// The block's KEY is the element tag. Reuse-first: fill a matching element already
+// in <section> when one is free; otherwise clone it from the <template> pool (an
+// allow-list — a tag not in the pool is skipped). Idempotent across nav switches:
+// leftover elements are EMPTIED (CSS :empty hides them) and kept for reuse, so
+// clicking through tabs re-fills the same elements instead of accumulating stale
+// ones. Text-only (textContent) — the pool is the security allow-list.
+export function injectContentBlocks(article, blocks = []) {
+  const section = article.querySelector("section");
+  if (!section) return;
+
+  const pool = document.querySelector("template")?.content ?? null;
+
+  // Bucket the section's current children by tag so they can be reused.
+  const buckets = new Map();
+  for (const el of [...section.children]) {
+    const tag = el.tagName.toLowerCase();
+    if (!buckets.has(tag)) buckets.set(tag, []);
+    buckets.get(tag).push(el);
+  }
+
+  const used = new Set();
+  const ordered = [];
+  for (const block of Array.isArray(blocks) ? blocks : []) {
+    const tag = Object.keys(block)[0]; // the KEY is the element tag
+    if (!tag) continue;
+    let el = (buckets.get(tag) || []).find(node => !used.has(node));
+    if (!el) {
+      const proto = pool?.querySelector(tag);
+      if (!proto) continue; // not in the pool allow-list
+      el = proto.cloneNode(false);
+    }
+    used.add(el);
+    el.textContent = block[tag] ?? "";
+    ordered.push(el);
+  }
+
+  // Surplus reused-pool elements: empty them (CSS :empty hides) and keep them
+  // for the next endpoint. Filled blocks first, then the emptied remainder.
+  const surplus = [...section.children].filter(node => !used.has(node));
+  for (const node of surplus) node.textContent = "";
+  section.replaceChildren(...ordered, ...surplus);
+}
+
+// Inject a normalized page record into the article: h1/intro + content + table.
 export function injectPageContent(endpoint = "", data = {}) {
   const article = document.querySelector("main article");
   if (!article) return;
@@ -144,6 +189,8 @@ export function injectPageContent(endpoint = "", data = {}) {
   const intro = article.querySelector("p");
   if (h1) h1.textContent = data.title ?? "";
   if (intro) intro.textContent = data.description ?? "";
+
+  injectContentBlocks(article, data.content);
 
   const headerUl = article.querySelector('ul[aria-hidden="true"]');
   const headerLi = headerUl?.querySelector("li");
