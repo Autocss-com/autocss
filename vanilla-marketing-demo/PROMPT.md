@@ -232,22 +232,31 @@ Two drop-in CSS files are already written and verified in chromium; copy them in
 - **`./assets/css/cards.css`** — responsive card grid. VERIFIED: a `<section>` holding
   `<app-card>`s is an auto-fit grid (2-up wide `526px 526px 0px`, 1-up narrow); card
   padding applied. **Pool markup per card:** `<app-card><h2></h2><p></p></app-card>`.
-- **`./assets/css/carousel.css`** — full-bleed swipeable carousel. VERIFIED: `<app-carousel>`
-  is a horizontal `scroll-snap` container (`overflow-x:auto`, `scroll-snap-type:x mandatory`),
-  3 center-snapped `<figure>` slides, natively scrollable/swipeable, zero JS, zero errors.
-  **Pool markup:** `<app-carousel><figure><img><figcaption><h1></h1><p></p></figcaption></figure>…</app-carousel>`.
+- **`./assets/css/carousel.css`** — full-bleed carousel that is **BOTH swipeable AND
+  auto-advancing, 100% CSS, zero JS** (all rem/%). VERIFIED in chromium: `<app-carousel>`
+  is a real `scroll-snap` scroller (native swipe works) AND auto-advances every 5s, PAUSES
+  on hover/focus (activity), and stops under `prefers-reduced-motion`.
+  - **Technique** (credit: Christian Schaefer / "Schepp", *A CSS-only Carousel*): auto-advance
+    animates the SNAP POINTS, not the slides — each slide carries an `<app-snapper>` whose
+    `left` is animated one slide right (the snapped scroller follows), then `scroll-snap-align`
+    briefly flips to `none` so the snapper can reset without dragging the view, then re-engages
+    onto the next slide. Because the container stays a scroll-snap scroller, manual swipe is
+    unaffected. This CORRECTS an earlier wrong note that said pure CSS can't do both — it can.
+  - **Pool markup** (note the `<app-snapper>` per slide):
+    `<app-carousel><figure><app-snapper></app-snapper><img><figcaption><h1></h1><p></p></figcaption></figure>…</app-carousel>`.
+  - **Slide count** for the last-slide loop-back is read STRUCTURALLY in pure CSS
+    (`app-carousel:has(> figure:nth-child(N):last-child){ --slide-count:N }`, provided for 3–8;
+    extend if a carousel has more slides). No JS sets it.
   - **NOT yet verified (cutting-edge, progressive):** the `::scroll-button()` arrows and
     `::scroll-marker` dots (Chrome 135+ CSS Carousel) — may not render in every chromium;
-    swipe/scroll still works without them. Re-verify in the target browser.
-  - **AUTO-ADVANCE decision still needed (the one honest limitation):** pure CSS cannot do
-    native swipe AND unattended auto-advance together. This file prioritizes **swipe +
-    manual controls**. If auto-advance-every-5s must win, switch to the commented
-    transform-animation model at the bottom of the file (it LOSES native touch-swipe;
-    pauses on hover/focus). **Confirm with the user which behavior wins.**
+    swipe + auto-advance still work without them. Re-verify in the target browser.
 - The exact markup both target is in **`./test/carousel-cards-test.html`** (also the
   isolation harness); reuse it as the `<template>`-pool source for these two composites.
-- Verification harness: `scratchpad/verify-carousel-cards.mjs` (serve the demo dir; stub
-  `picsum.photos`; assert scroll-snap + slide count + responsive card tracks).
+- Verification harness (committed): **`./test/verify-carousel.mjs`** — serves the demo dir,
+  stubs `picsum.photos`, and asserts the carousel is a scroll-snap swipe container AND
+  auto-advances (`carousel-tonext`/`carousel-tostart` + 5s), PAUSES on hover, stops under
+  reduced-motion, `--slide-count` resolves structurally, and cards stay responsive. (The
+  Playwright import path in it is env-specific — adjust to the target env.)
 
 ---
 
