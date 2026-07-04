@@ -1,0 +1,75 @@
+[
+  {
+    "id": "1",
+    "title": "Étoile Ballet Studio",
+    "sections": [
+      {
+        "content": [
+          {
+            "carousel": [
+              {
+                "h1": "Where dancers take flight",
+                "p": "Classical training for every age and level, in the heart of downtown.",
+                "img": { "src": "https://picsum.photos/seed/etoile-stage/1600/900", "alt": "Dancers rehearsing on a sunlit studio stage" }
+              },
+              {
+                "h1": "Small classes, real attention",
+                "p": "No more than twelve dancers per class so every student is seen.",
+                "img": { "src": "https://picsum.photos/seed/etoile-barre/1600/900", "alt": "Students at the barre during a technique class" }
+              },
+              {
+                "h1": "Perform on a real stage",
+                "p": "Two full productions a year in a professional theater.",
+                "img": { "src": "https://picsum.photos/seed/etoile-theater/1600/900", "alt": "Young dancers performing under stage lights" }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "content": [
+          { "card": { "h2": "Trained to thrive", "p": "Our syllabus follows a graded classical method, building strength, musicality, and confidence one level at a time." } },
+          { "card": { "h2": "A studio that feels like home", "p": "Sprung floors, natural light, and a faculty who know every student by name — dance somewhere you belong." } }
+        ]
+      },
+      {
+        "content": [
+          {
+            "gallery": {
+              "filters": ["all", "ballet", "jazz", "tap", "contemporary"],
+              "images": [
+                { "src": "https://picsum.photos/seed/g-ballet-1/600/600", "alt": "Ballet pointe work", "filter": "ballet" },
+                { "src": "https://picsum.photos/seed/g-ballet-2/600/600", "alt": "Ballet arabesque", "filter": "ballet" },
+                { "src": "https://picsum.photos/seed/g-ballet-3/600/600", "alt": "Ballet class at the barre", "filter": "ballet" },
+                { "src": "https://picsum.photos/seed/g-jazz-1/600/600", "alt": "Jazz leap", "filter": "jazz" },
+                { "src": "https://picsum.photos/seed/g-jazz-2/600/600", "alt": "Jazz group routine", "filter": "jazz" },
+                { "src": "https://picsum.photos/seed/g-tap-1/600/600", "alt": "Tap shoes in motion", "filter": "tap" },
+                { "src": "https://picsum.photos/seed/g-tap-2/600/600", "alt": "Tap line rehearsal", "filter": "tap" },
+                { "src": "https://picsum.photos/seed/g-contemporary-1/600/600", "alt": "Contemporary floor work", "filter": "contemporary" },
+                { "src": "https://picsum.photos/seed/g-contemporary-2/600/600", "alt": "Contemporary duet", "filter": "contemporary" },
+                { "src": "https://picsum.photos/seed/g-contemporary-3/600/600", "alt": "Contemporary solo on stage", "filter": "contemporary" }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "content": [
+          {
+            "contact": {
+              "h2": "Visit the studio",
+              "p": "Étoile Ballet Studio · 148 Meridian Avenue, Suite 200 · Open Mon–Sat.",
+              "img": { "src": "https://picsum.photos/seed/etoile-map/1200/600", "alt": "Map showing Étoile Ballet Studio at 148 Meridian Avenue" },
+              "directions": [
+                "From I-40, take exit 12B onto Meridian Avenue heading north.",
+                "Continue 0.4 miles; the studio is on the right, above the Meridian Cafe.",
+                "Free parking is available in the rear lot off 2nd Street.",
+                "By transit: the Route 7 bus stops at Meridian & 2nd, one block away."
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

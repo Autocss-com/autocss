@@ -1,0 +1,33 @@
+[
+  {
+    "id": "1",
+    "title": "Faculty",
+    "intro": "Working professionals who love to teach.",
+    "sections": [
+      {
+        "content": [
+          { "h2": "Meet the teachers" },
+          { "p": "Every Étoile instructor is a credentialed, actively performing or recently retired professional. Below is our current roster; hover a class on the Classes tab to see who teaches it." },
+          { "ul": [
+            "Mme. Camille Laurent — Artistic Director, Cecchetti-certified, 18 years with the National Ballet.",
+            "Mr. Daniel Okafor — Ballet, former soloist, Royal Academy of Dance registered teacher.",
+            "Mme. Irina Ivanova — Ballet & Variations, Vaganova Academy graduate.",
+            "Ms. Sofia Reyes — Jazz, Broadway national tour credits.",
+            "Mr. Marcus Delacroix — Tap, two-time regional tap champion.",
+            "Ms. Amara Bello — Contemporary, MFA in Dance, resident choreographer.",
+            "Ms. Priya Nair — Ballet accompanist and music theory.",
+            "Mr. Leo Fischer — Conditioning & injury prevention, licensed PT.",
+            "Ms. Grace Tan — Petite division lead, early-childhood dance specialist.",
+            "Mr. Elias Ward — Boys' program, athletic movement coach.",
+            "Ms. Hannah Brooks — Pointe specialist and fitting consultant.",
+            "Mme. Yvette Dubois — Repertory and audition coaching.",
+            "Ms. Nadia Petrova — Stretch & strength, former rhythmic gymnast.",
+            "Mr. Theo Almeida — Partnering and pas de deux.",
+            "Ms. Bianca Ricci — Costume design and stagecraft.",
+            "Mr. Samuel Cohen — Lighting and production mentor."
+          ] }
+        ]
+      }
+    ]
+  }
+]
