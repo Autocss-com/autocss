@@ -224,6 +224,31 @@ re-runs into the same `<article>` each nav switch. Every render step MUST be ide
 remove) the surplus so CSS `:empty` hides it and it is available to reuse on the next
 tab.** No accumulation. This model must extend to sections, images, and every composite.
 
+### 4e. PRE-BUILT + BROWSER-VERIFIED drop-ins (built this session with full context)
+
+Two drop-in CSS files are already written and verified in chromium; copy them into
+`vanilla/assets/css/` and `<link>` them (each in its own `@layer`, after `layout.css`):
+
+- **`./assets/css/cards.css`** — responsive card grid. VERIFIED: a `<section>` holding
+  `<app-card>`s is an auto-fit grid (2-up wide `526px 526px 0px`, 1-up narrow); card
+  padding applied. **Pool markup per card:** `<app-card><h2></h2><p></p></app-card>`.
+- **`./assets/css/carousel.css`** — full-bleed swipeable carousel. VERIFIED: `<app-carousel>`
+  is a horizontal `scroll-snap` container (`overflow-x:auto`, `scroll-snap-type:x mandatory`),
+  3 center-snapped `<figure>` slides, natively scrollable/swipeable, zero JS, zero errors.
+  **Pool markup:** `<app-carousel><figure><img><figcaption><h1></h1><p></p></figcaption></figure>…</app-carousel>`.
+  - **NOT yet verified (cutting-edge, progressive):** the `::scroll-button()` arrows and
+    `::scroll-marker` dots (Chrome 135+ CSS Carousel) — may not render in every chromium;
+    swipe/scroll still works without them. Re-verify in the target browser.
+  - **AUTO-ADVANCE decision still needed (the one honest limitation):** pure CSS cannot do
+    native swipe AND unattended auto-advance together. This file prioritizes **swipe +
+    manual controls**. If auto-advance-every-5s must win, switch to the commented
+    transform-animation model at the bottom of the file (it LOSES native touch-swipe;
+    pauses on hover/focus). **Confirm with the user which behavior wins.**
+- The exact markup both target is in **`./test/carousel-cards-test.html`** (also the
+  isolation harness); reuse it as the `<template>`-pool source for these two composites.
+- Verification harness: `scratchpad/verify-carousel-cards.mjs` (serve the demo dir; stub
+  `picsum.photos`; assert scroll-snap + slide count + responsive card tracks).
+
 ---
 
 ## 5. CONFIRMED DESIGN LOCKS FROM THIS SESSION (do not re-ask; build to these)

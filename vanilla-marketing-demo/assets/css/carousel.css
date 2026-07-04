@@ -1,0 +1,117 @@
+@layer carousel {
+  /* CAROUSEL — full-bleed, responsive, accessible, semantic, SWIPEABLE, zero JS.
+     Drop-in: link AFTER layout.css. Markup cloned from the <template> pool:
+       <app-carousel>
+         <figure><img src alt><figcaption><h1></h1><p></p></figcaption></figure>
+         … (>= 3 slides)
+       </app-carousel>
+
+     HOW IT WORKS
+     - SWIPE / SCROLL: <app-carousel> is a horizontal scroll-snap container. Native
+       touch-swipe, trackpad, and keyboard scrolling all work with zero JS, and it is
+       screen-reader navigable (each slide is a real <figure>).
+     - CONTROLS (cutting-edge CSS Carousel — Chrome 135+): ::scroll-button() renders
+       prev/next arrows and ::scroll-marker renders dot indicators, all pure CSS. Where
+       unsupported they simply don't appear; swipe/scroll still works (progressive).
+
+     AUTO-ADVANCE (the one honest limitation)
+     - Pure CSS CANNOT combine native swipe (scroll-snap) with unattended auto-advance:
+       auto-advance needs a keyframe animation moving a track, which fights the snap
+       scroller. This file prioritizes SWIPE (an explicit requirement) + manual controls.
+     - To instead prioritize auto-advance, switch to the transform-animation model in the
+       commented block at the bottom (it LOSES native touch-swipe). Decide per product. */
+
+  app-carousel {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 100%;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    inline-size: 100%;
+    /* CSS Carousel: render dot markers after the scroller. */
+    scroll-marker-group: after;
+  }
+  app-carousel::-webkit-scrollbar { display: none; }
+
+  app-carousel > figure {
+    margin: 0;
+    display: grid;
+    position: relative;
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+    min-block-size: min(70vh, 40rem);
+  }
+
+  app-carousel > figure > img {
+    grid-area: 1 / 1;
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+  }
+
+  /* Caption overlays the image bottom; content-level spacing lives here. */
+  app-carousel > figure > figcaption {
+    grid-area: 1 / 1;
+    align-self: end;
+    display: grid;
+    gap: 0.5rem;
+    padding: 2rem;
+    color: #fff;
+    background: linear-gradient(to top, rgb(0 0 0 / 65%), rgb(0 0 0 / 0%));
+  }
+  app-carousel > figure > figcaption > * { margin: 0; }
+
+  /* Prev / next arrows (CSS Carousel pseudo-elements). */
+  app-carousel::scroll-button(*) {
+    position: absolute;
+    align-self: center;
+    z-index: 1;
+    border: 0;
+    padding: 0.5rem 0.9rem;
+    font-size: 1.5rem;
+    color: #fff;
+    background: rgb(0 0 0 / 40%);
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  app-carousel::scroll-button(inline-start) { content: "\2039"; inset-inline-start: 1rem; }
+  app-carousel::scroll-button(inline-end)   { content: "\203A"; inset-inline-end: 1rem; }
+  app-carousel::scroll-button(*):disabled   { opacity: 0.3; cursor: default; }
+
+  /* Dot indicators. */
+  app-carousel::scroll-marker-group {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    padding-block: 0.75rem;
+  }
+  app-carousel > figure::scroll-marker {
+    content: "";
+    inline-size: 0.6rem;
+    block-size: 0.6rem;
+    border-radius: 50%;
+    background: currentColor;
+    opacity: 0.4;
+    cursor: pointer;
+  }
+  app-carousel > figure::scroll-marker:target-current { opacity: 1; }
+
+  /* ── OPTIONAL: auto-advance model (LOSES native swipe) ─────────────────────────
+     Replace the scroller above with a transform-animated track if auto-advance must
+     win over swipe. Pauses on hover/focus (≈ "pause on activity"). Zero JS.
+
+     app-carousel { display: grid; grid-auto-flow: column; grid-auto-columns: 100%;
+       overflow: hidden; }
+     app-carousel > figure { animation: advance 15s infinite; }   // 3 slides × 5s
+     app-carousel:hover, app-carousel:focus-within { animation-play-state: paused; }
+     @keyframes advance {
+       0%, 28%   { transform: translateX(0); }
+       33%, 61%  { transform: translateX(-100%); }
+       66%, 94%  { transform: translateX(-200%); }
+       100%      { transform: translateX(0); }
+     }
+     ──────────────────────────────────────────────────────────────────────────── */
+}
