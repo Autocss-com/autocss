@@ -1,0 +1,26 @@
+[
+  {
+    "id": "1",
+    "title": "Classes",
+    "intro": "Every class below runs weekly. Use the filters to narrow by style, or search by name.",
+    "filters": ["all", "ballet", "jazz", "tap", "contemporary"],
+    "items": [
+      { "id": "1",  "name": "Petite Ballet",          "level": "Beginner",     "style": "ballet",       "instructor": "Mme. Laurent", "day": "Monday",    "time": "4:00 PM" },
+      { "id": "2",  "name": "Ballet I",               "level": "Beginner",     "style": "ballet",       "instructor": "Mme. Laurent", "day": "Tuesday",   "time": "4:30 PM" },
+      { "id": "3",  "name": "Ballet II",              "level": "Intermediate", "style": "ballet",       "instructor": "Mr. Okafor",   "day": "Wednesday", "time": "5:00 PM" },
+      { "id": "4",  "name": "Ballet III",             "level": "Intermediate", "style": "ballet",       "instructor": "Mr. Okafor",   "day": "Thursday",  "time": "5:30 PM" },
+      { "id": "5",  "name": "Pointe Prep",            "level": "Advanced",     "style": "ballet",       "instructor": "Mme. Laurent", "day": "Friday",    "time": "6:00 PM" },
+      { "id": "6",  "name": "Variations",             "level": "Advanced",     "style": "ballet",       "instructor": "Mme. Ivanova", "day": "Saturday",  "time": "10:00 AM" },
+      { "id": "7",  "name": "Jazz Foundations",       "level": "Beginner",     "style": "jazz",         "instructor": "Ms. Reyes",    "day": "Monday",    "time": "5:00 PM" },
+      { "id": "8",  "name": "Jazz II",                "level": "Intermediate", "style": "jazz",         "instructor": "Ms. Reyes",    "day": "Wednesday", "time": "6:00 PM" },
+      { "id": "9",  "name": "Jazz Company",           "level": "Advanced",     "style": "jazz",         "instructor": "Ms. Reyes",    "day": "Thursday",  "time": "7:00 PM" },
+      { "id": "10", "name": "Tap Basics",             "level": "Beginner",     "style": "tap",          "instructor": "Mr. Delacroix","day": "Tuesday",   "time": "5:30 PM" },
+      { "id": "11", "name": "Rhythm Tap",             "level": "Intermediate", "style": "tap",          "instructor": "Mr. Delacroix","day": "Thursday",  "time": "6:30 PM" },
+      { "id": "12", "name": "Tap Ensemble",           "level": "Advanced",     "style": "tap",          "instructor": "Mr. Delacroix","day": "Saturday",  "time": "11:30 AM" },
+      { "id": "13", "name": "Intro to Contemporary",  "level": "Beginner",     "style": "contemporary", "instructor": "Ms. Bello",    "day": "Monday",    "time": "6:00 PM" },
+      { "id": "14", "name": "Contemporary II",        "level": "Intermediate", "style": "contemporary", "instructor": "Ms. Bello",    "day": "Wednesday", "time": "7:00 PM" },
+      { "id": "15", "name": "Contemporary Repertory", "level": "Advanced",     "style": "contemporary", "instructor": "Ms. Bello",    "day": "Friday",    "time": "7:30 PM" },
+      { "id": "16", "name": "Adult Open Ballet",      "level": "All levels",   "style": "ballet",       "instructor": "Mme. Ivanova", "day": "Saturday",  "time": "9:00 AM" }
+    ]
+  }
+]
