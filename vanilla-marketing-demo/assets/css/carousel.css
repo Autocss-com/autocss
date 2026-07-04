@@ -1,48 +1,84 @@
 @layer carousel {
-  /* CAROUSEL — full-bleed, responsive, accessible, semantic, SWIPEABLE, zero JS.
-     Drop-in: link AFTER layout.css. Markup cloned from the <template> pool:
+  /* CAROUSEL — full-bleed, responsive, accessible, semantic, SWIPEABLE, AUTO-ADVANCING.
+     100% CSS, zero JS. All sizing in rem/% for fluid responsiveness.
+
+     Technique (credit: Christian Schaefer / "Schepp", A CSS-only Carousel):
+     the container is a real scroll-snap scroller, so native touch/trackpad SWIPE and
+     keyboard scrolling work. Auto-advance is done by animating the SNAP POINTS — not
+     the slides — so it coexists with manual swipe:
+       1. `tonext` pushes each slide's snap target (<app-snapper>) right by one slide;
+          the snapped scroller follows → it advances.
+       2. `snap` momentarily flips `scroll-snap-align: none` while the snapper `left`
+          resets to 0, so the viewport is NOT dragged back.
+       3. snapping re-engages and the scroller snaps to the NEXT slide.
+     Auto-advance runs only where a pointer can hover, PAUSES on hover/focus (= activity),
+     and is disabled for `prefers-reduced-motion`. Swipe/scroll always works.
+
+     Pool markup the content branch clones (one <app-snapper> per slide):
        <app-carousel>
-         <figure><img src alt><figcaption><h1></h1><p></p></figcaption></figure>
+         <figure><app-snapper></app-snapper><img src alt>
+           <figcaption><h1></h1><p></p></figcaption></figure>
          … (>= 3 slides)
-       </app-carousel>
+       </app-carousel> */
 
-     HOW IT WORKS
-     - SWIPE / SCROLL: <app-carousel> is a horizontal scroll-snap container. Native
-       touch-swipe, trackpad, and keyboard scrolling all work with zero JS, and it is
-       screen-reader navigable (each slide is a real <figure>).
-     - CONTROLS (cutting-edge CSS Carousel — Chrome 135+): ::scroll-button() renders
-       prev/next arrows and ::scroll-marker renders dot indicators, all pure CSS. Where
-       unsupported they simply don't appear; swipe/scroll still works (progressive).
-
-     AUTO-ADVANCE (the one honest limitation)
-     - Pure CSS CANNOT combine native swipe (scroll-snap) with unattended auto-advance:
-       auto-advance needs a keyframe animation moving a track, which fights the snap
-       scroller. This file prioritizes SWIPE (an explicit requirement) + manual controls.
-     - To instead prioritize auto-advance, switch to the transform-animation model in the
-       commented block at the bottom (it LOSES native touch-swipe). Decide per product. */
+  /* Push the snap point right one slide, then reset it (steps 1 & 2). */
+  @keyframes carousel-tonext {
+    75% { left: 0; }
+    95% { left: 100%; }
+    98% { left: 100%; }
+    99% { left: 0; }
+  }
+  /* Last slide loops back to the first: reset distance = (count - 1) slides. */
+  @keyframes carousel-tostart {
+    75% { left: 0; }
+    95% { left: calc(-100% * (var(--slide-count, 3) - 1)); }
+    98% { left: calc(-100% * (var(--slide-count, 3) - 1)); }
+    99% { left: 0; }
+  }
+  /* Briefly release snapping so the reset doesn't drag the viewport (step 2→3). */
+  @keyframes carousel-snap {
+    96% { scroll-snap-align: center; }
+    97% { scroll-snap-align: none; }
+    99% { scroll-snap-align: none; }
+    100% { scroll-snap-align: center; }
+  }
 
   app-carousel {
-    display: grid;
-    grid-auto-flow: column;
-    grid-auto-columns: 100%;
+    display: flex;
     overflow-x: auto;
     overscroll-behavior-x: contain;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
     scrollbar-width: none;
     inline-size: 100%;
-    /* CSS Carousel: render dot markers after the scroller. */
-    scroll-marker-group: after;
+    scroll-marker-group: after; /* modern CSS Carousel dot markers (progressive) */
   }
   app-carousel::-webkit-scrollbar { display: none; }
 
+  /* Slide-count is read structurally (pure CSS) so the loop-back distance is correct
+     for a data-driven number of slides. Extend the range as needed. */
+  app-carousel:has(> figure:nth-child(3):last-child) { --slide-count: 3; }
+  app-carousel:has(> figure:nth-child(4):last-child) { --slide-count: 4; }
+  app-carousel:has(> figure:nth-child(5):last-child) { --slide-count: 5; }
+  app-carousel:has(> figure:nth-child(6):last-child) { --slide-count: 6; }
+  app-carousel:has(> figure:nth-child(7):last-child) { --slide-count: 7; }
+  app-carousel:has(> figure:nth-child(8):last-child) { --slide-count: 8; }
+
   app-carousel > figure {
+    position: relative;
+    flex: 0 0 100%;
+    inline-size: 100%;
     margin: 0;
     display: grid;
-    position: relative;
-    scroll-snap-align: center;
-    scroll-snap-stop: always;
     min-block-size: min(70vh, 40rem);
+    overflow: clip;
+  }
+
+  /* The animated snap target (invisible, full-slide). */
+  app-carousel > figure > app-snapper {
+    position: absolute;
+    inset: 0;
+    scroll-snap-align: center;
   }
 
   app-carousel > figure > img {
@@ -52,7 +88,6 @@
     object-fit: cover;
   }
 
-  /* Caption overlays the image bottom; content-level spacing lives here. */
   app-carousel > figure > figcaption {
     grid-area: 1 / 1;
     align-self: end;
@@ -64,7 +99,28 @@
   }
   app-carousel > figure > figcaption > * { margin: 0; }
 
-  /* Prev / next arrows (CSS Carousel pseudo-elements). */
+  /* AUTO-ADVANCE: only where hover exists; ~5s per slide; pause on activity. */
+  @media (hover: hover) {
+    app-carousel > figure > app-snapper {
+      animation-name: carousel-tonext, carousel-snap;
+      animation-timing-function: ease;
+      animation-duration: 5s; /* advance every 5s */
+      animation-iteration-count: infinite;
+    }
+    app-carousel > figure:last-child > app-snapper {
+      animation-name: carousel-tostart, carousel-snap;
+    }
+  }
+  app-carousel:hover > figure > app-snapper,
+  app-carousel:focus-within > figure > app-snapper {
+    animation-name: none; /* pause on activity */
+  }
+  @media (prefers-reduced-motion: reduce) {
+    app-carousel > figure > app-snapper { animation-name: none; }
+  }
+
+  /* Manual controls — modern CSS Carousel pseudo-elements (progressive; no id needed).
+     Where unsupported they simply don't render; swipe + auto-advance still work. */
   app-carousel::scroll-button(*) {
     position: absolute;
     align-self: center;
@@ -81,7 +137,6 @@
   app-carousel::scroll-button(inline-end)   { content: "\203A"; inset-inline-end: 1rem; }
   app-carousel::scroll-button(*):disabled   { opacity: 0.3; cursor: default; }
 
-  /* Dot indicators. */
   app-carousel::scroll-marker-group {
     display: flex;
     gap: 0.5rem;
@@ -98,20 +153,4 @@
     cursor: pointer;
   }
   app-carousel > figure::scroll-marker:target-current { opacity: 1; }
-
-  /* ── OPTIONAL: auto-advance model (LOSES native swipe) ─────────────────────────
-     Replace the scroller above with a transform-animated track if auto-advance must
-     win over swipe. Pauses on hover/focus (≈ "pause on activity"). Zero JS.
-
-     app-carousel { display: grid; grid-auto-flow: column; grid-auto-columns: 100%;
-       overflow: hidden; }
-     app-carousel > figure { animation: advance 15s infinite; }   // 3 slides × 5s
-     app-carousel:hover, app-carousel:focus-within { animation-play-state: paused; }
-     @keyframes advance {
-       0%, 28%   { transform: translateX(0); }
-       33%, 61%  { transform: translateX(-100%); }
-       66%, 94%  { transform: translateX(-200%); }
-       100%      { transform: translateX(0); }
-     }
-     ──────────────────────────────────────────────────────────────────────────── */
 }
