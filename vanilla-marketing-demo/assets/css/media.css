@@ -1,0 +1,19 @@
+@layer media {
+
+/* MARK: MEDIA
+*/
+
+/* https://drafts.csswg.org/selectors-4/#typedef-forgiving-selector-list
+- Forgiving selector list
+- Specificity == 0
+- Allows easy override */
+:where(img,
+  picture,
+  video,
+  canvas,
+  svg) {
+  display: block;
+  max-inline-size: 100%;
+}
+
+} /* @layer media */

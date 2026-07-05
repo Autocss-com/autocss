@@ -1,0 +1,75 @@
+@layer loading {
+
+/* MARK: LOADING (PORTED AS-IS FROM DHCP — comply-later, see SESSION-HANDOFF)
+   dhcp/assets/css/loading.css dual-ring spinner ported verbatim. LEDGER item:
+   reconcile with layout.css's existing single spinner
+   (:root:has(article h1:empty)::before) — keep ONE. This dhcp rule keys off
+   `main:not(:has(article))`, but autocss's <article> is static (always present),
+   so this spinner never triggers here; the layout.css spinner is the active one.
+   Kept for the as-is port; resolve in the compliance pass. Also provides the
+   `fadeIn` keyframes used by forms.css. */
+
+main {
+  position: relative;
+}
+
+nav details label input[type="radio"]:checked ~ main:not(:has(article))::before,
+nav details label input[type="radio"]:checked ~ main:not(:has(article))::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4rem;
+  height: 4rem;
+  margin-top: -2rem;
+  margin-left: -2rem;
+  background-color: transparent;
+  border: 1rem solid rgba(102, 204, 255, 1.0);
+  border-radius: 50%;
+  opacity: 0;
+  z-index: 1000;
+  animation: fadeIn 250ms ease-in forwards;
+}
+
+nav details label input[type="radio"]:checked ~ main:not(:has(article))::before {
+  border-left: 1rem solid transparent;
+  border-right: 1rem solid transparent;
+  animation: spin01 3000ms infinite ease alternate, fadeIn 250ms ease-in forwards;
+  opacity: 1;
+}
+
+nav details label input[type="radio"]:checked ~ main:not(:has(article))::after {
+  border-left: 1rem solid transparent;
+  border-right: 1rem solid transparent;
+  border-top: 1rem solid transparent;
+  animation: spin02 4000ms infinite linear, fadeIn 250ms ease-in forwards;
+  opacity: 1;
+}
+
+@keyframes spin01 {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(720deg);
+  }
+}
+
+@keyframes spin02 {
+  0% {
+    transform: rotate(720deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 0.3;
+  }
+}
+
+} /* @layer loading */

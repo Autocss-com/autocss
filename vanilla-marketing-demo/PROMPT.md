@@ -5,6 +5,22 @@
 > every decision from the session that produced it so the next session can build
 > without re-deriving anything.
 
+> ## ⚑ STATUS UPDATE — A COMPLETE, BROWSER-VERIFIED BUILD ALREADY EXISTS HERE
+> This directory (`vanilla-marketing-demo/`) now contains the **full working demo**,
+> not just a spec: `index.html`, the adapted `assets/js/*` runtime, all `assets/css/*`
+> (incl. the verified `carousel.css`/`cards.css`/`gallery.css`/`contact.css`), and the
+> 6 JSON files under `data/`. It is **static + read-only** — the "API" is the `data/`
+> folder (`api.js` `API_BASE_URL="./data"`, `resolveEndpoint` appends `.json`); no
+> backend. Verified end-to-end in chromium (`test/verify-app.mjs`): all 5 tabs render
+> from JSON — Home carousel(3)/cards(2)/gallery(10, 5 filters)/contact, Classes 16-row
+> table, About/Faculty/Tuition text + scrolling lists — idempotent across nav, zero JS
+> errors.
+>
+> **So the next session's job is now mostly a COPY:** move this whole directory's
+> contents to `autocss-com/vanilla`'s root (or keep it as-is and serve it), push, and
+> enable GitHub Pages. The sections below are the design record + the remaining polish
+> (see "REMAINING / NOT YET DONE" at the very end).
+
 ---
 
 ## 0. MISSION (one paragraph)
@@ -531,3 +547,31 @@ crafted record (and/or the matching `./data` file). Commit + update memory per �
 
 Everything else is decided above. Build in order, verify each step in a real browser,
 keep it CSS-first and data-driven, and do not touch the DHCP app.
+
+---
+
+## 13. REMAINING / NOT YET DONE (polish on top of the working build)
+
+The build renders all 5 tabs from JSON and is verified. What's left is enhancement:
+
+- **Classes-tab radio filters** — the `filters` array is in `classes.json` but the
+  filter radios + row filtering are NOT wired yet. Reuse `gallery.css`'s mechanism:
+  give each row a `style` category custom element and filter the `<li>`s the same way.
+- **Free-text search** — the `<input type="search">` is present (hidden until focus per
+  `layout.css`) but does not filter rows. CSS can't match text; real text-search needs a
+  JS pass over the rows (or leave as visual-only). Decide with the user.
+- **Row-click detail form** — `forms.js` is intentionally NOT imported (read-only demo),
+  so clicking a Classes row does not open the `<aside>` form. Re-enable `forms.js` (and
+  a per-item detail field) if row detail is wanted.
+- **Real images / static map** — all images are `picsum.photos` placeholders; swap for
+  real ballet photos and a real static-map image URL in the JSON.
+- **`app-logo` / brand** — empty; add a logo asset + `<app-logo>` content if desired.
+- **PWA** — add `manifest.webmanifest` + a service worker (the SW doubles as the
+  no-backend adapter). Not in this build.
+- **Reuse-first for sections** — `injectSections` currently rebuilds each section via
+  `replaceChildren` (idempotent, simplest). The atomic single-section branch
+  (`injectContentBlocks`) uses reuse-first/empty-surplus; unifying the two is optional.
+- **Nav `<summary>`** shows "Menu" (the shell group key). Hide it or rename via the
+  shell JSON if a flat marketing nav is preferred.
+
+None of these block the working demo; they refine it.
