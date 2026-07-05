@@ -31,7 +31,9 @@
     --fg-link:     light-dark(oklch(38.5% 0.1956 272.38 / 0.5), oklch(80.39% 0.1192 232.69 / 0.5));
 
     /* === BACKGROUND === */
-    --bg:          light-dark(oklch(0% 0 0 / 0.8),       oklch(19.15% 0.0062 271.08));
+    /* light slot fixed 2026-07-05: was oklch(0% 0 0 / 0.8) (black) -> light mode
+       rendered dark-on-black; now the light mirror of the dark bg (same hue, high L). */
+    --bg:          light-dark(oklch(96% 0.006 271.08),  oklch(19.15% 0.0062 271.08));
     --bg-panel:    oklch(from var(--fg-accent) l c h / 0.05);  /* region surface = 5% accent (overrides the 5%-currentColor default) */
     --bg-accent:   oklch(75.76% 0.1471 234.34 / 0.5);
     --bg-hover:    oklch(from var(--fg-accent) l c h / 0.1);  /* hover surface (rows + buttons resting) */
