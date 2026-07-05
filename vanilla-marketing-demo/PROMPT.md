@@ -560,9 +560,12 @@ The build renders all 5 tabs from JSON and is verified. What's left is enhanceme
 - **Free-text search** — the `<input type="search">` is present (hidden until focus per
   `layout.css`) but does not filter rows. CSS can't match text; real text-search needs a
   JS pass over the rows (or leave as visual-only). Decide with the user.
-- **Row-click detail form** — `forms.js` is intentionally NOT imported (read-only demo),
-  so clicking a Classes row does not open the `<aside>` form. Re-enable `forms.js` (and
-  a per-item detail field) if row detail is wanted.
+- **Row-click detail form** — DONE. `forms.js` is imported and connected; clicking a
+  Classes row fills the `<aside>` fieldset (id/name/level/style/instructor/day/time) and
+  the aside opens (verified). The demo has NO Save/Delete/Reset controls (read-only), so
+  forms.js skips those (optional chaining) — only the row→form READ path + Close are live.
+  A real per-item "fetch more detail" call (extra fields beyond the row) is still a future
+  option.
 - **Real images / static map** — all images are `picsum.photos` placeholders; swap for
   real ballet photos and a real static-map image URL in the JSON.
 - **`app-logo` / brand** — empty; add a logo asset + `<app-logo>` content if desired.
