@@ -1,0 +1,88 @@
+@layer gallery {
+  /* FILTERABLE GALLERY — 100% CSS, zero JS. Radio state machines conditionally show/hide
+     images by category, transitioning at 250ms. Default (value="all") shows everything.
+     All sizing in rem. Drop-in: link AFTER layout.css.
+
+     WHY CATEGORY = A CUSTOM ELEMENT: CSS cannot match by text and D7460N forbids
+     class/id/data-*. So each image's category is encoded STRUCTURALLY as a custom-element
+     tag — the content branch maps filter "ballet" -> <cat-ballet>, "jazz" -> <cat-jazz>,
+     etc. (a hyphenated custom element = D7460N-clean). Then :has() on the checked radio
+     selects by category.
+
+     Pool markup the content branch clones:
+       <app-gallery>
+         <fieldset>
+           <label><input type="radio" name="gallery-filter" value="all" aria-hidden="true" checked>All</label>
+           <label><input type="radio" name="gallery-filter" value="ballet" aria-hidden="true">Ballet</label>
+           … (one per category)
+         </fieldset>
+         <cat-ballet><img src alt></cat-ballet>
+         <cat-jazz><img src alt></cat-jazz>
+         … (one wrapper per image, tag = "cat-" + its filter)
+       </app-gallery> */
+
+  app-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 12.5rem), 1fr)); /* 12.5rem = 200px */
+    gap: 0.5rem;
+    align-items: start;
+  }
+
+  /* The filter controls span the whole grid row; radios are hidden state machines. */
+  app-gallery > fieldset {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+  app-gallery > fieldset label {
+    padding: 0.35rem 0.9rem;
+    border-radius: 2rem;
+    cursor: pointer;
+    outline: 0.0625rem solid color-mix(in oklch, currentColor 25%, transparent);
+  }
+  app-gallery > fieldset label:has(input:checked) {
+    background: var(--bg-selected, color-mix(in oklch, currentColor 12%, transparent));
+    outline-color: currentColor;
+  }
+  app-gallery > fieldset input { position: absolute; opacity: 0; pointer-events: none; }
+
+  /* Each gallery item (a category-named custom element wrapping one image). */
+  app-gallery > :not(fieldset) {
+    display: block;
+    overflow: clip;
+    border-radius: 0.5rem;
+    /* modern CSS: transition opacity/scale AND display (collapse out of flow) at 250ms */
+    transition: opacity 0.25s ease, scale 0.25s ease, display 0.25s allow-discrete;
+  }
+  app-gallery > :not(fieldset) > img {
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+  }
+
+  /* When ANY specific (non-"all") filter is checked: hide all items, then re-show the
+     matching category. Default ("all") matches neither rule, so everything stays visible. */
+  app-gallery:has(fieldset input:not([value="all"]):checked) > :not(fieldset) {
+    opacity: 0;
+    scale: 0.8;
+    display: none;
+  }
+  app-gallery:has(fieldset input[value="ballet"]:checked) > cat-ballet,
+  app-gallery:has(fieldset input[value="jazz"]:checked) > cat-jazz,
+  app-gallery:has(fieldset input[value="tap"]:checked) > cat-tap,
+  app-gallery:has(fieldset input[value="contemporary"]:checked) > cat-contemporary {
+    opacity: 1;
+    scale: 1;
+    display: block;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    app-gallery > :not(fieldset) { transition: none; }
+  }
+}

@@ -226,7 +226,7 @@ tab.** No accumulation. This model must extend to sections, images, and every co
 
 ### 4e. PRE-BUILT + BROWSER-VERIFIED drop-ins (built this session with full context)
 
-Two drop-in CSS files are already written and verified in chromium; copy them into
+Three drop-in CSS files are already written and verified in chromium; copy them into
 `vanilla/assets/css/` and `<link>` them (each in its own `@layer`, after `layout.css`):
 
 - **`./assets/css/cards.css`** — responsive card grid. VERIFIED: a `<section>` holding
@@ -250,8 +250,22 @@ Two drop-in CSS files are already written and verified in chromium; copy them in
   - **NOT yet verified (cutting-edge, progressive):** the `::scroll-button()` arrows and
     `::scroll-marker` dots (Chrome 135+ CSS Carousel) — may not render in every chromium;
     swipe + auto-advance still work without them. Re-verify in the target browser.
-- The exact markup both target is in **`./test/carousel-cards-test.html`** (also the
-  isolation harness); reuse it as the `<template>`-pool source for these two composites.
+- **`./assets/css/gallery.css`** — filterable image gallery, 100% CSS, zero JS. VERIFIED via
+  the REAL user path (clicking filter radios): default (`value="all"`) shows all 10; each
+  category radio shows ONLY that category and hides the rest with a 250ms transition; image
+  min-width `12.5rem` (200px). **This is the CSS-only categorical-filter mechanism** (the
+  piece §7 flagged as highest-risk) — now solved and proven; the search-table row filters
+  REUSE it. **How:** each item's category is a **custom-element tag** (`filter:"ballet"` →
+  `<cat-ballet>`), radios are `<input name="gallery-filter">` state machines, and
+  `app-gallery:has(fieldset input:not([value=all]):checked) > :not(fieldset)` hides all while
+  `:has(input[value=ballet]:checked) > cat-ballet` re-shows the match. Filtered items collapse
+  out of flow AND animate via `transition: … display .25s allow-discrete`.
+  **Pool markup:** `<app-gallery><fieldset>…radios…</fieldset><cat-ballet><img></cat-ballet>…</app-gallery>`.
+  Harness: **`./test/verify-gallery.mjs`** (note: `allow-discrete` holds `display` until the
+  250ms transition ends, so assertions must wait > 250ms after a click).
+- The exact markup the carousel + cards target is in **`./test/carousel-cards-test.html`**;
+  the gallery markup is in **`./test/gallery-test.html`**. Reuse both as the `<template>`-pool
+  source for these composites.
 - Verification harness (committed): **`./test/verify-carousel.mjs`** — serves the demo dir,
   stubs `picsum.photos`, and asserts the carousel is a scroll-snap swipe container AND
   auto-advances (`carousel-tonext`/`carousel-tostart` + 5s), PAUSES on hover, stops under
@@ -383,24 +397,21 @@ split it:
 
 ## 7. THE HARD PARTS / RISKS (design carefully; VERIFY each in a real browser)
 
-1. **CSS-only categorical filter (gallery AND table).** CSS cannot match by text
-   content, and `class`/`data-*`/`id` are forbidden. So a category MUST be encoded
-   **structurally**. Recommended D7460N-clean approach: render each filterable item as
-   a **custom element named by its category** (e.g. `filter` `"ballet"` →
-   `document.createElement("cat-ballet")`, or wrap the `<figure>`/`<li>` with a
-   category custom element). Then pure CSS:
+1. **CSS-only categorical filter (gallery AND table) — SOLVED + VERIFIED (see `gallery.css`,
+   §4e).** No longer a risk; the mechanism is proven. A category is encoded STRUCTURALLY as a
+   **custom-element tag** (`filter:"ballet"` → `<cat-ballet>` — the branch does
+   `document.createElement("cat-" + filter)`). Radios are `<input name="gallery-filter">`
+   state machines. Pure-CSS filtering (hide-all-then-show-match):
    ```css
-   /* default (no filter, or value="all") shows everything.
-      when a filter radio is checked, dim/hide the non-matching custom elements: */
-   section:has(input[name="gallery-filter"][value="ballet"]:checked) :is(cat-jazz, cat-tap, cat-contemporary) {
-     opacity: 0; scale: 0.9; pointer-events: none;   /* transition 250ms */
+   app-gallery:has(fieldset input:not([value="all"]):checked) > :not(fieldset) {
+     opacity: 0; scale: 0.8; display: none;
    }
+   app-gallery:has(fieldset input[value="ballet"]:checked) > cat-ballet { opacity: 1; scale: 1; display: block; }
+   /* items: transition: opacity .25s, scale .25s, display .25s allow-discrete; */
    ```
-   with `transition: opacity .25s, scale .25s;` on the items. The filter radios are
-   `<label><input type="radio" name="gallery-filter" value="ballet" aria-hidden="true"></label>`
-   state machines. **This is the single highest-risk piece — prototype it in isolation
-   and confirm in chromium before wiring the data.** The same mechanism serves the
-   Classes-table row filters (each row carries its `style` as a category custom element).
+   `display .25s allow-discrete` collapses filtered items out of flow AND animates them.
+   **The Classes-table row filters REUSE this exact mechanism** — give each row a `style`
+   category custom element and filter the `<li>`s the same way. Copy `gallery.css` as-is.
 2. **Content `<ul>` vs the table `<ul>`.** The article's existing CSS targets
    `article ul` for the DHCP table (the dual `<ul aria-hidden> + <ul>`). A content
    `<ul>` inside `<section>` will ALSO match those rules. **Scope carefully** —
@@ -501,6 +512,10 @@ crafted record (and/or the matching `./data` file). Commit + update memory per �
   nav selection on load.
 - ❌ No new files/concept-names beyond what a concern genuinely needs (anti-entropy).
 - ❌ Do NOT claim the auto-advance/filters/carousel work without a real-browser check.
+- ❌ Do NOT assert a platform LIMIT ("CSS/HTML can't do X") from memory. Rule 33 +
+  "never presume": research (modern-web-guidance / MDN) or browser-test FIRST, then state.
+  (This session wrongly claimed pure CSS can't do swipe + auto-advance; it can — Schepp's
+  snap-point technique, now in `carousel.css`. Treat training as a hypothesis to verify.)
 
 ---
 
