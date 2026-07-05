@@ -6,8 +6,11 @@ import { initializeOnInputLifecycle } from "./oninput.js";
 import { logSuccess } from "./api.js";
 import { readPersistent, writePersistent } from "./storage.js";
 import { ENV } from "./env.js";
-// NOTE: this demo is READ-ONLY, so the CRUD form module (forms.js) is intentionally
-// NOT imported — no add/save/delete. Row-click detail can be re-enabled later.
+// Side-effect import: registers the row-select handler so clicking a Classes row
+// fills the <aside> detail form (fieldset) and the aside opens via CSS. The demo is
+// read-only, so the aside has NO Save/Delete/Reset controls; forms.js skips those
+// (optional chaining) and only the row->form READ path + Close are active.
+import "./forms.js";
 
 const STORAGE_KEY = "autocss.app.v1";
 const COOKIE_KEY = "autocss.app.v1";
