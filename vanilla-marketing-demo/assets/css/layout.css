@@ -1,0 +1,694 @@
+@layer layout {
+
+/* MARK: LAYOUT | Vertical
+*/
+:root {
+  --app-container-grid-template-rows: auto auto auto 1fr auto auto;
+  /* auto auto 1fr minmax(1rem, 7rem) minmax(1rem, 7rem); */
+  --border-radius: 0.3em;
+  --nav-justify-content: start;
+  --nav-border-radius: var(--border-radius) var(--border-radius) 0 0;
+  --main-margin-block: -1rem 0;
+  --main-margin-inline: 1rem;
+  --main-border-radius: 0 0.3rem 0.3rem 0.3rem;
+  --tab-grid-auto-flow: column;
+  --sub-header-display: none;
+  --grid-gap: 1rem;
+  --aside-display: none;
+}
+
+/* MARK: LAYOUT | Vertical SMALL SCREENS
+*/
+@media (width <=400px) {
+  :root {
+    --nav-justify-content: auto;
+    --nav-border-radius: var(--border-radius);
+    --tab-grid-auto-flow: column;
+    --main-border-radius: var(--border-radius);
+  }
+}
+
+/*  MARK: LAYOUT | Horizontal
+*/
+@media (width >=600px) {
+  :root:has(header label:nth-of-type(1) input:checked) {
+    --app-container-grid-template-columns: 12rem 1fr 0;
+    /* --app-container-grid-template-columns: 12rem 1fr 15rem; */
+    --app-container-grid-template-rows: auto auto 1fr auto auto;
+    --nav-border-radius: var(--border-radius) 0 0 var(--border-radius);
+    --nav-justify-content: auto;
+    --main-margin-inline: -1rem 0;
+    --main-margin-block: 0 0;
+    --main-resize-h: horizontal;
+    --main-border-radius: var(--border-radius);
+    --aside-resize-v: vertical;
+    --tab-grid-auto-flow: row;
+    --sub-header-display: grid;
+    /* --grid-row-span: span 2; */
+    --aside-display: grid;
+  }
+}
+
+
+
+
+
+[hidden] {
+  display: none;
+}
+
+
+
+
+
+/* MARK: WRAPPER --------------------------------------------
+*/
+app-container {
+  container-type: inline-size;
+  container-name: app-container;
+
+  display: grid;
+  grid-template-rows: var(--app-container-grid-template-rows);
+  grid-template-columns: var(--app-container-grid-template-columns);
+  gap: var(--grid-gap);
+  height: 100dvh;
+  /*
+	doc:
+	Push HEADER/FOOTER to the top/bottom of viewport
+	Use DVH: https://twitter.com/stackblitz/status/1682403409792495617
+		 https://dvh.stackblitz.io/
+		 https://stackblitz.com/edit/dvh?file=style.css
+	*/
+  overflow: hidden;
+
+  /* 3 columns when <aside><fieldset> is not empty */
+  &:has(aside form fieldset:not(:empty)) {
+    --app-container-grid-template-columns: 12rem 60% 1fr;
+    /* --app-container-grid-template-columns: 12rem 1fr minmax(min-content, 1fr); */
+    /* --app-container-grid-template-columns: 12rem auto minmax(min(10rem, 100%), 1fr); */
+    grid-template-columns: var(--app-container-grid-template-columns);
+    /* Gold
+                            12rem minmax(min(10rem, 100%), auto) minmax(min(10rem, 100%), 1fr)
+    grid-template-columns: 12rem auto minmax(min(10rem, 100%), 1fr); */
+
+    /* --min: 30ch;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--min)), 1fr));
+  } */
+
+    &:has(aside form fieldset:not(:empty)) main {
+      margin-inline-end: 0;
+    }
+  }
+
+  /* Region panel backgrounds (header/main/aside/footer) are declared in
+     color-scheme.css (default = % currentColor; Part 2 = % accent) — a color
+     concern, not layout. (The old `app-container > *` rule here was nested inside
+     `app-container`, so it resolved to `app-container app-container > *` and never
+     matched — which is why the panels were not painting.) */
+
+
+
+
+
+  /* MARK: APP-BANNER
+*/
+  app-banner {
+    display: grid;
+    grid-auto-flow: column;
+    grid-column: 1 / -1;
+    user-select: none;
+    text-align: center;
+    overflow: hidden;
+
+    p {
+      display: none;
+      margin: 0;
+      padding: 0.3rem;
+      font-size: 75%;
+    }
+
+    p:not(:empty) {
+      display: block;
+    }
+  }
+
+
+
+
+
+  /* MARK: HEADER --------------------------------------------
+*/
+  header {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    grid-auto-flow: column;
+    grid-column: 1 / -1;
+    user-select: none;
+    border-radius: var(--border-radius);
+    margin-inline: 1rem;
+    align-items: center;
+    overflow: hidden;
+    align-items: center;
+
+    app-logo {
+      padding: 1rem;
+      margin-inline-start: 5rem;
+      color: var(--fg-emphasis);
+
+      &::before {
+        content: '';
+        display: block;
+        width: 6em;
+        height: 6em;
+        background-color: currentColor;
+        mask-image: url(../images/brand/logo.svg);
+        mask-repeat: no-repeat;
+        mask-position: center;
+        mask-size: contain;
+        -webkit-mask-image: url(../images/brand/logo.svg);
+        -webkit-mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        -webkit-mask-size: contain;
+        position: absolute;
+        inset-block-start: 1em;
+        inset-inline-start: 1em;
+      }
+    }
+
+    label {
+      grid-template-columns: auto 1fr;
+      padding: 1rem;
+      cursor: pointer;
+
+      /* The color-scheme control's hover/selected paint lives in color-scheme.css
+         (scoped to input[name="color-scheme"]) — a color concern, not layout. */
+
+      &:first-of-type {
+        display: none;
+      }
+
+      input {
+        display: none;
+      }
+    }
+
+    app-user {
+      padding: 1rem;
+    }
+  }
+
+
+
+
+
+  /* MARK: NAV --------------------------------------------
+*/
+  nav {
+    display: grid;
+    gap: 1rem;
+    grid-template-rows: auto 1fr;
+    user-select: none;
+    justify-content: var(--nav-justify-content);
+    margin-inline-start: 1rem;
+    align-content: start;
+    background-color: transparent;
+    overflow: hidden;
+
+    details {
+      display: grid;
+      grid-template-rows: auto 1fr;
+      overflow: hidden;
+
+      &:first-of-type {
+        margin-block-start: 1rem;
+      }
+
+      summary {
+        font-family: Oxanium-SemiBold, sans-serif;
+        letter-spacing: 0.0625rem;
+        color: var(--fg-emphasis);
+        text-wrap: pretty;
+        padding-inline: 1rem;
+        padding-block: 0.5rem;
+        padding-inline-start: 0;
+      }
+
+      section {
+        display: grid;
+        grid-template-rows: repeat(auto-fit, minmax(0, 1fr));
+        overflow: overlay;
+        position: relative;
+        align-content: start;
+
+        label {
+          display: grid;
+          grid-template-columns: auto 1fr;
+          border-radius: var(--nav-border-radius);
+          padding-inline: 1rem;
+          padding-block: 0.5rem;
+          cursor: pointer;
+          user-select: none;
+
+          &:hover,
+          &:has(> input:checked) {
+            background-color: var(--bg-selected);
+            color: var(--fg-emphasis);
+            cursor: pointer;
+          }
+
+          input {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+
+
+
+
+
+  /* MARK: BUTTONS
+*/
+  button,
+  [role="button"] {
+    --bg-panel-opacity: 0.1;
+
+    display: inline-grid;
+    padding-inline: 1rem;
+    padding-block: .5rem;
+    width: fit-content;
+    user-select: none;
+    cursor: pointer;
+    border: none;
+    background-color: var(--bg-hover);
+    color: inherit;
+    align-items: center;
+    justify-items: center;
+    text-align: center;
+    border-radius: var(--border-radius);
+    margin-block-end: 1rem;
+    font-family: inherit;
+    font-size: 100%;
+
+    &:hover {
+      background-color: var(--bg-selected);
+      color: var(--fg-emphasis);
+    }
+
+    input[type="checkbox"] {
+      display: none;
+    }
+  }
+
+
+
+
+
+  /* MARK: MAIN --------------------------------------------
+*/
+  main {
+    display: grid;
+    grid-row: var(--grid-row-span);
+    margin-block: var(--main-margin-block);
+    margin-inline: var(--main-margin-inline);
+    border-radius: var(--main-border-radius);
+    overflow: hidden;
+    align-content: start;
+    min-width: 20rem;
+
+    &:has(~ aside fieldset:not(:empty)) {
+      /* resize: horizontal; */
+      /* Show when <aside><fieldset> is not empty */
+    }
+
+
+
+
+
+    /* MARK:ARTICLE --------------------------------------------
+  */
+    article {
+      display: none;
+      /* Hide by default */
+      align-content: start;
+      overflow: hidden;
+
+      &:has(h1:not(:empty)) {
+        display: grid;
+        /* Show when not empty */
+      }
+
+      &:has(section > :not(:empty)) {
+        display: grid;
+        /* Also show for non-tabular content-only records */
+      }
+
+      input[type="search"] {
+        display: none;
+        /* Hide by default */
+
+        &:not(:empty) {
+          display: grid;
+          /* Show when not empty */
+        }
+
+        &:not(:placeholder-shown) {
+          display: grid;
+          /* Show when not empty */
+        }
+      }
+
+      hr {
+        margin-block: 1rem;
+        background-color: transparent;
+        height: 0;
+        border-block-start: solid .125rem rgba(0, 0, 0, 0.3);
+        border-block-end-color: rgba(255, 255, 255, 0.2);
+        border-inline: none;
+      }
+
+      button,
+      [role="button"] {
+        display: grid;
+        grid-template-columns: auto auto;
+        gap: 1rem;
+        align-items: center;
+        justify-items: center;
+        position: absolute;
+        align-self: start;
+        justify-self: end;
+        margin: 1rem;
+
+        &:hover {
+          color: var(--fg-emphasis);
+        }
+      }
+
+      p {
+        display: none;
+        /* Hide by default */
+        margin-inline: 1rem;
+
+        &:not(:empty) {
+          display: grid;
+          /* Show when not empty */
+        }
+      }
+
+      section {
+        display: none;
+        /* Hide by default */
+        align-content: start;
+
+        &:has(> :not(:empty)) {
+          display: grid;
+          /* Show when it holds real content */
+        }
+
+        > :empty {
+          display: none;
+          /* Emptied/surplus blocks stay hidden */
+        }
+
+        > :not(:empty) {
+          margin-inline: 1rem;
+          /* Align with the article's other content */
+        }
+      }
+
+      select {
+        display: none;
+        /* Hide by default */
+        margin-inline: 1rem;
+
+        &:has(option:not(:empty)) {
+          display: grid;
+          /* Show when not empty */
+        }
+      }
+
+      ul {
+        display: none;
+        /* Hide by default */
+        list-style-type: none;
+        grid-auto-flow: row;
+        letter-spacing: 0.0625rem;
+
+        &:has(li:not(:empty)) {
+          display: grid;
+          /* Show when not empty */
+        }
+
+        li {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(min(1rem), 1fr));
+          gap: 1rem;
+
+          label {
+            padding: 0.5rem;
+            word-break: break-all;
+            text-wrap: pretty;
+
+            &:first-child {
+              padding-inline-start: 1rem;
+            }
+
+            &:last-child {
+              padding-inline-end: 1rem;
+            }
+          }
+        }
+      }
+
+
+
+
+
+      /* UL TABLE HEADER */
+      ul[aria-hidden="true"] {
+        align-content: start;
+        font-family: Oxanium-Medium, sans-serif;
+        color: var(--fg-emphasis);
+
+        li {
+          &:first-child {
+            padding-inline-start: 1rem;
+          }
+
+          &:last-child {
+            padding-inline-end: 1rem;
+          }
+        }
+
+        /* MARK: UL TABLE BODY --------------------------------------------
+      */
+        & + ul {
+          overflow: overlay;
+          position: relative;
+          align-content: start;
+
+          li {
+            display: grid;
+            grid-template-columns: 1fr;
+            cursor: pointer;
+
+            &:hover {
+              background-color: var(--bg-hover);
+              color: var(--fg-emphasis);
+            }
+
+            /* Active/checked state */
+            &:has(input:checked) {
+              background-color: var(--bg-selected);
+              color: var(--fg-emphasis);
+            }
+
+            /* Spinner visible when selected */
+            &:has(input:checked) load-data {
+              display: grid;
+            }
+
+            label {
+              display: none;
+              /* Hide by default */
+              /* https://www.youtube.com/watch?v=EeM5wnhO9iI */
+              grid-template-columns: repeat(auto-fit, minmax(min(1rem), 1fr));
+              gap: 1rem;
+              cursor: pointer;
+              word-break: break-word;
+              text-wrap: pretty;
+              align-items: center;
+
+              &:not(:empty) {
+                display: grid;
+                /* Show when not empty */
+              }
+
+              &:first-child {
+                padding-inline-start: 1rem;
+              }
+
+              &:last-child {
+                padding-inline-end: 1rem;
+              }
+
+              > * {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+
+
+
+
+  /* MARK: ASIDE --------------------------------------------
+*/
+  aside {
+    /* Hidden by default using width also, app-container: grid-template-columns: auto 1fr 0;*/
+    overflow: hidden;
+    position: relative;
+    align-content: start;
+    border-radius: var(--border-radius);
+    margin-inline-end: 1rem;
+    min-width: 12rem;
+
+    &:has(form fieldset:not(:empty)) {
+      display: grid;
+      /* Show when not empty */
+      grid-template-rows: auto 1fr;
+    }
+
+    form {
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-template-rows: auto 1fr auto auto;
+      gap: 1rem;
+      position: relative;
+      justify-content: start;
+
+      small {
+        align-self: end;
+      }
+    }
+  }
+
+  br {
+    display: block;
+    margin: 0.5rem;
+  }
+
+
+  button,
+  [role="button"] {
+    cursor: pointer;
+    user-select: none;
+    position: absolute;
+    align-self: start;
+    justify-self: end;
+    margin-block-start: 1rem;
+    margin-inline-end: 1rem;
+    padding: 0.5rem;
+
+    input[type="checkbox"] {
+      display: none;
+    }
+  }
+
+  [role="button"][aria-label="Delete"] {
+    align-self: end;
+    justify-self: end;
+    margin-inline-start: 1rem;
+    background-color: var(--error-soft);
+
+    &:hover {
+      background-color: var(--error-strong);
+    }
+  }
+
+  [aria-label="Reset"] {
+    justify-self: center;
+    align-self: end;
+  }
+
+  [aria-label="Save"] {
+    position: absolute;
+    justify-self: start;
+    align-self: end;
+    margin-inline-start: 1rem;
+  }
+
+
+  /* MARK: FOOTER --------------------------------------------
+*/
+  footer {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-auto-flow: column;
+    grid-column: 1 / -1;
+    user-select: none;
+    border-radius: var(--border-radius);
+    align-items: center;
+    margin-inline: 1rem;
+    overflow: hidden;
+
+    powered-by,
+    app-version {
+      padding: 1rem;
+    }
+  }
+}
+
+@container app-container (width > 50rem) {
+  :is(h1, h2, h3, h4) {
+    padding: 2rem;
+  }
+}
+
+fieldset {
+  display: grid;
+  overflow: auto;
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* MARK: BACKGROUND DECORATION
+   Relocated from themes.css (Part-2 color-theme files are variable-overrides only).
+   The full-bleed pattern + gradient that give the app its dhcp look; the gradient
+   value comes from the theme token --bg-grd. */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100dvh;
+  background-color: transparent;
+  background-image: url('../images/app/ui/pattern.png');
+  background-size: 4.6875rem;
+  background-repeat: repeat;
+  z-index: -5;
+}
+
+html::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100dvh;
+  z-index: -5;
+  background: var(--bg-grd);
+}
+
+} /* @layer layout */
