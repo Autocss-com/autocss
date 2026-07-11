@@ -48,6 +48,16 @@ FEATURE + LOOK reference, and now the literal SOURCE we port from) and `starter`
 through the later refinement sessions.
 
 ============================= GROUND TRUTH / CURRENT STATE =========================
+- RESPONSE INTEGRITY CHARTER (2026-07-11): the governing charter (§0-§9) is the
+  prepended, SINGLE-SOURCE-OF-TRUTH section of `CLAUDE.md`. It is FINALIZED and merged
+  to `main` in all four writable in-scope repos (autocss #65; react/vue/angular #6 each).
+  It governs EVERY response on every project: §0 always-in-force + never-shortcut +
+  minimize-verbiage; §1 never-guess/assume + VERIFY-AND-CITE (a claim of verification is
+  not proof); §3 delivered codebases count as 'confirmed correct'; §5 caveman brevity +
+  NO virtue-signaling; §8 hold three contexts (immediate/overall/next-phase); §9 periodic
+  cost-driven doc maintenance (whitelist-over-blacklist, without dropping detail). PENDING:
+  D7460N/starter + D7460N/dhcp are 403 write-blocked (apply after the user grants the
+  GitHub App write access). See PROGRESS.json cursor.phase + shard 2026-07-11.
 - CONTENT BRANCH (2026-07-02, NEW user-authorized feature beyond the port; design =
   autocss PR #53): `inject.injectContentBlocks` renders an ordered `content` array of
   `{tag:text}` blocks as real semantic elements into `<article><section>` — reuse-first
