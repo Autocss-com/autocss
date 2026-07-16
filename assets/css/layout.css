@@ -258,8 +258,19 @@ app-container {
             cursor: pointer;
           }
 
+          /* a11y (#101): visually hidden but FOCUSABLE — keeps the native radio
+             in the tab order + a11y tree. Reused verbatim from forms.css legend.
+             NOT display:none (which drops keyboard/AT access). */
           input {
-            display: none;
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0 0 0 0);
+            white-space: nowrap;
+            border: 0;
           }
         }
       }
