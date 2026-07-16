@@ -17,7 +17,8 @@
                C E L E B R A T I N G
                  250 Y E A R S  O F
                   A M E R I C A N
-              I N D E P E N D E N C E 
+              I N D E P E N D E N C E
+
 ```
 
 # AutoCSS
