@@ -319,8 +319,19 @@ app-container {
       color: var(--fg-emphasis);
     }
 
+    /* a11y (#101): form-action checkbox visually hidden but FOCUSABLE.
+       role="button" retained (base styles + form CSS validation depend on it).
+       Reused from forms.css legend. NOT display:none. */
     input[type="checkbox"] {
-      display: none;
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+      border: 0;
     }
   }
 
@@ -620,8 +631,19 @@ app-container {
     margin-inline-end: 1rem;
     padding: 0.5rem;
 
+    /* a11y (#101): form-action checkbox visually hidden but FOCUSABLE.
+       role="button" retained (base styles + form CSS validation depend on it).
+       Reused from forms.css legend. NOT display:none. */
     input[type="checkbox"] {
-      display: none;
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+      white-space: nowrap;
+      border: 0;
     }
   }
 
