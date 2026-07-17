@@ -226,7 +226,7 @@ are ABSOLUTE, so there is NO `matchMedia` and NO compare logic.
 - File-by-file. Stop and ask on ANY doubt; never guess. CSS-only; do NOT break
   parity. Check in before the FIRST push and after the feature is verified. Commit +
   update `PROGRESS.json` + append `progress/log-001.ndjson` + update
-  `SESSION-HANDOFF.md`. Branch `claude/lucid-hawking-E5Ej2` (never `main`/`great-ride`).
+  `.agents/SESSION-HANDOFF.md`. Branch `claude/lucid-hawking-E5Ej2` (never `main`/`great-ride`).
   Do NOT touch `CLAUDE.md` or `ORIGINAL-PROMPT.md`.
 
 ## Open items to resolve early with the user

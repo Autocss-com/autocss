@@ -41,7 +41,7 @@ with `git log -1` / `git ls-remote` if the local clone looks empty.
    `type=lesson`, topic "SAVE/DELETE DATA-MODEL DEFECT" is the complete root-cause
    analysis + OPTION A/B plan. Also the 2026-06-10 feature/test records (steps 7–8)
    and the maintenance/cleanup note.
-4. `SESSION-HANDOFF.md` — the COMPLIANCE-DEBT LEDGER entry "SAVE/DELETE DATA-MODEL
+4. `.agents/SESSION-HANDOFF.md` — the COMPLIANCE-DEBT LEDGER entry "SAVE/DELETE DATA-MODEL
    DEFECT" (detailed) and FUTURE SESSIONS #1. Re-assert the Constraint Lock.
 5. `ANALYSIS.md` §8 addendum.
 
@@ -153,7 +153,7 @@ mass-deleting beyond the obvious Save-residue ({itemName/itemType, no items/titl
   correct. Resolve the Open Questions BELOW with the user BEFORE writing code.
 - Check in before your FIRST push and after the fix is verified. Commit + update
   `PROGRESS.json` cursor + append to `progress/log-001.ndjson` (append-only; never
-  edit past records) + update `SESSION-HANDOFF.md` (mark the defect FIXED, move it
+  edit past records) + update `.agents/SESSION-HANDOFF.md` (mark the defect FIXED, move it
   out of the open items, refresh the LEDGER/cursor) + CLOSE GitHub Issue #4 (state
   closed, reason completed) so the Project board auto-moves it to Done — per the
   CLAUDE.md "Issue / Project-Board Tracking" mandate.

@@ -21,7 +21,7 @@ Both live at the ROOT of autocss-com/autocss on branch `claude/lucid-hawking-E5E
    - `CLAUDE.md`  (canonical, non-negotiable D7460N rules — obey them; note Rule 29:
      every CSS file is wrapped in its OWN named `@layer`, and the <link> order in
      index.html IS the cascade order)
-   - `SESSION-HANDOFF.md`  (re-assert its constraints)
+   - `.agents/SESSION-HANDOFF.md`  (re-assert its constraints)
    - `BENEFITS-MATRIX.md` AND `BENEFITS-MATRIX-v2.md`  (read both fully first)
    - `index.html` and `assets/css/*.css` — the CSS files carry their OWN header notes
      worth quoting; `color-scheme.css` especially ("drop-in-anywhere… link this ONE

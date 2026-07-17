@@ -25,7 +25,7 @@
 
 ## 0. READ FIRST, IN THIS ORDER (non-negotiable, per CLAUDE.md + prior handoffs)
 1. `CLAUDE.md` — canonical D7460N architecture rules (still the target).
-2. `SESSION-HANDOFF.md` — prior Constraint Lock; re-assert it.
+2. `.agents/SESSION-HANDOFF.md` — prior Constraint Lock; re-assert it.
 3. `PROGRESS.json` — read `meta`, `cursor`, `meta.future_goals` (the **DEMO ECOSYSTEM** entry —
    RESCOPED 2026-07-01 — already LEADS with THIS phase's direction: 4 demos, framework demos NOT tied
    to products yet, WordPress/Joomla dropped; the older product↔back-end mapping is preserved there
@@ -200,7 +200,7 @@ framework build step; it is the baseline the 3 framework demos are compared agai
   foreground node process because this env kills backgrounded servers). Never assert behavior from
   reading code.
 - Session-end ritual: commit → update `PROGRESS.json` cursor → append to `progress/log-001.ndjson`
-  (append-only; never edit past records) → update `SESSION-HANDOFF.md`. Reconcile GitHub Issues as a
+  (append-only; never edit past records) → update `.agents/SESSION-HANDOFF.md`. Reconcile GitHub Issues as a
   one-way mirror if the board is available (skip silently if not). Board columns are LABEL-DRIVEN +
   MUTUALLY EXCLUSIVE: Backlog = `backlog` only, In Progress = `in-progress` only (REMOVE `backlog`),
   Done = Issue closed; `demo` is an orthogonal grouping tag. See CLAUDE.md "Issue / Project-Board

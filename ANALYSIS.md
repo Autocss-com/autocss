@@ -161,7 +161,7 @@ always POSTs/creates, Delete is DOM-only and never calls the API). Net: Save
 "succeeds" (HTTP 200) but the row never appears, and stray top-level resources
 accumulate. **Affects all 12 endpoints.** This is the **only functional gap** at
 parity; everything else in the ledger is render/compliance. Full root-cause +
-OPTION A/B fix plan: `SESSION-HANDOFF.md` COMPLIANCE-DEBT LEDGER and
+OPTION A/B fix plan: `.agents/SESSION-HANDOFF.md` COMPLIANCE-DEBT LEDGER and
 `progress/log-001.ndjson` (2026-06-10, type=lesson "SAVE/DELETE DATA-MODEL DEFECT").
 Recommended as the FIRST future session. Shared-mockapi cleanup so far: removed
 `manage`'s 16 Save-shaped strays; residue remains on faqs/option-set/audit/servers.
