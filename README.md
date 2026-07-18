@@ -40,7 +40,7 @@ state, behavior, or presentation.
 - **Single `index.html`** — full-bleed Holy Grail layout via CSS Grid, SPA, PWA.
 - **Air-gapped layers** — complete _Separation of Concerns_ (SOC): no shared hooks and no agreed-upon
   vocabulary between HTML, CSS, and JS (which is *why* `class`/`id`/`data-*` are banned).
-  No relationship between presentation and data layers via modern CSS. Any layer can be replaced without touching the others.
+  No relationship between presentation and data layers via modern CSS. Any layer can be edited and even replaced without touching the others.
 
 The canonical, non-negotiable rules live in **`CLAUDE.md`**; the live backlog and
 project state live in **`PROGRESS.json`**.
