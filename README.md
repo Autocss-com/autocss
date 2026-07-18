@@ -31,7 +31,7 @@ state, behavior, or presentation.
 ## Principles
 
 - **HTML = structure** — semantic elements only (no `div`/`span`/`class`/`id`/`data-*`).
-- **CSS = all UI behavior** — state, color-scheme, visibility, loading, themes — via
+- **CSS = all UI styles, heuristics, and behavior** — state, color-scheme, visibility, loading, themes — via
   `:has()`, `:empty`/`:not(:empty)`, container & style queries, `@layer`, etc.
 - **JS = API transport only** — fetch/CRUD, fired through `oninput` on state-machine
   `<input>`s. No event listeners, no UI logic, one API base.
