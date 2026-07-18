@@ -59,9 +59,9 @@ Every answer MUST include, in the thinking/processing, consideration of:
 Periodically review CLAUDE.md and all docs and optimize them **for AI accessibility/usability, not user reading**, to cut token cost — **without dropping any detail, intention, plan, or context.** Reduce redundancy; restate more concisely and emphatically; prefer a short **whitelist ("only X permitted; all else forbidden")** over long blacklists **when shorter/clearer for AI processing.** Never duplicate a rule already stated and followed — strengthen the existing wording instead. Keep structured data as data (e.g., `PROGRESS.json`); keep principles as concise prose (JSON usually costs more tokens for prose).
 
 ---
-# D7460N Architecture — Claude Code Instructions
+# AutoCSS Architecture — Claude Code Instructions
 
-This is a **zero-dependency, CSS-replaces-JS, JAMstack-based, browser-native**, Single Page Application (SPA), Progressive Web App (PWA) architecture starter template named **D7460N Architecture**.  
+This is a **zero-dependency, CSS-replaces-JS, JAMstack-based, browser-native**, Single Page Application (SPA), Progressive Web App (PWA) architecture starter template named **AutoCSS Architecture**.  
 These rules are **non-negotiable**. Always fall back to these defaults.
 
 ## Accuracy & Clarification

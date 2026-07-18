@@ -1,8 +1,8 @@
-# D7460N benefits by experience — UX · DX · CX · MX
+# AutoCSS benefits by experience — UX · DX · CX · MX
 
 > Working copy of `BENEFITS-MATRIX.md` with two added threads: **Agnostic by design** and **standalone, drop-in CSS modules**. The original file is kept intact.
 
-Find your column. The D7460N Architecture serves four experience domains; open the one that is yours to see what you get, how it works, and where it is already proven.
+Find your column. The AutoCSS Architecture serves four experience domains; open the one that is yours to see what you get, how it works, and where it is already proven.
 
 UX, DX, and CX are defined as written in DHCP's "UI Architecture Feature Matrix" (`docs/architecture/README.md`). **MX (Management Experience) is new** — it is not yet in the docs, so it is drawn from the existing stakeholder, procurement, security/compliance, and government material.
 
@@ -10,7 +10,7 @@ UX, DX, and CX are defined as written in DHCP's "UI Architecture Feature Matrix"
 
 You know the screen you use to check email or look up a recipe? That screen is a **web browser**. A **web app** is just a helpful tool that opens inside it — think of a digital version of a paper form, a checkbook register, or a filing cabinet you reach through that same screen.
 
-**D7460N is a way of building those tools so they are simple, fast, and kind to the person using them.** Most tools today are assembled from piles of borrowed, constantly-changing parts that slow down, break, and need expensive repair. D7460N builds them almost entirely from the few sturdy pieces every browser already has — so there is far less to go wrong.
+**AutoCSS is a way of building those tools so they are simple, fast, and kind to the person using them.** Most tools today are assembled from piles of borrowed, constantly-changing parts that slow down, break, and need expensive repair. AutoCSS builds them almost entirely from the few sturdy pieces every browser already has — so there is far less to go wrong.
 
 Why that's worth being excited about:
 
@@ -74,7 +74,7 @@ DX is maintainability, clarity, velocity, and architectural durability, built on
 | Capability | What developers get | How it works |
 | --- | --- | --- |
 | Open the file, it works | No build step, no transpiler, no framework version to track. | One `index.html`; native HTML/CSS/ES modules; refresh to see changes. |
-| Framework-agnostic (use any, or none) | Keep React/Vue/Angular if you want, or drop them — the UI is correct either way, so no lock-in. | "Framework-Optional Architecture" (DHCP feature matrix); "Bring them if you want… D7460N runs alongside whatever's already in your stack" (starter). |
+| Framework-agnostic (use any, or none) | Keep React/Vue/Angular if you want, or drop them — the UI is correct either way, so no lock-in. | "Framework-Optional Architecture" (DHCP feature matrix); "Bring them if you want… AutoCSS runs alongside whatever's already in your stack" (starter). |
 | Standalone, drop-in CSS modules | Each CSS feature is one self-contained file you copy into any project and it just works; your own rules override it with no specificity fight. | "Dependency-free, copy/paste-able, drop-in-anywhere… link this ONE file… with NO other CSS/JS" (`color-scheme.css`); one concern per file (DHCP `assets/css/README.md`); every file wrapped in its own `@layer` (CLAUDE.md Rule 29), so any unlayered author rule wins by default. |
 | One pattern for all data | Presentation and state logic — including every loading and error state — are already built; you just deliver JSON. | All CRUD runs through one `oninput` lifecycle into `fetch()`; data-table cells are custom elements generated from JSON keys via `toTagName()`. |
 | Air-gapped layers | Change one layer without touching the others. | HTML has no class/id/data-*/on*=; CSS reacts to the DOM; `@layer`/`@scope` keep specificity low. |
@@ -111,7 +111,7 @@ _New domain._ MX is the program's owners — leadership, executives, procurement
 
 **For government especially, this reframes a core assumption.** Programs are usually **stovepiped** — each builds its own front end and back end as if nothing can be shared. But because the architecture is **data-agnostic** (and framework-, project-, and platform-agnostic) — one UI conforms to each program's *own* data structure — the *method* of building web apps cuts **across** those stovepipes. A single front-end approach carries accessibility, usability, security, performance, interoperability, and scalability uniformly across the whole portfolio, instead of every program rebuilding (and re-certifying) them from scratch.
 
-**This bears directly on the government's biggest schedule-and-cost pain: the Authority to Operate (ATO).** Today every system runs its own security review, control assessment, and paperwork before it can go live — slow, expensive, and repeated for every project. Management is constantly trying to avoid repeating that process. Because the D7460N front end is a *single, shared* resource with **almost no JavaScript, zero third-party dependencies, and a strict Content Security Policy from day one**, its security posture is the *same* everywhere it is used — so the assessment evidence for the UI layer can be **inherited and reused** across programs (control inheritance / reciprocity) instead of re-derived from scratch each time. It does not hand a program its ATO, but it shrinks and standardizes the front-end's share of the package — exactly the repetition management wants to eliminate.
+**This bears directly on the government's biggest schedule-and-cost pain: the Authority to Operate (ATO).** Today every system runs its own security review, control assessment, and paperwork before it can go live — slow, expensive, and repeated for every project. Management is constantly trying to avoid repeating that process. Because the AutoCSS front end is a *single, shared* resource with **almost no JavaScript, zero third-party dependencies, and a strict Content Security Policy from day one**, its security posture is the *same* everywhere it is used — so the assessment evidence for the UI layer can be **inherited and reused** across programs (control inheritance / reciprocity) instead of re-derived from scratch each time. It does not hand a program its ATO, but it shrinks and standardizes the front-end's share of the package — exactly the repetition management wants to eliminate.
 
 | Capability | What management / the prime gets | How it works |
 | --- | --- | --- |
