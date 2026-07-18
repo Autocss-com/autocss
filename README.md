@@ -37,7 +37,7 @@ state, behavior, or presentation.
   `<input>`s. No event listeners, no UI logic, one API base.
 - **Zero dependencies** — native evergreen-browser features only; no frameworks, no
   bundler, no build step.
-- **Single `index.html`** — full-bleed Holy Grail layout via CSS Grid.
+- **Single `index.html`** — full-bleed Holy Grail layout via CSS Grid, SPA, PWA.
 - **Air-gapped layers** — complete separation: no shared hooks and no agreed-upon
   vocabulary between HTML, CSS, and JS (which is *why* `class`/`id`/`data-*` are banned).
   Any layer can be replaced without touching the others.
