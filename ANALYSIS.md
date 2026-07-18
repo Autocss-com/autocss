@@ -13,7 +13,7 @@
 > - `drop` -- obsolete, decorative, inactive, or superseded.
 > - `needs-you` -- intent or desired scope is ambiguous; user decision required (see Questions).
 >
-> **Compliance flag.** `(!)D7460N` = file (usually JS) carries needed intent but
+> **Compliance flag.** `(!)AutoCSS` = file (usually JS) carries needed intent but
 > violates current architecture rules in `starter/CLAUDE.md` (e.g. `.onchange`,
 > `data-*`, `innerHTML`, dynamic `import()`); port the *capability*, rewrite to
 > oninput + CSS-state + text injection.
@@ -69,7 +69,7 @@ forms, fonts`. Everything else is unlinked/inactive.
 | `responsive.css` | `media.css` | `merge` | Same concern (responsive/media rules). |
 | `scrollbars.css` | `scrolling.css` | `merge` | Same concern (scrollbar styling). |
 | `border-radius.css` | `radii.css` | `merge` | Same concern (radius tokens). DHCP files reference `--border-radius`; starter defines `--inner/outer-radius`. Reconcile token names. |
-| `forms.css` | *(none)* | `keep` (!)D7460N | starter has **no form styling**. Needed for any edit form: input/select/textarea, valid/invalid borders, base-select. **But** its button-enable logic keys off `[data-dirty="true"]` -- forbidden `data-*`. Port styling; re-drive state from `:has(:valid/:invalid)`/`:checked`, not `data-*`. |
+| `forms.css` | *(none)* | `keep` (!)AutoCSS | starter has **no form styling**. Needed for any edit form: input/select/textarea, valid/invalid borders, base-select. **But** its button-enable logic keys off `[data-dirty="true"]` -- forbidden `data-*`. Port styling; re-drive state from `:has(:valid/:invalid)`/`:checked`, not `data-*`. |
 | `fallbacks.css` | *(none)* | `keep` | Empty-state messaging ("No items", "Title failed to load", "Form could not be loaded", "Navigation failed"). Compliant (`:empty`/`:has`). Genuinely useful UX starter lacks. |
 | `loading.css` | (inline in `layout.css`) | `merge` | starter already has a loading spinner (`:root:has(article h1:empty)::before`). DHCP's is a `:checked`-driven variant. Keep one. |
 | `_app.css` | -- | `drop` | Comments only, no rules. |
@@ -98,8 +98,8 @@ starter active JS: `app, oninput, api, storage, tour`. DHCP JS is the data layer
 | `env.js` | (inline `isLocalOpen` in `app.js`) | `keep` | Environment detection (dev/test/prod) + feature flags. More complete than starter's one helper. Port as a small module. |
 | `fetch.js` | `api.js` (GET only) | `keep` (!) | **Critical missing capability**: `postJSON/putJSON/deleteJSON`. starter `api.js` only does GET (`fetchJson`). Fold write methods into starter's `api.js` (keeping its logging). |
 | `loaders.js` | `oninput.js` (partial) | `keep`/`merge` | Orchestrates nav/page/banner/version loads + field-rules cache. Overlaps starter's lifecycle but adds banner/version/rules-cache. Reconcile into the oninput lifecycle. |
-| `inject.js` | `oninput.js` (text-only) | `keep` (!)D7460N | Builds data table rows, nav items, and **form inputs typed by rule** (select/toggle/textarea/datetime/text). starter only `createTextNode`s into fixed slots. Needed for data grids/forms. Rewrite away from `innerHTML`/dynamic `import()`/`dispatchEvent`; keep the JSON->element generation intent. |
-| `forms.js` | *(none)* | `keep` (!)D7460N | **The whole CRUD form lifecycle** (new/edit/save/delete/reset/close, dirty-tracking, validation, row mirroring). No starter equivalent. Heaviest rewrite: uses `.onchange`, `form.dataset.dirty/valid`, console debug -- all forbidden. Port intent via `oninput` + CSS `:has`/`:checked` state. |
+| `inject.js` | `oninput.js` (text-only) | `keep` (!)AutoCSS | Builds data table rows, nav items, and **form inputs typed by rule** (select/toggle/textarea/datetime/text). starter only `createTextNode`s into fixed slots. Needed for data grids/forms. Rewrite away from `innerHTML`/dynamic `import()`/`dispatchEvent`; keep the JSON->element generation intent. |
+| `forms.js` | *(none)* | `keep` (!)AutoCSS | **The whole CRUD form lifecycle** (new/edit/save/delete/reset/close, dirty-tracking, validation, row mirroring). No starter equivalent. Heaviest rewrite: uses `.onchange`, `form.dataset.dirty/valid`, console debug -- all forbidden. Port intent via `oninput` + CSS `:has`/`:checked` state. |
 | `rules.js` | *(none)* | `keep` | `inferFieldRules()` -- derives input type from data values. No starter equivalent; required to auto-generate forms. Compliant (pure function). |
 | `schema.js` | *(none)* | `keep` | `ENDPOINT_SCHEMAS` API<->UI field-name mapping + normalize/denormalize. Domain data-layer; needed if those endpoints are used (DHCP-specific -- confirm endpoints in Q2). |
 | `utils.js` | *(none)* | `keep` | Form helpers (snapshot, dirty-check, validate, date format, restore). Mostly compliant; port. |

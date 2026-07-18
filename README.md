@@ -24,7 +24,7 @@
 # AutoCSS
 
 A zero-dependency, **CSS-replaces-JS**, browser-native **SPA + PWA** starter — the
-**D7460N Architecture**. One UI, driven almost entirely by modern HTML and CSS.
+**AutoCSS Architecture**. One UI, driven almost entirely by modern HTML and CSS.
 JavaScript is used *only* as a thin CRUD transport to external APIs — never for UI
 state, behavior, or presentation.
 
@@ -93,7 +93,7 @@ demo is 100% static and needs no build step.
 GitHub Pages is static-only — no server, no database, no secrets — so dynamic features
 (user accounts/login, saved favorites + notes, payments + store) run against an
 **external hosted backend** that the static front-end reaches through its CRUD JS
-transport. This is the D7460N model by design: the front-end never holds data or
+transport. This is the AutoCSS model by design: the front-end never holds data or
 secrets.
 
 Cross-cutting capabilities — authentication, account, favorites, notes, cart, checkout,
