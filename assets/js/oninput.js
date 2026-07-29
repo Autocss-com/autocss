@@ -32,6 +32,13 @@ export function getFieldRules() {
 // Fetched navigation map, kept for the injector (step 6) and binding.
 let navData = null;
 
+// Ordered endpoint routes, sourced from the fetched nav JSON (its object keys)
+// in document order — the route lives in the DATA, never in the nav markup.
+function navRoutes() {
+  const groups = Array.isArray(navData) ? navData[0] ?? {} : navData ?? {};
+  return Object.values(groups).flatMap(group => Object.keys(group));
+}
+
 // --- Shell text injectors (write API text into the existing HTML) ----------
 
 // Inject banner text into <app-banner> (create the <p> slot if absent).
@@ -99,8 +106,10 @@ export async function runOnInputLifecycle(endpoint) {
 
 // Bind every nav radio's oninput to the shared lifecycle (idempotent).
 export function bindNavOnInput() {
-  document.querySelectorAll("nav input[type='radio'][name='nav']").forEach(input => {
-    input.oninput = () => runOnInputLifecycle(input.value);
+  const routes = navRoutes();
+  document.querySelectorAll("nav input[type='radio'][name='nav']").forEach((input, i) => {
+    const route = routes[i];
+    input.oninput = () => runOnInputLifecycle(route);
   });
 }
 
@@ -128,7 +137,8 @@ export function triggerInitialSelection() {
   }
 
   const persisted = getInitialSelection();
-  const target = radios.find(r => r.value === persisted) ?? radios[0];
+  const at = navRoutes().indexOf(persisted);
+  const target = at >= 0 ? radios[at] : radios[0];
 
   target.checked = true;
   target.dispatchEvent(new Event("input", { bubbles: true }));

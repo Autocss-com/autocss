@@ -70,11 +70,13 @@ export function injectNavText(navData = {}) {
       summary.textContent = groupKey.charAt(0).toUpperCase() + groupKey.slice(1);
     }
 
-    detail.querySelectorAll("section label").forEach(label => {
-      const input = label.querySelector("input[name='nav']");
-      if (!input) return;
-      const meta = groupValue[input.value];
-      if (meta) setLabelText(label, meta.title || input.value);
+    // Each label gets its text from the matching nav-JSON entry BY ORDER (title
+    // lives in the DATA, not the markup). Empty labels stay empty -> CSS hides
+    // them (label:empty { display:none }).
+    const items = Object.values(groupValue);
+    detail.querySelectorAll("section label").forEach((label, i) => {
+      const meta = items[i];
+      if (meta) setLabelText(label, meta.title);
     });
   });
 }
