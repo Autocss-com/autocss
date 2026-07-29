@@ -11,8 +11,10 @@ WHAT CHANGED THIS SESSION:
 - DHCP + starter: FROZEN, untouched (working demos of prior iterations; DHCP keeps its inlined charter by
   user choice). Do NOT modify.
 - GitHub board: #42 (AGENTS.md adoption) CLOSED done; #86 (charter propagation) CLOSED superseded.
-- NAV VALUE-DECOUPLING: value attrs removed from ALL nav radios in index.html (air-gap — presentation holds
-  ZERO data knowledge). The value-free INDEX rework is NOT implemented (own session, see NEXT-PHASE).
+- NAV ROUTE-DECOUPLING: DONE + MERGED TO MAIN (PR #110, squash 4cb1d4c). value attrs removed from nav radios;
+  the JS sources the route (each navItems entry's object KEY) and the label text (its title) by nav DOCUMENT
+  ORDER — no input.value, no HTML value. Browser-verified. forms.js:203/259 still read input.value (Save/
+  Delete) — LEFT for the forms compliance pass (deferred, not this task).
 
 CONSTRAINT LOCK (re-assert before ANY coding):
 - 100% air-gap: HTML/CSS carry/read NO data value; CSS is data-AGNOSTIC. JS = API data transport ONLY.
@@ -21,14 +23,17 @@ CONSTRAINT LOCK (re-assert before ANY coding):
 - READ PROGRESS.json + the NEWEST shard (progress/log-001.ndjson) BEFORE any decision (the shard was skipped
   this session — that caused the drift; do not repeat).
 
-NEXT-PHASE PROMPT (own session — DATA LAYER ONLY, no HTML/CSS change): implement the value-free nav mapping.
-Nth nav radio (querySelectorAll = document order) -> Nth navData entry -> Nth endpoint. Change: inject.js:76
-(label text by index), oninput.js:103 (fetch by index) / 131 (restore radios[i] ?? radios[0]; persist the
-INDEX, not the endpoint string), forms.js:203/259 (Save/Delete endpoint by index). WARNING: until this lands,
-the branch's data load is BROKEN (input.value === 'on'). Do NOT reintroduce value attrs. Verify in a real
-browser (API up: nav labels + data load + selection persists/restores; API down: no crash). Issue #101
-(state-machine a11y) stays deferred but UNBLOCKED (canonical §3 already forbids role=button/aria-hidden) —
-its own session, browser-verified, one control group at a time; do NOT bundle with unrelated work.
+NEXT-PHASE PROMPT: the nav route-decoupling is DONE + merged (PR #110). Remaining backlog — each its OWN
+session; read PROGRESS.json + the NEWEST shard first; do ONE piece; browser-verify; update memory:
+(1) SAVE/DELETE data-model fix (the only functional gap; see open_q + the COMPLIANCE-DEBT LEDGER below).
+(2) forms D7460N compliance — work the LEDGER, INCLUDING forms.js:203/259 which still read input.value for
+the Save/Delete endpoint: swap them to the SAME JSON-route-by-document-order source the nav lifecycle now
+uses (e.g. a shared helper over navRoutes() + the checked radio's position); plus onchange->oninput,
+dirty/valid->CSS, innerHTML->replaceChildren.
+(3) PWA (manifest.webmanifest + sw.js).
+(4) Issue #101 state-machine a11y — deferred but UNBLOCKED (canonical §3 already forbids role=button/
+aria-hidden); its own session, browser-verified, one control group at a time; do NOT bundle.
+Do NOT reintroduce nav value attrs, and keep presentation data-agnostic (route lives in the JSON).
 
 MEMORY LOCATION (answered this session): PROGRESS.json + SESSION-HANDOFF.md + progress/ shards are PROJECT-
 SPECIFIC and correctly live in THIS repo (autocss), NOT in Autocss-com/ai. Per the session skill + ai/AGENTS.md
