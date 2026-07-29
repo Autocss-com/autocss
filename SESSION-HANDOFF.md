@@ -1,3 +1,40 @@
+=========================== SESSION 2026-07-29 — CURRENT STATE (READ FIRST) ===========================
+Branch: claude/accuracy-first-guidelines-r85dyc. This session SUPERSEDES the "propagate the charter to
+every repo" model with SINGLE-SOURCE CONSOLIDATION. Everything below this banner is older build history
+(DHCP-port; still valid), read it AFTER this section.
+
+WHAT CHANGED THIS SESSION:
+- Canonical laws (RESPONSE INTEGRITY CHARTER C0-C8 + AutoCSS Architecture Part II 1-15) now live ONCE in
+  Autocss-com/ai/AGENTS.md. NO repo inlines them. Each repo's CLAUDE.md is a thin pointer stub; project-
+  specific rules live in that repo's own AGENTS.md. Applied to autocss/vue/angular/react (+ new per-repo
+  AGENTS.md). ai/AGENTS.md C5 gained "sacrifice grammar for brevity". autocss/CLAUDE_replacement.md deleted.
+- DHCP + starter: FROZEN, untouched (working demos of prior iterations; DHCP keeps its inlined charter by
+  user choice). Do NOT modify.
+- GitHub board: #42 (AGENTS.md adoption) CLOSED done; #86 (charter propagation) CLOSED superseded.
+- NAV VALUE-DECOUPLING: value attrs removed from ALL nav radios in index.html (air-gap — presentation holds
+  ZERO data knowledge). The value-free INDEX rework is NOT implemented (own session, see NEXT-PHASE).
+
+CONSTRAINT LOCK (re-assert before ANY coding):
+- 100% air-gap: HTML/CSS carry/read NO data value; CSS is data-AGNOSTIC. JS = API data transport ONLY.
+- Deterministic, one-concern-per-file, ONE right way, NO exceptions. APPLY the existing rule; never design
+  or add. Subtract, never add. When in doubt, STOP and ask.
+- READ PROGRESS.json + the NEWEST shard (progress/log-001.ndjson) BEFORE any decision (the shard was skipped
+  this session — that caused the drift; do not repeat).
+
+NEXT-PHASE PROMPT (own session — DATA LAYER ONLY, no HTML/CSS change): implement the value-free nav mapping.
+Nth nav radio (querySelectorAll = document order) -> Nth navData entry -> Nth endpoint. Change: inject.js:76
+(label text by index), oninput.js:103 (fetch by index) / 131 (restore radios[i] ?? radios[0]; persist the
+INDEX, not the endpoint string), forms.js:203/259 (Save/Delete endpoint by index). WARNING: until this lands,
+the branch's data load is BROKEN (input.value === 'on'). Do NOT reintroduce value attrs. Verify in a real
+browser (API up: nav labels + data load + selection persists/restores; API down: no crash). Issue #101
+(state-machine a11y) stays deferred but UNBLOCKED (canonical §3 already forbids role=button/aria-hidden) —
+its own session, browser-verified, one control group at a time; do NOT bundle with unrelated work.
+
+MEMORY LOCATION (answered this session): PROGRESS.json + SESSION-HANDOFF.md + progress/ shards are PROJECT-
+SPECIFIC and correctly live in THIS repo (autocss), NOT in Autocss-com/ai. Per the session skill + ai/AGENTS.md
+§13, each repo owns its session state; ai owns the PROCESS (session skill) + laws only. Do NOT move them.
+=====================================================================================================
+
 CONTINUE AND COMPLETE THIS BUILD. This is a fresh session; prior chat context did
 NOT carry over — everything you need is in this repo. The COMPLETE original spec is
 in `ORIGINAL-PROMPT.md`. Steps 1–6 of its Build order are DONE, verified, AND
