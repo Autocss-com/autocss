@@ -82,7 +82,7 @@ the remote AutoCSS UI is attached only after the back-end renders on Pages.
 **Deferred to a later iteration:** the real products (a psychiatrist practice, a Pokémon app, a
 Fairfax County / Virginia crime-statistics app, a Bible-study app) and their back-end mappings, plus
 **WordPress** and **Joomla** — which need more than static GitHub Pages can host (PHP + database +
-server runtime). See `REMOTE-RENDERING-DEMO-BUILD-PROMPT.md` for the authoritative plan.
+server runtime). See `Autocss-com/ai/.agents/REMOTE-RENDERING-DEMO-BUILD-PROMPT.md` for the authoritative plan.
 
 ### Hosting model
 
