@@ -23,7 +23,7 @@
 
 # AutoCSS
 
-An enterprise-grade, mission-ready web architecture engineered to deliver 508 accessibility compliant, secure, accessible, resilient, interoperable, and high-performing digital services at scale—reducing operational risk, technical debt, maintenance costs, and vendor dependency while accelerating modernization and measurable mission outcomes.
+An enterprise-grade, mission-ready web architecture engineered to deliver secure, 508 accessibility compliant, resilient, interoperable, and high-performing digital services at scale—reducing operational risk, technical debt, maintenance costs, and vendor dependency while accelerating modernization and measurable mission outcomes.
 
 * **Standards-first:** Built directly on semantic HTML, modern CSS, and native web APIs.
 * **Separation of concerns:** HTML defines meaning, CSS controls presentation and interface state, JavaScript handles data and business logic.
