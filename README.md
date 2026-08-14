@@ -38,7 +38,8 @@ An enterprise-grade, mission-ready web architecture engineered to deliver secure
 
 
 **AutoCSS Architecture** - zero-dependency, browser-native **SPA + PWA** starter. One UI, driven almost entirely by modern HTML and CSS.
-**JavaScript** - a thin CRUD transport layer to external APIs — never for UI state, behavior, or presentation.
+
+**JavaScript** - thin CRUD transport layer to external APIs — never for UI state, behavior, or presentation - minimizes script attack surfaces.
 
 ## Principles
 
