@@ -1,3 +1,25 @@
+=========================== SESSION 2026-09-04 — CURRENT STATE (READ FIRST) ===========================
+Branch: claude/accuracy-first-guidelines-r85dyc. Doc-governance + tracking session (little app code).
+Read this first; the 2026-07-29 banner and everything below it is older but still-valid history.
+
+WHAT CHANGED THIS SESSION:
+- Autocss-com/ai canon HARDENED (ai has its OWN handoff with detail; ai has NO shard):
+  charter self-refs CLAUDE.md->AGENTS.md; header "(no tool named)"->"(no tool-specific rules)"; 8
+  non-canonical build/analysis docs quarantined to ai/.agents/_archived/ (banners + README);
+  ai/.agents/SESSION-HANDOFF.md stripped of 762 lines of carried-over AUTOCSS state (257 KB -> ~10 KB)
+  then refreshed to ai's own state; 54 skill footers collapsed to a uniform "**Canonical rules:** <URL>"
+  back-link; AGENTS.md C8 gained a "reinforcement != duplication" exception (deliberate repetition of a
+  rule's WHY at contextual intervals is kept on purpose; where DRY conflicts with sustained consistent
+  accuracy, ACCURACY WINS). #2 Charter<->§1 behavioral dedup deliberately NOT done (repetition is
+  load-bearing reinforcement, now protected by that C8 exception).
+- CodePen core-HTML-template merge = NEXT TASK: full prompt appended at the END of this file (PR #142,
+  6ffb65f); tracked in PROGRESS.json future_goals (PR #144, d617408) + board issue #143 (backlog).
+- BOARD RECONCILE: #141 (A21, the 257 KB ai-handoff duplicate) CLOSED completed; #127 (A7) CLOSED
+  (footers uniform + rule-list repetition now by-design per C8); #143 created; other 41 open issues
+  verified still-outstanding (no drift). PROGRESS.json is the one-way source of truth; the board mirrors it.
+- Commit identity this session: D7460N <80736+dragontheory@users.noreply.github.com>. autocss main is
+  branch-protected (PR required, CI = CodeQL + Analyze); ai main is unprotected (direct push).
+
 =========================== SESSION 2026-07-29 — CURRENT STATE (READ FIRST) ===========================
 Branch: claude/accuracy-first-guidelines-r85dyc. This session SUPERSEDES the "propagate the charter to
 every repo" model with SINGLE-SOURCE CONSOLIDATION. Everything below this banner is older build history
