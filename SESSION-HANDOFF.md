@@ -533,3 +533,54 @@ targets.)
   (promote via PR merge).
 - Memory: `PROGRESS.json` (read first) + `progress/log-001.ndjson` (append-only).
 - Assets carried from the `starter` base.
+
+===== NEXT SESSION PROMPT — merge updated core HTML template (CodePen) ==========
+GOAL: diff + merge an updated core HTML template into this repo's `index.html`,
+update, and test. Source template (CodePen, editor URL — likely NOT raw-fetchable):
+https://codepen.io/editor/pen?template=019fbdaf-0cd2-7b46-a9eb-60cd556e5dcc
+
+READ FIRST (no implementation decision before this):
+- `Autocss-com/ai/AGENTS.md` — canon (Charter C0–C8 + Architecture §1–15).
+- THIS `SESSION-HANDOFF.md` (re-assert Constraint Lock + COMPLIANCE-DEBT LEDGER)
+  and `PROGRESS.json`.
+- `AGENTS.md` §9 (Project Structure) + §10 (Files) — the canonical DOM/shell.
+- Skills: html, css, spa, testing, architecture.
+
+STANDING CONTRACT: accuracy > time > brevity > cost; never guess/assume; stop and
+ask on ambiguity; do exactly what is asked — no more, no less. 100% air-gap:
+HTML=structure, CSS=UI runtime, JS=data transport only.
+
+TASKS (in order):
+1. Obtain the template HTML. The URL is an editor/template link — likely not
+   fetchable as raw HTML. If it cannot be fetched, STOP and ask the user to paste
+   the full template HTML. Do NOT guess its contents. Save to a scratch file.
+2. Diff template vs `index.html` (the canonical full-DOM file, §10). Produce a
+   precise change list mapped to §9 shell regions (app-container, header, nav,
+   main, aside, footer, template, single module script).
+3. Classify every diff BEFORE merging:
+   a. Legit template improvement → merge into `index.html`.
+   b. Touches TRACKED COMPLIANCE-DEBT (nav/color-scheme `<input>` hidden via
+      display:none + aria-hidden; form controls using `<label role="button">`) →
+      DO NOT silently fix or bundle. One-fix-per-session tracked debt (this
+      file's COMPLIANCE-DEBT LEDGER + AGENTS.md "Compliance-debt" + PROGRESS.json).
+      Flag it; leave it.
+   c. Breaks the air-gap (CSS/JS in HTML, class/id/data-*, <div>/<span>, inline
+      styles/handlers) → reject; template must conform to canon §3.
+4. Merge only class-(a) changes. Preserve the CSS `<link>` order (it IS the
+   cascade, §4/§10) and the single `<script type="module">` placement/position.
+5. Any implied CSS/JS changes: do each in its own concern/skill; JS stays data
+   transport only; no new patterns/files unless the user authorizes (§11).
+6. Verify per the `testing` skill + §15 Architecture Tests. Browser-verify with
+   Playwright against a local static server; intercept the mockapi endpoint
+   (context.route) with captured real JSON — never redirect API_BASE_URL or add
+   mock/fallback data (§8). Confirm: shell renders, nav select → oninput loads a
+   page, no console errors, layout/theme intact.
+
+SHIP: `main` is branch-protected → PR required (no direct push). Branch:
+`claude/accuracy-first-guidelines-r85dyc`. Do NOT merge without the user's approval
+and a green verification. End with the session-end ritual (commit → PROGRESS.json →
+append shard → update this file → reconcile the board).
+
+DONE = `index.html` merged with only the legit template improvements, air-gap
+intact, tracked compliance-debt untouched-and-flagged, browser-verified, in a PR
+awaiting the user's approval.
