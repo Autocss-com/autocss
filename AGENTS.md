@@ -1,18 +1,18 @@
 # AGENTS.md — Autocss-com/autocss (project-specific ONLY)
 
 **The canonical laws are NOT here.** They live in ONE file, once, for every project and
-every AI vendor: **`Autocss-com/ai` → `AGENTS.md`** (Response Integrity Charter `C0`–`C8`
+every AI vendor: **`D7460N-ai/D7460N.ai` → `AGENTS.md`** (Response Integrity Charter `C0`–`C8`
 + AutoCSS Architecture Part II `1`–`15`). Never copy or restate them here.
 
 **How they reach you:** clone the ai repo once and import it from your user-level memory:
 
 ```bash
-git clone https://github.com/Autocss-com/ai ~/.claude/ai
-# ~/.claude/CLAUDE.md  ->  @~/.claude/ai/AGENTS.md
-git -C ~/.claude/ai pull      # refresh the laws for ALL projects at once
+git clone https://github.com/D7460N-ai/D7460N.ai ~/D7460N.ai
+# ~/.claude/CLAUDE.md  ->  @~/D7460N.ai/AGENTS.md
+git -C ~/D7460N.ai pull      # refresh the laws for ALL projects at once
 ```
 
-**Conflict priority:** `Autocss-com/ai` AGENTS.md > this file > `SESSION-HANDOFF.md`.
+**Conflict priority:** `D7460N-ai/D7460N.ai` AGENTS.md > this file > `SESSION-HANDOFF.md`.
 On conflict, surface it to the user. **Never resolve silently.**
 
 This repo is the **canonical reference implementation** — the example app the canonical
