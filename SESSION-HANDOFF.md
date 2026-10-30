@@ -5,7 +5,7 @@ every repo" model with SINGLE-SOURCE CONSOLIDATION. Everything below this banner
 
 WHAT CHANGED THIS SESSION:
 - Canonical laws (RESPONSE INTEGRITY CHARTER C0-C8 + AutoCSS Architecture Part II 1-15) now live ONCE in
-  Autocss-com/ai/AGENTS.md. NO repo inlines them. Each repo's CLAUDE.md is a thin pointer stub; project-
+  D7460N-ai/D7460N.ai/AGENTS.md. NO repo inlines them. Each repo's CLAUDE.md is a thin pointer stub; project-
   specific rules live in that repo's own AGENTS.md. Applied to autocss/vue/angular/react (+ new per-repo
   AGENTS.md). ai/AGENTS.md C5 gained "sacrifice grammar for brevity". autocss/CLAUDE_replacement.md deleted.
 - DHCP + starter: FROZEN, untouched (working demos of prior iterations; DHCP keeps its inlined charter by
@@ -36,13 +36,13 @@ aria-hidden); its own session, browser-verified, one control group at a time; do
 Do NOT reintroduce nav value attrs, and keep presentation data-agnostic (route lives in the JSON).
 
 MEMORY LOCATION (answered this session): PROGRESS.json + SESSION-HANDOFF.md + progress/ shards are PROJECT-
-SPECIFIC and correctly live in THIS repo (autocss), NOT in Autocss-com/ai. Per the session skill + ai/AGENTS.md
+SPECIFIC and correctly live in THIS repo (autocss), NOT in D7460N-ai/D7460N.ai. Per the session skill + ai/AGENTS.md
 §13, each repo owns its session state; ai owns the PROCESS (session skill) + laws only. Do NOT move them.
 =====================================================================================================
 
 CONTINUE AND COMPLETE THIS BUILD. This is a fresh session; prior chat context did
 NOT carry over — everything you need is in this repo. The COMPLETE original spec is
-in `Autocss-com/ai/.agents/ORIGINAL-PROMPT.md`. Steps 1–6 of its Build order are DONE, verified, AND
+in `D7460N-ai/D7460N.ai/.agents/ORIGINAL-PROMPT.md`. Steps 1–6 of its Build order are DONE, verified, AND
 D7460N-compliant. A compliant rewrite of step 7 was attempted and FULLY REVERTED.
 
 >>> STRATEGY OVERRIDE (deliberate, ONE-TIME, user-confirmed) <<<
@@ -67,7 +67,7 @@ unsaved-changes guard — that's a future feature session, see backlog).
 ============================= READ FIRST, IN THIS ORDER =============================
 1. `CLAUDE.md` — canonical, non-negotiable D7460N architecture rules (still the
    target; the port-as-is below is an explicit, logged, one-time exception).
-2. `Autocss-com/ai/.agents/ORIGINAL-PROMPT.md` — the full original plan/spec (goal, KEEP-&-MODERNIZE
+2. `D7460N-ai/D7460N.ai/.agents/ORIGINAL-PROMPT.md` — the full original plan/spec (goal, KEEP-&-MODERNIZE
    heuristic, HTML/scope reality, D7460N compliance, JS authoring conventions,
    cadence, memory standard, build order). NOTE: its "port capabilities, not code;
    rewrite to compliance as you port" is SUPERSEDED for this build by the strategy
@@ -80,7 +80,7 @@ unsaved-changes guard — that's a future feature session, see backlog).
    the port-as-is strategy decision) and lines 35–37 (step-7 requirements, the
    popover/undo finding, the forms line-by-line inventory).
 5. `starter/.agents/SESSION-HANDOFF.md` — the prior Constraint Lock (re-assert it).
-6. `Autocss-com/ai/.agents/ANALYSIS.md` — the dhcp→starter file reconciliation and per-file verdicts.
+6. `D7460N-ai/D7460N.ai/.agents/ANALYSIS.md` — the dhcp→starter file reconciliation and per-file verdicts.
 7. Standing modern-web references (advisory) — `modern-web-guidance` (GoogleChrome plugin) + MDN Web Docs MCP (`https://mcp.mdn.mozilla.net/`, tools search/get-doc/get-compat); usage + periodic-review policy are canonical in CLAUDE.md Rule 33.
 
 Reference repos in scope: `DHCP` (messy-but-complete working prototype = the
@@ -260,7 +260,7 @@ cross-session memory and avoids drift.
    `color-theme-*.css` (palette derived from a single hex in the FILE NAME); Part 3 =
    the HTML controls/hue-picker. This SPLITS today's `themes.css` (mechanism+toggle →
    `color-scheme.css`; the OKLCH palette → `color-theme-default.css`). The ready-to-
-   paste Part-1 build prompt is `Autocss-com/ai/.agents/COLOR-SCHEME-BUILD-PROMPT.md` (preliminary draft —
+   paste Part-1 build prompt is `D7460N-ai/D7460N.ai/.agents/COLOR-SCHEME-BUILD-PROMPT.md` (preliminary draft —
    refine before building). Full design = NDJSON 2026-06-14 decision.
    >>> PART-1 STATUS (claude/lucid-hawking-E5Ej2):
    ROUND 1 (2026-06-15) — authored the standalone governor FILE
@@ -438,7 +438,7 @@ for HOW to fix each later:
   there is NO orchestrated load/restore order.
 - color-scheme: RESOLVED 2026-06-14 → Rule 19 `light dark` (system-follow DEFAULT,
   not forced dark). Now a MODULAR COLOR SYSTEM build series (see FUTURE SESSIONS #6 +
-  `Autocss-com/ai/.agents/COLOR-SCHEME-BUILD-PROMPT.md` + NDJSON 2026-06-14).
+  `D7460N-ai/D7460N.ai/.agents/COLOR-SCHEME-BUILD-PROMPT.md` + NDJSON 2026-06-14).
 - Principles to preserve through refinement: all page content is JSON-sourced (no
   hardcoding); `:checked` is the single source of truth for CSS state + the data
   call; `humanize()` derives header/label text identically.
