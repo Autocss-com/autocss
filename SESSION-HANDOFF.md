@@ -3,7 +3,7 @@ Branch: claude/accuracy-first-guidelines-r85dyc. Doc-governance + tracking sessi
 Read this first; the 2026-07-29 banner and everything below it is older but still-valid history.
 
 WHAT CHANGED THIS SESSION:
-- Autocss-com/ai canon HARDENED (ai has its OWN handoff with detail; ai has NO shard):
+- D7460N-ai/D7460N.ai canon HARDENED (ai has its OWN handoff with detail; ai has NO shard):
   charter self-refs CLAUDE.md->AGENTS.md; header "(no tool named)"->"(no tool-specific rules)"; 8
   non-canonical build/analysis docs quarantined to ai/.agents/_archived/ (banners + README);
   ai/.agents/SESSION-HANDOFF.md stripped of 762 lines of carried-over AUTOCSS state (257 KB -> ~10 KB)
@@ -562,7 +562,7 @@ update, and test. Source template (CodePen, editor URL — likely NOT raw-fetcha
 https://codepen.io/editor/pen?template=019fbdaf-0cd2-7b46-a9eb-60cd556e5dcc
 
 READ FIRST (no implementation decision before this):
-- `Autocss-com/ai/AGENTS.md` — canon (Charter C0–C8 + Architecture §1–15).
+- `D7460N-ai/D7460N.ai/AGENTS.md` — canon (Charter C0–C8 + Architecture §1–15).
 - THIS `SESSION-HANDOFF.md` (re-assert Constraint Lock + COMPLIANCE-DEBT LEDGER)
   and `PROGRESS.json`.
 - `AGENTS.md` §9 (Project Structure) + §10 (Files) — the canonical DOM/shell.
