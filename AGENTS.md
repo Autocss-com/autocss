@@ -4,7 +4,7 @@
 every AI vendor: **`D7460N-ai/D7460N.ai` → `AGENTS.md`** (Response Integrity Charter `C0`–`C8`
 + D7460N Architecture `1`–`16`). Never copy or restate them here.
 
-**How they reach you:** clone the ai repo once and import it from your user-level memory —
+**How they reach you:** clone the D7460N.ai repo once and import it from your user-level memory —
 then every repo on the machine gets them automatically, no per-repo file:
 
 ```bash
